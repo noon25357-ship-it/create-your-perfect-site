@@ -730,20 +730,19 @@ function Landing({ lang, onEnter, onToggleLang }){
         <div className="aurora" style={{width:420,height:420,background:"var(--wa)",top:-120,insetInlineEnd:-60}}/>
         <div className="aurora" style={{width:340,height:340,background:"var(--teal)",bottom:-120,insetInlineStart:-40,animationDelay:"2s"}}/>
         <div style={{maxWidth:1080,margin:"0 auto",textAlign:"center",position:"relative"}}>
-          <div className="pill fade-up" style={{color:"var(--wa)",borderColor:"rgba(37,211,102,.3)",background:"rgba(37,211,102,.08)",marginBottom:22}}>
+          <div className="pill hero-in" style={{color:"var(--wa)",borderColor:"rgba(37,211,102,.3)",background:"rgba(37,211,102,.08)",marginBottom:22}}>
             <span className="dot live-dot" style={{background:"var(--wa)"}}/>{t.heroNote}
           </div>
-          <h1 className="fade-up" style={{fontSize:"clamp(32px,6.2vw,62px)",fontWeight:700,lineHeight:1.12,letterSpacing:"-1px",margin:0,
-            animationDelay:".05s"}}>
-            {t.heroTitle.split(" ").slice(0,-3).join(" ")} <span style={{background:"linear-gradient(120deg,var(--wa),var(--teal))",WebkitBackgroundClip:"text",backgroundClip:"text",color:"transparent"}}>{t.heroTitle.split(" ").slice(-3).join(" ")}</span>
+          <h1 className="hero-in-2" style={{fontSize:"clamp(32px,6.2vw,62px)",fontWeight:700,lineHeight:1.12,letterSpacing:"-1px",margin:0}}>
+            <span className="hero-grad">{t.heroTitle}</span>
           </h1>
-          <p className="muted fade-up" style={{maxWidth:680,margin:"22px auto 0",fontSize:"clamp(15px,2vw,19px)",lineHeight:1.65,animationDelay:".12s"}}>{t.heroSub}</p>
-          <div className="fade-up" style={{display:"flex",gap:13,justifyContent:"center",marginTop:34,flexWrap:"wrap",animationDelay:".2s"}}>
+          <p className="muted hero-in-3" style={{maxWidth:680,margin:"22px auto 0",fontSize:"clamp(15px,2vw,19px)",lineHeight:1.65}}>{t.heroSub}</p>
+          <div className="hero-in-3" style={{display:"flex",gap:13,justifyContent:"center",marginTop:34,flexWrap:"wrap"}}>
             <button className="btn btn-primary" style={{padding:"14px 26px",fontSize:15.5}} onClick={onEnter}><Play size={18}/>{t.lf.watchLive}</button>
             <button className="btn btn-ghost" style={{padding:"14px 24px",fontSize:15.5}} onClick={onEnter}><Sparkles size={17}/>{t.enterApp}</button>
           </div>
           {/* hero preview */}
-          <div className="card fade-up" style={{maxWidth:880,margin:"54px auto 0",padding:0,overflow:"hidden",animationDelay:".28s",
+          <div className="card hero-in-4" style={{maxWidth:880,margin:"54px auto 0",padding:0,overflow:"hidden",
             boxShadow:"0 50px 120px -50px rgba(37,211,102,.4)"}}>
             <HeroMock lang={lang}/>
           </div>
