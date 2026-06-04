@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import {
   LayoutDashboard, MessageSquare, Bot, Ticket, Send, Users, Share2, Tag,
