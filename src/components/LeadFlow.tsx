@@ -113,13 +113,74 @@ textarea.inp{resize:vertical;min-height:90px;line-height:1.6}
 .scroll::-webkit-scrollbar{width:8px;height:8px}
 .scroll::-webkit-scrollbar-thumb{background:rgba(120,200,160,.18);border-radius:8px}
 .scroll::-webkit-scrollbar-track{background:transparent}
-.fade-up{animation:fadeUp .5s cubic-bezier(.2,.8,.2,1) both}
+/* cinematic reveal: scroll-triggered */
+.fade-up{opacity:0;transform:translateY(28px) scale(.985);will-change:transform,opacity;
+  transition:opacity .9s cubic-bezier(.2,.8,.2,1), transform 1s cubic-bezier(.2,.8,.2,1)}
+.fade-up.in-view{opacity:1;transform:none}
+.reveal-stagger > *{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1)}
+.reveal-stagger.in-view > *{opacity:1;transform:none}
+.reveal-stagger.in-view > *:nth-child(1){transition-delay:.04s}
+.reveal-stagger.in-view > *:nth-child(2){transition-delay:.12s}
+.reveal-stagger.in-view > *:nth-child(3){transition-delay:.20s}
+.reveal-stagger.in-view > *:nth-child(4){transition-delay:.28s}
+.reveal-stagger.in-view > *:nth-child(5){transition-delay:.36s}
+.reveal-stagger.in-view > *:nth-child(6){transition-delay:.44s}
+.reveal-stagger.in-view > *:nth-child(7){transition-delay:.52s}
+.reveal-stagger.in-view > *:nth-child(8){transition-delay:.60s}
+
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.5)}50%{box-shadow:0 0 0 8px rgba(37,211,102,0)}}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.55)}50%{box-shadow:0 0 0 12px rgba(37,211,102,0)}}
 .live-dot{animation:pulseGlow 2s infinite}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes floatAlt{0%,100%{transform:translateY(0) translateX(0)}50%{transform:translateY(12px) translateX(-10px)}}
+@keyframes auroraDrift{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(40px,-30px,0) scale(1.15)}100%{transform:translate3d(0,0,0) scale(1)}}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-.aurora{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;pointer-events:none;animation:float 9s ease-in-out infinite}
+@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes textGlow{0%,100%{text-shadow:0 0 0 rgba(37,211,102,0)}50%{text-shadow:0 0 32px rgba(37,211,102,.35)}}
+
+.aurora{position:absolute;border-radius:50%;filter:blur(80px);opacity:.55;pointer-events:none;
+  animation:auroraDrift 14s ease-in-out infinite}
+.aurora:nth-of-type(2){animation:floatAlt 18s ease-in-out infinite}
+
+/* cinematic card hover */
+.card.hov{transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .4s,box-shadow .5s,background .4s}
+.card.hov:hover{transform:translateY(-6px) scale(1.012);border-color:rgba(37,211,102,.35);
+  box-shadow:0 30px 70px -30px rgba(0,0,0,.9),0 0 0 1px rgba(37,211,102,.15),0 0 60px -20px rgba(37,211,102,.25)}
+
+/* button shine */
+.btn{position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,background .25s,border-color .25s !important}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary:hover{box-shadow:0 14px 40px -14px rgba(37,211,102,.7),0 0 0 1px rgba(37,211,102,.4)}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.18) 50%,transparent 70%);
+  transform:translateX(-100%);transition:transform .8s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+.btn:hover::after{transform:translateX(100%)}
+
+/* animated gradient headline */
+.hero-grad{background:linear-gradient(110deg,var(--txt) 0%,var(--wa) 35%,var(--teal) 55%,var(--txt) 80%);
+  background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:gradientShift 8s ease-in-out infinite}
+
+/* hero entry */
+.hero-in{opacity:0;transform:translateY(40px);animation:fadeUp 1.1s cubic-bezier(.2,.8,.2,1) .15s both}
+.hero-in-2{opacity:0;transform:translateY(40px);animation:fadeUp 1.1s cubic-bezier(.2,.8,.2,1) .35s both}
+.hero-in-3{opacity:0;transform:translateY(40px);animation:fadeUp 1.1s cubic-bezier(.2,.8,.2,1) .55s both}
+.hero-in-4{opacity:0;transform:translateY(60px) scale(.96);animation:fadeUp 1.3s cubic-bezier(.2,.8,.2,1) .75s both}
+
+/* parallax aurora wrapper */
+.parallax-y{will-change:transform;transition:transform .15s linear}
+
+/* sparkle pill */
+.pill{transition:transform .3s, border-color .3s, background .3s}
+.pill:hover{transform:translateY(-2px)}
+
+/* table row hover lift */
+.tbl tbody tr{transition:background .25s, transform .25s}
+.tbl tbody tr:hover{background:rgba(37,211,102,.04);transform:translateX(2px)}
+
+@media (prefers-reduced-motion: reduce){
+  .fade-up,.reveal-stagger > *,.hero-in,.hero-in-2,.hero-in-3,.hero-in-4{opacity:1!important;transform:none!important;animation:none!important}
+  .aurora,.hero-grad{animation:none!important}
+}
 
 /* chat bubbles */
 .bub{max-width:78%;padding:9px 13px;border-radius:14px;font-size:13.5px;line-height:1.55;position:relative}
