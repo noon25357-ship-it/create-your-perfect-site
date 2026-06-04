@@ -113,13 +113,74 @@ textarea.inp{resize:vertical;min-height:90px;line-height:1.6}
 .scroll::-webkit-scrollbar{width:8px;height:8px}
 .scroll::-webkit-scrollbar-thumb{background:rgba(120,200,160,.18);border-radius:8px}
 .scroll::-webkit-scrollbar-track{background:transparent}
-.fade-up{animation:fadeUp .5s cubic-bezier(.2,.8,.2,1) both}
+/* cinematic reveal: scroll-triggered */
+.fade-up{opacity:0;transform:translateY(28px) scale(.985);will-change:transform,opacity;
+  transition:opacity .9s cubic-bezier(.2,.8,.2,1), transform 1s cubic-bezier(.2,.8,.2,1)}
+.fade-up.in-view{opacity:1;transform:none}
+.reveal-stagger > *{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1)}
+.reveal-stagger.in-view > *{opacity:1;transform:none}
+.reveal-stagger.in-view > *:nth-child(1){transition-delay:.04s}
+.reveal-stagger.in-view > *:nth-child(2){transition-delay:.12s}
+.reveal-stagger.in-view > *:nth-child(3){transition-delay:.20s}
+.reveal-stagger.in-view > *:nth-child(4){transition-delay:.28s}
+.reveal-stagger.in-view > *:nth-child(5){transition-delay:.36s}
+.reveal-stagger.in-view > *:nth-child(6){transition-delay:.44s}
+.reveal-stagger.in-view > *:nth-child(7){transition-delay:.52s}
+.reveal-stagger.in-view > *:nth-child(8){transition-delay:.60s}
+
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.5)}50%{box-shadow:0 0 0 8px rgba(37,211,102,0)}}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.55)}50%{box-shadow:0 0 0 12px rgba(37,211,102,0)}}
 .live-dot{animation:pulseGlow 2s infinite}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes floatAlt{0%,100%{transform:translateY(0) translateX(0)}50%{transform:translateY(12px) translateX(-10px)}}
+@keyframes auroraDrift{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(40px,-30px,0) scale(1.15)}100%{transform:translate3d(0,0,0) scale(1)}}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-.aurora{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;pointer-events:none;animation:float 9s ease-in-out infinite}
+@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes textGlow{0%,100%{text-shadow:0 0 0 rgba(37,211,102,0)}50%{text-shadow:0 0 32px rgba(37,211,102,.35)}}
+
+.aurora{position:absolute;border-radius:50%;filter:blur(80px);opacity:.55;pointer-events:none;
+  animation:auroraDrift 14s ease-in-out infinite}
+.aurora:nth-of-type(2){animation:floatAlt 18s ease-in-out infinite}
+
+/* cinematic card hover */
+.card.hov{transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .4s,box-shadow .5s,background .4s}
+.card.hov:hover{transform:translateY(-6px) scale(1.012);border-color:rgba(37,211,102,.35);
+  box-shadow:0 30px 70px -30px rgba(0,0,0,.9),0 0 0 1px rgba(37,211,102,.15),0 0 60px -20px rgba(37,211,102,.25)}
+
+/* button shine */
+.btn{position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,background .25s,border-color .25s !important}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary:hover{box-shadow:0 14px 40px -14px rgba(37,211,102,.7),0 0 0 1px rgba(37,211,102,.4)}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.18) 50%,transparent 70%);
+  transform:translateX(-100%);transition:transform .8s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+.btn:hover::after{transform:translateX(100%)}
+
+/* animated gradient headline */
+.hero-grad{background:linear-gradient(110deg,var(--txt) 0%,var(--wa) 35%,var(--teal) 55%,var(--txt) 80%);
+  background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:gradientShift 8s ease-in-out infinite}
+
+/* hero entry */
+.hero-in{opacity:0;transform:translateY(40px);animation:fadeUp 1.1s cubic-bezier(.2,.8,.2,1) .15s both}
+.hero-in-2{opacity:0;transform:translateY(40px);animation:fadeUp 1.1s cubic-bezier(.2,.8,.2,1) .35s both}
+.hero-in-3{opacity:0;transform:translateY(40px);animation:fadeUp 1.1s cubic-bezier(.2,.8,.2,1) .55s both}
+.hero-in-4{opacity:0;transform:translateY(60px) scale(.96);animation:fadeUp 1.3s cubic-bezier(.2,.8,.2,1) .75s both}
+
+/* parallax aurora wrapper */
+.parallax-y{will-change:transform;transition:transform .15s linear}
+
+/* sparkle pill */
+.pill{transition:transform .3s, border-color .3s, background .3s}
+.pill:hover{transform:translateY(-2px)}
+
+/* table row hover lift */
+.tbl tbody tr{transition:background .25s, transform .25s}
+.tbl tbody tr:hover{background:rgba(37,211,102,.04);transform:translateX(2px)}
+
+@media (prefers-reduced-motion: reduce){
+  .fade-up,.reveal-stagger > *,.hero-in,.hero-in-2,.hero-in-3,.hero-in-4{opacity:1!important;transform:none!important;animation:none!important}
+  .aurora,.hero-grad{animation:none!important}
+}
 
 /* chat bubbles */
 .bub{max-width:78%;padding:9px 13px;border-radius:14px;font-size:13.5px;line-height:1.55;position:relative}
@@ -669,20 +730,19 @@ function Landing({ lang, onEnter, onToggleLang }){
         <div className="aurora" style={{width:420,height:420,background:"var(--wa)",top:-120,insetInlineEnd:-60}}/>
         <div className="aurora" style={{width:340,height:340,background:"var(--teal)",bottom:-120,insetInlineStart:-40,animationDelay:"2s"}}/>
         <div style={{maxWidth:1080,margin:"0 auto",textAlign:"center",position:"relative"}}>
-          <div className="pill fade-up" style={{color:"var(--wa)",borderColor:"rgba(37,211,102,.3)",background:"rgba(37,211,102,.08)",marginBottom:22}}>
+          <div className="pill hero-in" style={{color:"var(--wa)",borderColor:"rgba(37,211,102,.3)",background:"rgba(37,211,102,.08)",marginBottom:22}}>
             <span className="dot live-dot" style={{background:"var(--wa)"}}/>{t.heroNote}
           </div>
-          <h1 className="fade-up" style={{fontSize:"clamp(32px,6.2vw,62px)",fontWeight:700,lineHeight:1.12,letterSpacing:"-1px",margin:0,
-            animationDelay:".05s"}}>
-            {t.heroTitle.split(" ").slice(0,-3).join(" ")} <span style={{background:"linear-gradient(120deg,var(--wa),var(--teal))",WebkitBackgroundClip:"text",backgroundClip:"text",color:"transparent"}}>{t.heroTitle.split(" ").slice(-3).join(" ")}</span>
+          <h1 className="hero-in-2" style={{fontSize:"clamp(32px,6.2vw,62px)",fontWeight:700,lineHeight:1.12,letterSpacing:"-1px",margin:0}}>
+            <span className="hero-grad">{t.heroTitle}</span>
           </h1>
-          <p className="muted fade-up" style={{maxWidth:680,margin:"22px auto 0",fontSize:"clamp(15px,2vw,19px)",lineHeight:1.65,animationDelay:".12s"}}>{t.heroSub}</p>
-          <div className="fade-up" style={{display:"flex",gap:13,justifyContent:"center",marginTop:34,flexWrap:"wrap",animationDelay:".2s"}}>
+          <p className="muted hero-in-3" style={{maxWidth:680,margin:"22px auto 0",fontSize:"clamp(15px,2vw,19px)",lineHeight:1.65}}>{t.heroSub}</p>
+          <div className="hero-in-3" style={{display:"flex",gap:13,justifyContent:"center",marginTop:34,flexWrap:"wrap"}}>
             <button className="btn btn-primary" style={{padding:"14px 26px",fontSize:15.5}} onClick={onEnter}><Play size={18}/>{t.lf.watchLive}</button>
             <button className="btn btn-ghost" style={{padding:"14px 24px",fontSize:15.5}} onClick={onEnter}><Sparkles size={17}/>{t.enterApp}</button>
           </div>
           {/* hero preview */}
-          <div className="card fade-up" style={{maxWidth:880,margin:"54px auto 0",padding:0,overflow:"hidden",animationDelay:".28s",
+          <div className="card hero-in-4" style={{maxWidth:880,margin:"54px auto 0",padding:0,overflow:"hidden",
             boxShadow:"0 50px 120px -50px rgba(37,211,102,.4)"}}>
             <HeroMock lang={lang}/>
           </div>
@@ -693,7 +753,7 @@ function Landing({ lang, onEnter, onToggleLang }){
         {/* problem */}
         <section style={{padding:"70px 0"}}>
           <SectionHead kicker={t.problemKicker} title={t.problemTitle}/>
-          <div className="grid-auto" style={{gridTemplateColumns:"repeat(auto-fit,minmax(230px,1fr))"}}>
+          <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"repeat(auto-fit,minmax(230px,1fr))"}}>
             {t.problems.map((p,i)=>(
               <div key={i} className="card hov" style={{padding:22}}>
                 <div style={{width:34,height:34,borderRadius:10,display:"grid",placeItems:"center",
@@ -710,7 +770,7 @@ function Landing({ lang, onEnter, onToggleLang }){
         {/* solution */}
         <section style={{padding:"40px 0 70px"}}>
           <SectionHead kicker={t.solutionKicker} title={t.solutionTitle}/>
-          <div className="grid-auto" style={{gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))"}}>
+          <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))"}}>
             {t.solutions.map((s,i)=>{ const Ic=s[2]; return (
               <div key={i} className="card hov" style={{padding:24}}>
                 <div style={{width:46,height:46,borderRadius:13,display:"grid",placeItems:"center",
@@ -736,7 +796,7 @@ function Landing({ lang, onEnter, onToggleLang }){
               </span>
               <h2 style={{fontSize:"clamp(22px,3.6vw,36px)",fontWeight:700,margin:"0 0 12px",letterSpacing:"-.5px",maxWidth:760}}>{t.moatTitle}</h2>
               <p className="muted" style={{maxWidth:680,margin:"0 0 30px",fontSize:"clamp(14px,1.8vw,17px)",lineHeight:1.65}}>{t.moatSub}</p>
-              <div className="grid-auto" style={{gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))"}}>
+              <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))"}}>
                 {t.moat.map((m,i)=>{ const Ic=m[2]; return (
                   <div key={i} className="glass hov card" style={{padding:20,position:"relative"}}>
                     <div style={{display:"flex",alignItems:"center",gap:11,marginBottom:11}}>
@@ -785,7 +845,7 @@ function Landing({ lang, onEnter, onToggleLang }){
         {/* features strip */}
         <section style={{padding:"30px 0 60px"}}>
           <SectionHead kicker={t.featuresKicker} title={lang==="ar"?"كل ما تحتاجه قناة مبيعات احترافية":"Everything a pro sales channel needs"}/>
-          <div className="grid-auto" style={{gridTemplateColumns:"repeat(auto-fit,minmax(250px,1fr))"}}>
+          <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"repeat(auto-fit,minmax(250px,1fr))"}}>
             {t.landingFeatures.map((f,i)=>(
               <div key={i} className="glass" style={{padding:"18px 20px",borderRadius:15,display:"flex",gap:13,alignItems:"flex-start"}}>
                 <div style={{color:"var(--wa)",flexShrink:0,marginTop:2}}><Check size={18}/></div>
@@ -799,7 +859,7 @@ function Landing({ lang, onEnter, onToggleLang }){
         {/* how it works */}
         <section style={{padding:"40px 0 70px"}}>
           <SectionHead kicker={t.howKicker} title={t.howTitle}/>
-          <div className="grid-auto" style={{gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))"}}>
+          <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))"}}>
             {t.how.map((h,i)=>(
               <div key={i} className="card hov" style={{padding:26,position:"relative"}}>
                 <span className="mono" style={{position:"absolute",insetInlineEnd:20,top:16,fontSize:46,fontWeight:700,
@@ -818,7 +878,7 @@ function Landing({ lang, onEnter, onToggleLang }){
         {/* use cases */}
         <section style={{padding:"30px 0 70px"}}>
           <SectionHead kicker={t.useKicker} title={lang==="ar"?"مصمّم لقطاعات تستقبل كثير على واتساب":"Built for high-WhatsApp-volume sectors"}/>
-          <div className="grid-auto" style={{gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))"}}>
+          <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))"}}>
             {t.useCases.map((u,i)=>{ const Ic=u[2]; return (
               <div key={i} className="card hov" style={{padding:22,display:"flex",gap:14,alignItems:"center"}}>
                 <div style={{width:44,height:44,borderRadius:12,display:"grid",placeItems:"center",flexShrink:0,
@@ -932,7 +992,7 @@ function Dashboard({ lang }){
         right={<div className="pill" style={{color:"var(--txt2)"}}><Calendar size={14}/>{t.thisWeek}</div>} />
 
       {/* KPIs */}
-      <div className="grid-auto" style={{gridTemplateColumns:"repeat(auto-fit,minmax(190px,1fr))",marginBottom:16}}>
+      <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"repeat(auto-fit,minmax(190px,1fr))",marginBottom:16}}>
         <KpiCard icon={MessageSquare} label={t.kpis.conv} value="486" delta="+18%" color="var(--wa)" seed={1}/>
         <KpiCard icon={UserCheck} label={t.kpis.newLeads} value="73" delta="+12%" color="var(--teal)" seed={2}/>
         <KpiCard icon={Ticket} label={t.kpis.tickets} value="14" delta="-3" up={false} color="var(--warm)" seed={3}/>
@@ -942,7 +1002,7 @@ function Dashboard({ lang }){
       </div>
 
       {/* charts row */}
-      <div className="grid-auto" style={{gridTemplateColumns:"minmax(0,1.7fr) minmax(0,1fr)",marginBottom:16}}>
+      <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"minmax(0,1.7fr) minmax(0,1fr)",marginBottom:16}}>
         <div className="card" style={{padding:20}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:18}}>
             <h3 style={{fontSize:15.5,fontWeight:700,margin:0}}>{t.convOverTime}</h3>
@@ -991,7 +1051,7 @@ function Dashboard({ lang }){
       </div>
 
       {/* funnel + recent */}
-      <div className="grid-auto" style={{gridTemplateColumns:"minmax(0,1fr) minmax(0,1.4fr)"}}>
+      <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"minmax(0,1fr) minmax(0,1.4fr)"}}>
         <div className="card" style={{padding:20}}>
           <h3 style={{fontSize:15.5,fontWeight:700,margin:"0 0 18px"}}>{t.funnel}</h3>
           <div style={{display:"flex",flexDirection:"column",gap:14}}>
@@ -1183,11 +1243,11 @@ function AgentBuilder({ lang, toast }){
     <div className="fade-up">
       <PageHead title={t.agentTitle} sub={t.agentSub}
         right={<button className="btn btn-primary" onClick={()=>toast(lang==="ar"?"تم حفظ وتفعيل البوت ✅":"Bot saved & activated ✅")}><Zap size={16}/>{t.saveBot}</button>}/>
-      <div className="grid-auto" style={{gridTemplateColumns:"minmax(0,1.3fr) minmax(0,1fr)",alignItems:"start"}}>
+      <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"minmax(0,1.3fr) minmax(0,1fr)",alignItems:"start"}}>
         {/* config */}
         <div className="card" style={{padding:22}}>
           {field(t.botName, <input className="inp" value={name} onChange={e=>setName(e.target.value)}/>)}
-          <div className="grid-auto" style={{gridTemplateColumns:"1fr 1fr"}}>
+          <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"1fr 1fr"}}>
             {field(t.tone,
               <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
                 {t.tones.map((to,i)=>(
@@ -1262,7 +1322,7 @@ function Tickets({ lang, toast }){
       <PageHead title={t.ticketsTitle} sub={t.ticketsSub}
         right={<button className="btn btn-primary" onClick={()=>toast(lang==="ar"?"إنشاء تذكرة جديدة":"New ticket")}><Plus size={16}/>{lang==="ar"?"تذكرة جديدة":"New ticket"}</button>}/>
       {/* stat tabs */}
-      <div className="grid-auto" style={{gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",marginBottom:18}}>
+      <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",marginBottom:18}}>
         {tabs.map(([k,lbl])=>{
           const cmap={all:"var(--wa)",open:"var(--hot)",progress:"var(--warm)",closed:"var(--txt3)"};
           return (
@@ -1317,7 +1377,7 @@ function Campaigns({ lang, toast }){
   return (
     <div className="fade-up">
       <PageHead title={t.campTitle} sub={t.campSub}/>
-      <div className="grid-auto" style={{gridTemplateColumns:"minmax(0,1fr) minmax(0,1.4fr)",alignItems:"start"}}>
+      <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"minmax(0,1fr) minmax(0,1.4fr)",alignItems:"start"}}>
         {/* builder */}
         <div className="card" style={{padding:22}}>
           <h3 style={{fontSize:15.5,fontWeight:700,margin:"0 0 18px",display:"flex",alignItems:"center",gap:8}}><Plus size={17} color="var(--wa)"/>{t.newCamp}</h3>
@@ -1460,7 +1520,7 @@ function PricingView({ lang, embedded=false, onEnter }){
     <div className={embedded?"":"fade-up"}>
       {!embedded && <PageHead title={t.pricingTitle} sub={t.pricingSub}/>}
       {embedded && <SectionHead kicker={lang==="ar"?"الأسعار":"Pricing"} title={t.pricingTitle} sub={t.pricingSub}/>}
-      <div className="grid-auto" style={{gridTemplateColumns:"repeat(auto-fit,minmax(270px,1fr))",alignItems:"stretch",maxWidth:1000,margin:"0 auto"}}>
+      <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"repeat(auto-fit,minmax(270px,1fr))",alignItems:"stretch",maxWidth:1000,margin:"0 auto"}}>
         {t.plans.map((p,i)=>{
           const pop = i===1;
           return (
@@ -1758,6 +1818,40 @@ function WhatsAISalesHub(){
     if(document.getElementById("wa-style")) return;
     const s = document.createElement("style"); s.id="wa-style"; s.textContent = CSS; document.head.appendChild(s);
   },[]);
+
+  // Cinematic scroll reveals + parallax aurora
+  useEffect(()=>{
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add("in-view");
+          io.unobserve(e.target);
+        }
+      });
+    },{threshold:0.12, rootMargin:"0px 0px -8% 0px"});
+
+    const scan = () => {
+      document.querySelectorAll(".fade-up:not(.in-view), .reveal-stagger:not(.in-view)").forEach(el=>io.observe(el));
+    };
+    scan();
+    const mo = new MutationObserver(scan);
+    mo.observe(document.body,{childList:true, subtree:true});
+
+    let raf = 0;
+    const onScroll = () => {
+      if(raf) return;
+      raf = requestAnimationFrame(()=>{
+        const y = window.scrollY;
+        document.querySelectorAll<HTMLElement>(".aurora").forEach((el,i)=>{
+          el.style.transform = `translate3d(${(i%2?-1:1)*y*0.04}px, ${y*0.08}px, 0)`;
+        });
+        raf = 0;
+      });
+    };
+    window.addEventListener("scroll", onScroll, {passive:true});
+
+    return ()=>{ io.disconnect(); mo.disconnect(); window.removeEventListener("scroll", onScroll); };
+  },[screen]);
 
   const toast = (m) => { setToastMsg(m); clearTimeout(window.__waT); window.__waT = setTimeout(()=>setToastMsg(""),2600); };
 
