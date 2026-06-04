@@ -1819,6 +1819,40 @@ function WhatsAISalesHub(){
     const s = document.createElement("style"); s.id="wa-style"; s.textContent = CSS; document.head.appendChild(s);
   },[]);
 
+  // Cinematic scroll reveals + parallax aurora
+  useEffect(()=>{
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add("in-view");
+          io.unobserve(e.target);
+        }
+      });
+    },{threshold:0.12, rootMargin:"0px 0px -8% 0px"});
+
+    const scan = () => {
+      document.querySelectorAll(".fade-up:not(.in-view), .reveal-stagger:not(.in-view)").forEach(el=>io.observe(el));
+    };
+    scan();
+    const mo = new MutationObserver(scan);
+    mo.observe(document.body,{childList:true, subtree:true});
+
+    let raf = 0;
+    const onScroll = () => {
+      if(raf) return;
+      raf = requestAnimationFrame(()=>{
+        const y = window.scrollY;
+        document.querySelectorAll<HTMLElement>(".aurora").forEach((el,i)=>{
+          el.style.transform = `translate3d(${(i%2?-1:1)*y*0.04}px, ${y*0.08}px, 0)`;
+        });
+        raf = 0;
+      });
+    };
+    window.addEventListener("scroll", onScroll, {passive:true});
+
+    return ()=>{ io.disconnect(); mo.disconnect(); window.removeEventListener("scroll", onScroll); };
+  },[screen]);
+
   const toast = (m) => { setToastMsg(m); clearTimeout(window.__waT); window.__waT = setTimeout(()=>setToastMsg(""),2600); };
 
   const views = {
