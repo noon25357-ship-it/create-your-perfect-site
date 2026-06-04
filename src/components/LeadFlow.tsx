@@ -753,7 +753,7 @@ function Landing({ lang, onEnter, onToggleLang }){
         {/* problem */}
         <section style={{padding:"70px 0"}}>
           <SectionHead kicker={t.problemKicker} title={t.problemTitle}/>
-          <div className="grid-auto" style={{gridTemplateColumns:"repeat(auto-fit,minmax(230px,1fr))"}}>
+          <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"repeat(auto-fit,minmax(230px,1fr))"}}>
             {t.problems.map((p,i)=>(
               <div key={i} className="card hov" style={{padding:22}}>
                 <div style={{width:34,height:34,borderRadius:10,display:"grid",placeItems:"center",
@@ -770,7 +770,7 @@ function Landing({ lang, onEnter, onToggleLang }){
         {/* solution */}
         <section style={{padding:"40px 0 70px"}}>
           <SectionHead kicker={t.solutionKicker} title={t.solutionTitle}/>
-          <div className="grid-auto" style={{gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))"}}>
+          <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))"}}>
             {t.solutions.map((s,i)=>{ const Ic=s[2]; return (
               <div key={i} className="card hov" style={{padding:24}}>
                 <div style={{width:46,height:46,borderRadius:13,display:"grid",placeItems:"center",
@@ -796,7 +796,7 @@ function Landing({ lang, onEnter, onToggleLang }){
               </span>
               <h2 style={{fontSize:"clamp(22px,3.6vw,36px)",fontWeight:700,margin:"0 0 12px",letterSpacing:"-.5px",maxWidth:760}}>{t.moatTitle}</h2>
               <p className="muted" style={{maxWidth:680,margin:"0 0 30px",fontSize:"clamp(14px,1.8vw,17px)",lineHeight:1.65}}>{t.moatSub}</p>
-              <div className="grid-auto" style={{gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))"}}>
+              <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))"}}>
                 {t.moat.map((m,i)=>{ const Ic=m[2]; return (
                   <div key={i} className="glass hov card" style={{padding:20,position:"relative"}}>
                     <div style={{display:"flex",alignItems:"center",gap:11,marginBottom:11}}>
@@ -845,7 +845,7 @@ function Landing({ lang, onEnter, onToggleLang }){
         {/* features strip */}
         <section style={{padding:"30px 0 60px"}}>
           <SectionHead kicker={t.featuresKicker} title={lang==="ar"?"كل ما تحتاجه قناة مبيعات احترافية":"Everything a pro sales channel needs"}/>
-          <div className="grid-auto" style={{gridTemplateColumns:"repeat(auto-fit,minmax(250px,1fr))"}}>
+          <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"repeat(auto-fit,minmax(250px,1fr))"}}>
             {t.landingFeatures.map((f,i)=>(
               <div key={i} className="glass" style={{padding:"18px 20px",borderRadius:15,display:"flex",gap:13,alignItems:"flex-start"}}>
                 <div style={{color:"var(--wa)",flexShrink:0,marginTop:2}}><Check size={18}/></div>
@@ -859,7 +859,7 @@ function Landing({ lang, onEnter, onToggleLang }){
         {/* how it works */}
         <section style={{padding:"40px 0 70px"}}>
           <SectionHead kicker={t.howKicker} title={t.howTitle}/>
-          <div className="grid-auto" style={{gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))"}}>
+          <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))"}}>
             {t.how.map((h,i)=>(
               <div key={i} className="card hov" style={{padding:26,position:"relative"}}>
                 <span className="mono" style={{position:"absolute",insetInlineEnd:20,top:16,fontSize:46,fontWeight:700,
@@ -878,7 +878,7 @@ function Landing({ lang, onEnter, onToggleLang }){
         {/* use cases */}
         <section style={{padding:"30px 0 70px"}}>
           <SectionHead kicker={t.useKicker} title={lang==="ar"?"مصمّم لقطاعات تستقبل كثير على واتساب":"Built for high-WhatsApp-volume sectors"}/>
-          <div className="grid-auto" style={{gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))"}}>
+          <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))"}}>
             {t.useCases.map((u,i)=>{ const Ic=u[2]; return (
               <div key={i} className="card hov" style={{padding:22,display:"flex",gap:14,alignItems:"center"}}>
                 <div style={{width:44,height:44,borderRadius:12,display:"grid",placeItems:"center",flexShrink:0,
@@ -992,7 +992,7 @@ function Dashboard({ lang }){
         right={<div className="pill" style={{color:"var(--txt2)"}}><Calendar size={14}/>{t.thisWeek}</div>} />
 
       {/* KPIs */}
-      <div className="grid-auto" style={{gridTemplateColumns:"repeat(auto-fit,minmax(190px,1fr))",marginBottom:16}}>
+      <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"repeat(auto-fit,minmax(190px,1fr))",marginBottom:16}}>
         <KpiCard icon={MessageSquare} label={t.kpis.conv} value="486" delta="+18%" color="var(--wa)" seed={1}/>
         <KpiCard icon={UserCheck} label={t.kpis.newLeads} value="73" delta="+12%" color="var(--teal)" seed={2}/>
         <KpiCard icon={Ticket} label={t.kpis.tickets} value="14" delta="-3" up={false} color="var(--warm)" seed={3}/>
@@ -1002,7 +1002,7 @@ function Dashboard({ lang }){
       </div>
 
       {/* charts row */}
-      <div className="grid-auto" style={{gridTemplateColumns:"minmax(0,1.7fr) minmax(0,1fr)",marginBottom:16}}>
+      <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"minmax(0,1.7fr) minmax(0,1fr)",marginBottom:16}}>
         <div className="card" style={{padding:20}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:18}}>
             <h3 style={{fontSize:15.5,fontWeight:700,margin:0}}>{t.convOverTime}</h3>
@@ -1051,7 +1051,7 @@ function Dashboard({ lang }){
       </div>
 
       {/* funnel + recent */}
-      <div className="grid-auto" style={{gridTemplateColumns:"minmax(0,1fr) minmax(0,1.4fr)"}}>
+      <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"minmax(0,1fr) minmax(0,1.4fr)"}}>
         <div className="card" style={{padding:20}}>
           <h3 style={{fontSize:15.5,fontWeight:700,margin:"0 0 18px"}}>{t.funnel}</h3>
           <div style={{display:"flex",flexDirection:"column",gap:14}}>
@@ -1243,11 +1243,11 @@ function AgentBuilder({ lang, toast }){
     <div className="fade-up">
       <PageHead title={t.agentTitle} sub={t.agentSub}
         right={<button className="btn btn-primary" onClick={()=>toast(lang==="ar"?"تم حفظ وتفعيل البوت ✅":"Bot saved & activated ✅")}><Zap size={16}/>{t.saveBot}</button>}/>
-      <div className="grid-auto" style={{gridTemplateColumns:"minmax(0,1.3fr) minmax(0,1fr)",alignItems:"start"}}>
+      <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"minmax(0,1.3fr) minmax(0,1fr)",alignItems:"start"}}>
         {/* config */}
         <div className="card" style={{padding:22}}>
           {field(t.botName, <input className="inp" value={name} onChange={e=>setName(e.target.value)}/>)}
-          <div className="grid-auto" style={{gridTemplateColumns:"1fr 1fr"}}>
+          <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"1fr 1fr"}}>
             {field(t.tone,
               <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
                 {t.tones.map((to,i)=>(
@@ -1322,7 +1322,7 @@ function Tickets({ lang, toast }){
       <PageHead title={t.ticketsTitle} sub={t.ticketsSub}
         right={<button className="btn btn-primary" onClick={()=>toast(lang==="ar"?"إنشاء تذكرة جديدة":"New ticket")}><Plus size={16}/>{lang==="ar"?"تذكرة جديدة":"New ticket"}</button>}/>
       {/* stat tabs */}
-      <div className="grid-auto" style={{gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",marginBottom:18}}>
+      <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",marginBottom:18}}>
         {tabs.map(([k,lbl])=>{
           const cmap={all:"var(--wa)",open:"var(--hot)",progress:"var(--warm)",closed:"var(--txt3)"};
           return (
@@ -1377,7 +1377,7 @@ function Campaigns({ lang, toast }){
   return (
     <div className="fade-up">
       <PageHead title={t.campTitle} sub={t.campSub}/>
-      <div className="grid-auto" style={{gridTemplateColumns:"minmax(0,1fr) minmax(0,1.4fr)",alignItems:"start"}}>
+      <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"minmax(0,1fr) minmax(0,1.4fr)",alignItems:"start"}}>
         {/* builder */}
         <div className="card" style={{padding:22}}>
           <h3 style={{fontSize:15.5,fontWeight:700,margin:"0 0 18px",display:"flex",alignItems:"center",gap:8}}><Plus size={17} color="var(--wa)"/>{t.newCamp}</h3>
@@ -1520,7 +1520,7 @@ function PricingView({ lang, embedded=false, onEnter }){
     <div className={embedded?"":"fade-up"}>
       {!embedded && <PageHead title={t.pricingTitle} sub={t.pricingSub}/>}
       {embedded && <SectionHead kicker={lang==="ar"?"الأسعار":"Pricing"} title={t.pricingTitle} sub={t.pricingSub}/>}
-      <div className="grid-auto" style={{gridTemplateColumns:"repeat(auto-fit,minmax(270px,1fr))",alignItems:"stretch",maxWidth:1000,margin:"0 auto"}}>
+      <div className="grid-auto reveal-stagger" style={{gridTemplateColumns:"repeat(auto-fit,minmax(270px,1fr))",alignItems:"stretch",maxWidth:1000,margin:"0 auto"}}>
         {t.plans.map((p,i)=>{
           const pop = i===1;
           return (
