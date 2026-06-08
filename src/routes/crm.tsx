@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import AppShell, { Card, Stat, Badge } from "@/components/app/AppShell";
 import { LEADS, CONTACTS } from "@/lib/demo-data";
+import { useInboxStore } from "@/lib/inbox-store";
 import { useMemo, useState } from "react";
 import { Filter, Plus, Phone, MessageCircle, Sparkles, Target, Zap } from "lucide-react";
 
