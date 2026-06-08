@@ -1814,11 +1814,6 @@ function WhatsAISalesHub(){
   const [toastMsg, setToastMsg] = useState("");
   const t = useT(lang);
 
-  useEffect(()=>{
-    if(document.getElementById("wa-style")) return;
-    const s = document.createElement("style"); s.id="wa-style"; s.textContent = CSS; document.head.appendChild(s);
-  },[]);
-
   // Cinematic scroll reveals + parallax aurora
   useEffect(()=>{
     const io = new IntersectionObserver((entries)=>{
@@ -1864,7 +1859,9 @@ function WhatsAISalesHub(){
   };
 
   return (
-    <div className="wa-root" dir={lang==="ar"?"rtl":"ltr"} style={{minHeight:"100vh"}}>
+    <>
+      <style id="wa-style" dangerouslySetInnerHTML={{ __html: CSS }} />
+      <div className="wa-root" dir={lang==="ar"?"rtl":"ltr"} style={{minHeight:"100vh"}}>
       {screen==="landing" ? (
         <Landing lang={lang} onEnter={()=>{setScreen("app");setView("liveflow");}} onToggleLang={()=>setLang(l=>l==="ar"?"en":"ar")}/>
       ) : (
@@ -1880,7 +1877,8 @@ function WhatsAISalesHub(){
         </div>
       )}
       <Toast msg={toastMsg}/>
-    </div>
+      </div>
+    </>
   );
 }
 
