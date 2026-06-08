@@ -79,13 +79,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { name: "description", content: "Build My Site is a web application for building and managing sales workflows and customer relationships." },
       { name: "author", content: "Lovable" },
       { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:description", content: "Build My Site is a web application for building and managing sales workflows and customer relationships." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Lovable App" },
+      { name: "twitter:description", content: "Build My Site is a web application for building and managing sales workflows and customer relationships." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5eb9a510-b461-4fa2-93f7-68c3cfecc895/id-preview-7e98f25f--0ce5826d-af22-421a-94a5-6274a7c2e55d.lovable.app-1780917949385.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5eb9a510-b461-4fa2-93f7-68c3cfecc895/id-preview-7e98f25f--0ce5826d-af22-421a-94a5-6274a7c2e55d.lovable.app-1780917949385.png" },
     ],
     links: [
       {
@@ -102,33 +106,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="ar" dir="rtl" style={{ background: "#0b0f14", colorScheme: "dark" }}>
+    <html lang="en">
       <head>
         <HeadContent />
-        <style>{`
-          html, body { background: #0b0f14; color: #e2e8f0; }
-          #lf-boot { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; background: #0b0f14; z-index: 9999; transition: opacity .25s ease; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif; }
-          #lf-boot .lf-logo { font-size: 28px; font-weight: 700; letter-spacing: -.02em; color: #f1f5f9; }
-          #lf-boot .lf-logo span { color: #25D366; }
-          #lf-boot .lf-sub { font-size: 12px; color: #64748b; }
-          #lf-boot .lf-spin { width: 28px; height: 28px; border: 2px solid rgba(37,211,102,.2); border-top-color: #25D366; border-radius: 50%; animation: lf-rot .8s linear infinite; }
-          @keyframes lf-rot { to { transform: rotate(360deg); } }
-          .lf-hidden { opacity: 0; pointer-events: none; }
-        `}</style>
       </head>
-      <body style={{ background: "#0b0f14", margin: 0 }}>
-        <div id="lf-boot" aria-hidden="true">
-          <div className="lf-logo">Lead<span>Flow</span></div>
-          <div className="lf-spin" />
-          <div className="lf-sub">جاري تجهيز النظام...</div>
-        </div>
+      <body>
         {children}
         <Scripts />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `requestAnimationFrame(function(){setTimeout(function(){var b=document.getElementById('lf-boot');if(b){b.classList.add('lf-hidden');setTimeout(function(){b&&b.remove();},300);}},120);});`,
-          }}
-        />
       </body>
     </html>
   );
