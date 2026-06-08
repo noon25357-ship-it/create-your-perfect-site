@@ -164,7 +164,6 @@ export interface RootRouteChildren {
   AiIntelligenceRoute: typeof AiIntelligenceRoute
   AiSummaryRoute: typeof AiSummaryRoute
   AutomationsRoute: typeof AutomationsRoute
-  BotFlowRoute: typeof BotFlowRoute
   CampaignsRoute: typeof CampaignsRoute
   CrmRoute: typeof CrmRoute
   ExecutiveDashboardRoute: typeof ExecutiveDashboardRoute
@@ -176,13 +175,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/bot-flow': {
-      id: '/bot-flow'
-      path: '/bot-flow'
-      fullPath: '/bot-flow'
-      preLoaderRoute: typeof BotFlowRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/team': {
       id: '/team'
       path: '/team'
@@ -268,6 +260,7 @@ const rootRouteChildren: RootRouteChildren = {
   AiIntelligenceRoute: AiIntelligenceRoute,
   AiSummaryRoute: AiSummaryRoute,
   AutomationsRoute: AutomationsRoute,
+  BotFlowRoute: BotFlowRoute,
   CampaignsRoute: CampaignsRoute,
   CrmRoute: CrmRoute,
   ExecutiveDashboardRoute: ExecutiveDashboardRoute,
