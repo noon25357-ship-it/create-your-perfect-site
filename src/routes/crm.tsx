@@ -1,8 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import AppShell, { Card, Stat, Badge } from "@/components/app/AppShell";
-import { LEADS } from "@/lib/demo-data";
+import { LEADS, CONTACTS } from "@/lib/demo-data";
 import { useMemo, useState } from "react";
-import { Filter, Plus, Phone, MessageCircle } from "lucide-react";
+import { Filter, Plus, Phone, MessageCircle, Sparkles, Target, Zap } from "lucide-react";
 
 export const Route = createFileRoute("/crm")({
   head: () => ({ meta: [{ title: "CRM — LeadFlow" }, { name: "description", content: "إدارة علاقات العملاء بذكاء WhatsApp." }] }),
