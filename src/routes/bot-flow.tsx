@@ -497,6 +497,61 @@ function BotFlowPage() {
         </div>
       </Card>
 
+      {/* Contact Groups */}
+      <Card className="mt-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-semibold flex items-center gap-2"><Users className="h-4 w-4 text-sky-400" /> Contact Groups</h3>
+          <button className="text-[11px] text-[#25D366] hover:underline">+ مجموعة جديدة</button>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+          {CONTACT_GROUPS.map(g => (
+            <div key={g.name} className="rounded-xl border border-white/5 bg-white/[0.02] p-3 hover:bg-white/[0.04] transition">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <Badge tone={g.tone}>{g.count.toLocaleString()}</Badge>
+                  <div className="text-sm font-medium">{g.name}</div>
+                </div>
+                <span className="text-[10px] text-slate-500">{g.updated}</span>
+              </div>
+              <div className="flex gap-1.5">
+                <button onClick={() => toast.success(`جاري إرسال حملة لـ ${g.name}`)}
+                  className="flex-1 rounded-lg bg-[#25D366]/10 text-[#25D366] border border-[#25D366]/20 py-1.5 text-[11px] hover:bg-[#25D366]/20 flex items-center justify-center gap-1">
+                  <Send className="h-3 w-3" /> إرسال حملة
+                </button>
+                <button onClick={() => toast(`عرض ${g.count} عميل في ${g.name}`)}
+                  className="flex-1 rounded-lg bg-white/5 border border-white/10 py-1.5 text-[11px] hover:bg-white/10">
+                  عرض العملاء
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      {/* Smart Segments */}
+      <Card className="mt-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-semibold flex items-center gap-2"><Sparkles className="h-4 w-4 text-violet-400" /> Smart Segments</h3>
+          <Badge tone="purple">قواعد ديناميكية</Badge>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+          {SMART_SEGMENTS.map(s => (
+            <div key={s.name} className="rounded-xl border border-violet-500/15 bg-violet-500/[0.04] p-3">
+              <div className="flex items-center justify-between mb-1">
+                <div className="text-sm font-medium">{s.name}</div>
+                <Badge tone="purple">{s.match}</Badge>
+              </div>
+              <code className="text-[10px] text-violet-300 font-mono">{s.rule}</code>
+              <button onClick={() => toast.success(`إنشاء حملة لـ ${s.name}`)}
+                className="mt-2 w-full rounded-lg bg-violet-500/10 text-violet-300 border border-violet-500/20 py-1.5 text-[11px] hover:bg-violet-500/20">
+                استخدم في حملة
+              </button>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+
       {/* Advanced features grid */}
       <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
         <Card>
