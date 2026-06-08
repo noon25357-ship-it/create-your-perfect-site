@@ -64,11 +64,35 @@ export const REVENUE_TREND = [
   { m: "يوليو", v: 95 }, { m: "أغسطس", v: 102 },
 ];
 
-export const CONVERSATIONS = [
+export type Conversation = {
+  id: string;
+  name: string;
+  phone: string;
+  unread: number;
+  last: string;
+  time: string;
+  agent: string;
+  status: "open" | "closed";
+  priority: "high" | "medium" | "low";
+  score: number;
+  intent: "High" | "Medium" | "Low";
+  summary: string;
+  nextAction: string;
+  source: Lead["source"];
+  city: string;
+  value: number;
+  messages: { from: "lead" | "agent" | "ai"; text: string; time: string }[];
+};
+
+export const CONVERSATIONS: Conversation[] = [
   {
     id: "c1", name: "أحمد المالكي", phone: "+966550012233", unread: 3,
     last: "تمام، أرسل لي العقد", time: "الآن", agent: "محمد العتيبي",
     status: "open", priority: "high",
+    score: 92, intent: "High",
+    summary: "عميل مهتم بباقة Pro، استجاب إيجابياً لخصم 15% وطلب العقد. مؤشر إغلاق عالي خلال 24 ساعة.",
+    nextAction: "إرسال العقد + متابعة هاتفية خلال ساعة",
+    source: "WhatsApp", city: "الرياض", value: 42000,
     messages: [
       { from: "lead", text: "السلام عليكم، أبي أعرف العرض", time: "10:02" },
       { from: "agent", text: "وعليكم السلام، أهلاً بك أحمد 👋", time: "10:03" },
@@ -81,6 +105,10 @@ export const CONVERSATIONS = [
     id: "c2", name: "نوره الشمري", phone: "+966551122334", unread: 0,
     last: "شكراً، راح أراجع وأرد عليك", time: "قبل 12د", agent: "سارة الحربي",
     status: "open", priority: "medium",
+    score: 64, intent: "Medium",
+    summary: "العميلة طلبت تفاصيل الباقات الثلاث، أبدت اهتمام متوسط وتحتاج وقت للقرار.",
+    nextAction: "متابعة بعد 48 ساعة بعرض مقارنة الباقات",
+    source: "Instagram", city: "جدة", value: 18000,
     messages: [
       { from: "lead", text: "ممكن تفاصيل الباقات؟", time: "09:40" },
       { from: "agent", text: "بكل تأكيد، عندنا 3 باقات...", time: "09:42" },
@@ -91,6 +119,10 @@ export const CONVERSATIONS = [
     id: "c3", name: "فهد العنزي", phone: "+966552233445", unread: 1,
     last: "السعر مرتفع شوي", time: "قبل ساعة", agent: "خالد الزهراني",
     status: "open", priority: "high",
+    score: 38, intent: "Low",
+    summary: "اعتراض سعري واضح. مؤشر فقدان 62% — يحتاج تدخل فوري بعرض مخصص.",
+    nextAction: "اتصال شخصي + تقديم خصم 10% مع تقسيط",
+    source: "Ads", city: "الدمام", value: 24000,
     messages: [
       { from: "lead", text: "السعر مرتفع شوي", time: "08:30" },
       { from: "ai", text: "تنبيه: مؤشر فقدان مرتفع (62%). اقترح خصم 10%", time: "08:30" },
@@ -100,11 +132,56 @@ export const CONVERSATIONS = [
     id: "c4", name: "ريم الدوسري", phone: "+966553344556", unread: 0,
     last: "تم الدفع ✅", time: "قبل 3س", agent: "ليان القحطاني",
     status: "closed", priority: "low",
+    score: 100, intent: "High",
+    summary: "صفقة مغلقة بنجاح. تم الدفع وتفعيل الاشتراك السنوي.",
+    nextAction: "Onboarding خلال 24 ساعة + طلب تقييم",
+    source: "Website", city: "مكة", value: 36000,
     messages: [
       { from: "lead", text: "تم الدفع ✅", time: "أمس" },
     ],
   },
 ];
+
+// Auto-create CRM contacts from every conversation (Inbox ↔ CRM sync)
+export type Contact = {
+  id: string;
+  name: string;
+  phone: string;
+  source: Lead["source"];
+  score: number;
+  intent: "High" | "Medium" | "Low";
+  summary: string;
+  nextAction: string;
+  owner: string;
+  city: string;
+  value: number;
+  lastMessage: string;
+  lastActivity: string;
+  conversationId: string;
+  stage: Lead["stage"];
+};
+
+export const CONTACTS: Contact[] = CONVERSATIONS.map((c) => ({
+  id: `CT-${c.id}`,
+  name: c.name,
+  phone: c.phone,
+  source: c.source,
+  score: c.score,
+  intent: c.intent,
+  summary: c.summary,
+  nextAction: c.nextAction,
+  owner: c.agent,
+  city: c.city,
+  value: c.value,
+  lastMessage: c.last,
+  lastActivity: c.time,
+  conversationId: c.id,
+  stage: c.status === "closed" ? "Won" : c.score >= 80 ? "Negotiation" : c.score >= 55 ? "Qualified" : "Contacted",
+}));
+
+export function getContactByConversation(convId: string) {
+  return CONTACTS.find((c) => c.conversationId === convId);
+}
 
 export const CAMPAIGN_TEMPLATES = [
   { id: "t1", name: "إطلاق منتج جديد", goal: "Awareness", channel: "WhatsApp", est: "ROI 3.2x" },
