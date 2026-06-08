@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import AppShell, { Badge } from "@/components/app/AppShell";
 import { CONVERSATIONS } from "@/lib/demo-data";
 import { useState } from "react";
@@ -89,27 +89,48 @@ function InboxPage() {
 
         <div className="hidden lg:flex col-span-3 rounded-2xl border border-white/5 bg-[#0f141b] p-4 flex-col gap-4 overflow-y-auto">
           <div>
-            <div className="text-xs text-slate-400 mb-2">معلومات العميل</div>
+            <div className="flex items-center justify-between mb-2">
+              <div className="text-xs text-slate-400">جهة الاتصال (CRM)</div>
+              <Link to="/crm" className="text-[10px] text-[#25D366] hover:underline">عرض في CRM ←</Link>
+            </div>
             <div className="text-base font-semibold">{conv.name}</div>
-            <div className="text-xs text-slate-500">{conv.phone}</div>
+            <div className="text-xs text-slate-500">{conv.phone} · {conv.city}</div>
+            <div className="mt-1">
+              <Badge tone="green">تمت إضافته تلقائياً</Badge>
+            </div>
           </div>
+
           <div className="grid grid-cols-2 gap-2 text-center">
             <div className="rounded-xl bg-white/[0.03] border border-white/5 p-2">
               <div className="text-[10px] text-slate-500">Lead Score</div>
-              <div className="text-lg font-bold text-[#25D366]">87</div>
+              <div className="text-lg font-bold text-[#25D366]">{conv.score}</div>
             </div>
             <div className="rounded-xl bg-white/[0.03] border border-white/5 p-2">
-              <div className="text-[10px] text-slate-500">القيمة</div>
-              <div className="text-lg font-bold">42k</div>
+              <div className="text-[10px] text-slate-500">Intent</div>
+              <div className="mt-1.5">
+                <Badge tone={conv.intent === "High" ? "green" : conv.intent === "Medium" ? "yellow" : "red"}>
+                  {conv.intent === "High" ? "عالي" : conv.intent === "Medium" ? "متوسط" : "منخفض"}
+                </Badge>
+              </div>
             </div>
           </div>
+
           <div>
-            <div className="text-xs text-slate-400 mb-2">ملخص AI للمحادثة</div>
+            <div className="flex items-center gap-1 text-xs text-slate-400 mb-2">
+              <Sparkles className="h-3 w-3 text-violet-400" /> AI Summary
+            </div>
             <div className="rounded-xl bg-violet-500/[0.06] border border-violet-500/15 p-3 text-xs text-slate-200 leading-relaxed">
-              العميل مهتم بالباقة Pro وأبدى استجابة إيجابية لخصم 15%. مؤشر الإغلاق: <b className="text-[#25D366]">عالي</b>.
-              يُوصى بإرسال العقد خلال ساعة.
+              {conv.summary}
             </div>
           </div>
+
+          <div>
+            <div className="text-xs text-[#25D366] mb-2">Next Action</div>
+            <div className="rounded-xl bg-[#25D366]/[0.06] border border-[#25D366]/20 p-3 text-xs text-slate-100 leading-relaxed">
+              {conv.nextAction}
+            </div>
+          </div>
+
           <div>
             <div className="text-xs text-slate-400 mb-2">إجراءات سريعة</div>
             <div className="flex flex-col gap-2">
@@ -119,6 +140,7 @@ function InboxPage() {
             </div>
           </div>
         </div>
+
       </div>
     </AppShell>
   );
