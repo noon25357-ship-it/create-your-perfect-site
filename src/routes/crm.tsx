@@ -63,9 +63,11 @@ function CRMPage() {
                 </div>
                 <div className="flex flex-col items-end gap-1 shrink-0">
                   <Badge tone="blue">{c.source}</Badge>
+                  <Badge tone="green">{store.stages[c.conversationId] ?? c.stage}</Badge>
                   <span className="text-[10px] text-slate-500">{c.id}</span>
                 </div>
               </div>
+
 
               <div className="grid grid-cols-2 gap-2 mb-3">
                 <div className="rounded-lg bg-white/[0.03] border border-white/5 p-2">
