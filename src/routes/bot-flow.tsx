@@ -288,9 +288,9 @@ function BotFlowPage() {
               backgroundSize: "20px 20px",
             }}
           >
-            <div className="relative" style={{ width: 600, height: canvasH }}>
+            <div className="relative" style={{ width: 2100, height: canvasH }}>
               {/* Edges */}
-              <svg className="absolute inset-0 pointer-events-none" width="100%" height={canvasH}>
+              <svg className="absolute inset-0 pointer-events-none" width="2100" height={canvasH}>
                 <defs>
                   <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
                     <path d="M0,0 L10,5 L0,10 z" fill="#25D366" />
