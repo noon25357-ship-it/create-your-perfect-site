@@ -102,7 +102,6 @@ function CRMPage() {
                 <div className="flex gap-1.5">
                   <Link
                     to="/inbox"
-                    search={{ c: c.conversationId } as never}
                     className="rounded-lg bg-[#25D366]/15 px-2.5 py-1 text-[11px] text-[#25D366] hover:bg-[#25D366]/25 flex items-center gap-1"
                   >
                     <MessageCircle className="h-3 w-3" /> فتح المحادثة
