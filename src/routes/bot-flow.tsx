@@ -64,22 +64,22 @@ const NODE_META: Record<NodeKind, { label: string; icon: typeof Play; tone: stri
 };
 
 const INITIAL_NODES: FlowNode[] = [
-  { id: "start", kind: "start", title: "Start", body: "أول رسالة واردة من العميل", x: 900, y: 40 },
-  { id: "lang", kind: "question", title: "اختيار اللغة", body: "اختر اللغة المناسبة", options: ["العربية", "English"], x: 900, y: 180 },
-  { id: "menu-ar", kind: "question", title: "الخدمة المطلوبة", body: "ما الخدمة التي تريدها؟", options: ["شراء عقار", "إيجار", "تمويل", "موظف"], x: 580, y: 360 },
-  { id: "city", kind: "collect", title: "اسأل المدينة", body: "في أي مدينة تبحث؟", crmField: "City", x: 280, y: 560 },
-  { id: "budget", kind: "collect", title: "اسأل الميزانية", body: "كم ميزانيتك؟", crmField: "Budget", x: 280, y: 720 },
-  { id: "property", kind: "collect", title: "نوع العقار", body: "شقة، فيلا، أرض؟", crmField: "Property Type", x: 280, y: 880 },
-  { id: "bedrooms", kind: "collect", title: "عدد الغرف", body: "كم عدد الغرف المطلوبة؟", crmField: "Bedrooms", x: 280, y: 1040 },
-  { id: "payment", kind: "collect", title: "طريقة الدفع", body: "كاش أم تمويل؟", crmField: "Payment Method", x: 280, y: 1200 },
-  { id: "crm", kind: "crm", title: "Update CRM", body: "حفظ العميل وتحديث Lead Score والـ Pipeline", x: 280, y: 1360 },
-  { id: "ticket", kind: "ticket", title: "Create Ticket", body: "إنشاء تذكرة معاينة أو متابعة", x: 280, y: 1520 },
-  { id: "end", kind: "end", title: "End", body: "شكراً، سيتم التواصل معك", x: 280, y: 1680 },
-  { id: "rent", kind: "handover", title: "قسم الإيجار", body: "تحويل العميل إلى فريق الإيجار", x: 900, y: 560 },
-  { id: "finance", kind: "handover", title: "مستشار التمويل", body: "تحويل مباشر لمستشار التمويل", x: 1180, y: 560 },
-  { id: "agent", kind: "handover", title: "موظف مبيعات", body: "ربط العميل بموظف متاح", x: 1460, y: 560 },
-  { id: "menu-en", kind: "question", title: "Service Menu", body: "Buy, Rent, Finance or Agent", options: ["Buy", "Rent", "Finance", "Agent"], x: 1220, y: 360 },
-  { id: "ai", kind: "ai", title: "AI Takeover", body: "يتدخل إذا خرج العميل عن المسار أو كتب سؤالاً حرًا", x: 1600, y: 860 },
+  { id: "start", kind: "start", title: "Start", body: "أول رسالة واردة من العميل", x: 360, y: 24 },
+  { id: "lang", kind: "question", title: "اختيار اللغة", body: "اختر اللغة المناسبة", options: ["العربية", "English"], x: 360, y: 180 },
+  { id: "menu-ar", kind: "question", title: "الخدمة المطلوبة", body: "ما الخدمة التي تريدها؟", options: ["شراء عقار", "إيجار", "تمويل", "موظف"], x: 40, y: 360 },
+  { id: "menu-en", kind: "question", title: "Service Menu", body: "Buy, Rent, Finance or Agent", options: ["Buy", "Rent", "Finance", "Agent"], x: 720, y: 360 },
+  { id: "city", kind: "collect", title: "اسأل المدينة", body: "في أي مدينة تبحث؟", crmField: "City", x: 40, y: 560 },
+  { id: "budget", kind: "collect", title: "اسأل الميزانية", body: "كم ميزانيتك؟", crmField: "Budget", x: 40, y: 720 },
+  { id: "property", kind: "collect", title: "نوع العقار", body: "شقة، فيلا، أرض؟", crmField: "Property Type", x: 40, y: 880 },
+  { id: "bedrooms", kind: "collect", title: "عدد الغرف", body: "كم عدد الغرف المطلوبة؟", crmField: "Bedrooms", x: 40, y: 1040 },
+  { id: "payment", kind: "collect", title: "طريقة الدفع", body: "كاش أم تمويل؟", crmField: "Payment Method", x: 40, y: 1200 },
+  { id: "crm", kind: "crm", title: "Update CRM", body: "حفظ العميل وتحديث Lead Score والـ Pipeline", x: 40, y: 1360 },
+  { id: "ticket", kind: "ticket", title: "Create Ticket", body: "إنشاء تذكرة معاينة أو متابعة", x: 40, y: 1520 },
+  { id: "end", kind: "end", title: "End", body: "شكراً، سيتم التواصل معك", x: 40, y: 1680 },
+  { id: "rent", kind: "handover", title: "قسم الإيجار", body: "تحويل العميل إلى فريق الإيجار", x: 360, y: 560 },
+  { id: "finance", kind: "handover", title: "مستشار التمويل", body: "تحويل مباشر لمستشار التمويل", x: 680, y: 560 },
+  { id: "agent", kind: "handover", title: "موظف مبيعات", body: "ربط العميل بموظف متاح", x: 1000, y: 560 },
+  { id: "ai", kind: "ai", title: "AI Takeover", body: "يتدخل إذا خرج العميل عن المسار أو كتب سؤالاً حرًا", x: 720, y: 880 },
 ];
 
 const INITIAL_EDGES: Edge[] = [
