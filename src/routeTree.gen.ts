@@ -9,8 +9,44 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PipelineRouteImport } from './routes/pipeline'
+import { Route as InboxRouteImport } from './routes/inbox'
+import { Route as CrmRouteImport } from './routes/crm'
+import { Route as CampaignsRouteImport } from './routes/campaigns'
+import { Route as AiSummaryRouteImport } from './routes/ai-summary'
+import { Route as AiIntelligenceRouteImport } from './routes/ai-intelligence'
 import { Route as IndexRouteImport } from './routes/index'
 
+const PipelineRoute = PipelineRouteImport.update({
+  id: '/pipeline',
+  path: '/pipeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InboxRoute = InboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CrmRoute = CrmRouteImport.update({
+  id: '/crm',
+  path: '/crm',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampaignsRoute = CampaignsRouteImport.update({
+  id: '/campaigns',
+  path: '/campaigns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiSummaryRoute = AiSummaryRouteImport.update({
+  id: '/ai-summary',
+  path: '/ai-summary',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiIntelligenceRoute = AiIntelligenceRouteImport.update({
+  id: '/ai-intelligence',
+  path: '/ai-intelligence',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +55,116 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai-intelligence': typeof AiIntelligenceRoute
+  '/ai-summary': typeof AiSummaryRoute
+  '/campaigns': typeof CampaignsRoute
+  '/crm': typeof CrmRoute
+  '/inbox': typeof InboxRoute
+  '/pipeline': typeof PipelineRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-intelligence': typeof AiIntelligenceRoute
+  '/ai-summary': typeof AiSummaryRoute
+  '/campaigns': typeof CampaignsRoute
+  '/crm': typeof CrmRoute
+  '/inbox': typeof InboxRoute
+  '/pipeline': typeof PipelineRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai-intelligence': typeof AiIntelligenceRoute
+  '/ai-summary': typeof AiSummaryRoute
+  '/campaigns': typeof CampaignsRoute
+  '/crm': typeof CrmRoute
+  '/inbox': typeof InboxRoute
+  '/pipeline': typeof PipelineRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/ai-intelligence'
+    | '/ai-summary'
+    | '/campaigns'
+    | '/crm'
+    | '/inbox'
+    | '/pipeline'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/ai-intelligence'
+    | '/ai-summary'
+    | '/campaigns'
+    | '/crm'
+    | '/inbox'
+    | '/pipeline'
+  id:
+    | '__root__'
+    | '/'
+    | '/ai-intelligence'
+    | '/ai-summary'
+    | '/campaigns'
+    | '/crm'
+    | '/inbox'
+    | '/pipeline'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiIntelligenceRoute: typeof AiIntelligenceRoute
+  AiSummaryRoute: typeof AiSummaryRoute
+  CampaignsRoute: typeof CampaignsRoute
+  CrmRoute: typeof CrmRoute
+  InboxRoute: typeof InboxRoute
+  PipelineRoute: typeof PipelineRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/pipeline': {
+      id: '/pipeline'
+      path: '/pipeline'
+      fullPath: '/pipeline'
+      preLoaderRoute: typeof PipelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inbox': {
+      id: '/inbox'
+      path: '/inbox'
+      fullPath: '/inbox'
+      preLoaderRoute: typeof InboxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crm': {
+      id: '/crm'
+      path: '/crm'
+      fullPath: '/crm'
+      preLoaderRoute: typeof CrmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campaigns': {
+      id: '/campaigns'
+      path: '/campaigns'
+      fullPath: '/campaigns'
+      preLoaderRoute: typeof CampaignsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-summary': {
+      id: '/ai-summary'
+      path: '/ai-summary'
+      fullPath: '/ai-summary'
+      preLoaderRoute: typeof AiSummaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-intelligence': {
+      id: '/ai-intelligence'
+      path: '/ai-intelligence'
+      fullPath: '/ai-intelligence'
+      preLoaderRoute: typeof AiIntelligenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +177,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiIntelligenceRoute: AiIntelligenceRoute,
+  AiSummaryRoute: AiSummaryRoute,
+  CampaignsRoute: CampaignsRoute,
+  CrmRoute: CrmRoute,
+  InboxRoute: InboxRoute,
+  PipelineRoute: PipelineRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
