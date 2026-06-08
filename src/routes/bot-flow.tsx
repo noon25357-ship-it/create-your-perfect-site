@@ -476,19 +476,32 @@ function BotFlowPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block text-[11px] text-slate-400">ربط CRM</label>
-                  <select
-                    value={selectedNode.crmField ?? ""}
-                    onChange={(event) => updateNode({ crmField: event.target.value || undefined })}
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none"
-                  >
-                    <option value="">بدون ربط</option>
+                  <label className="mb-2 block text-[11px] text-slate-400">ربط CRM</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      onClick={() => updateNode({ crmField: undefined })}
+                      className={`rounded-xl border px-3 py-2 text-xs transition ${
+                        !selectedNode.crmField
+                          ? "border-[#25D366]/40 bg-[#25D366]/10 text-[#25D366]"
+                          : "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
+                      }`}
+                    >
+                      بدون ربط
+                    </button>
                     {CRM_MAPPING.map(([, value]) => (
-                      <option key={value} value={value}>
+                      <button
+                        key={value}
+                        onClick={() => updateNode({ crmField: value })}
+                        className={`rounded-xl border px-3 py-2 text-xs transition ${
+                          selectedNode.crmField === value
+                            ? "border-[#25D366]/40 bg-[#25D366]/10 text-[#25D366]"
+                            : "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
+                        }`}
+                      >
                         {value}
-                      </option>
+                      </button>
                     ))}
-                  </select>
+                  </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div className="rounded-xl border border-cyan-500/20 bg-cyan-500/5 p-3">
