@@ -454,6 +454,21 @@ function BotFlowPage() {
                     {CRM_FIELDS.map(f => <option key={f} value={f}>{f}</option>)}
                   </select>
                 </div>
+                <div className="rounded-lg border border-white/5 bg-white/[0.02] p-2 space-y-1.5">
+                  <div className="text-[10px] text-slate-400 mb-1">إجراءات إضافية</div>
+                  {[
+                    { k: "tag",     label: "إضافة Tag للعميل" },
+                    { k: "ticket",  label: "فتح تذكرة" },
+                    { k: "crm",     label: "حفظ في CRM" },
+                    { k: "human",   label: "تحويل لموظف" },
+                    { k: "ai",      label: "تشغيل AI Takeover" },
+                  ].map(t => (
+                    <label key={t.k} className="flex items-center justify-between text-[11px] text-slate-300 cursor-pointer">
+                      <span>{t.label}</span>
+                      <input type="checkbox" defaultChecked={t.k === "crm"} className="accent-[#25D366]" />
+                    </label>
+                  ))}
+                </div>
                 <button onClick={() => toast.success("تم حفظ التعديلات")}
                   className="w-full rounded-lg bg-[#25D366] text-black py-1.5 text-xs font-medium hover:brightness-110 flex items-center justify-center gap-1.5">
                   <Save className="h-3.5 w-3.5" /> حفظ
@@ -461,6 +476,7 @@ function BotFlowPage() {
               </div>
             )}
           </Card>
+
         </div>
       </div>
 
