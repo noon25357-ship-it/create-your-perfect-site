@@ -16,17 +16,10 @@ import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as ExecutiveDashboardRouteImport } from './routes/executive-dashboard'
 import { Route as CrmRouteImport } from './routes/crm'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
-import { Route as BotFlowRouteImport } from './routes/bot-flow'
 import { Route as AutomationsRouteImport } from './routes/automations'
 import { Route as AiSummaryRouteImport } from './routes/ai-summary'
 import { Route as AiIntelligenceRouteImport } from './routes/ai-intelligence'
 import { Route as IndexRouteImport } from './routes/index'
-
-const BotFlowRoute = BotFlowRouteImport.update({
-  id: '/bot-flow',
-  path: '/bot-flow',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 const TeamRoute = TeamRouteImport.update({
   id: '/team',
@@ -89,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/ai-intelligence': typeof AiIntelligenceRoute
   '/ai-summary': typeof AiSummaryRoute
   '/automations': typeof AutomationsRoute
+  '/bot-flow': typeof BotFlowRoute
   '/campaigns': typeof CampaignsRoute
   '/crm': typeof CrmRoute
   '/executive-dashboard': typeof ExecutiveDashboardRoute
@@ -102,6 +96,7 @@ export interface FileRoutesByTo {
   '/ai-intelligence': typeof AiIntelligenceRoute
   '/ai-summary': typeof AiSummaryRoute
   '/automations': typeof AutomationsRoute
+  '/bot-flow': typeof BotFlowRoute
   '/campaigns': typeof CampaignsRoute
   '/crm': typeof CrmRoute
   '/executive-dashboard': typeof ExecutiveDashboardRoute
