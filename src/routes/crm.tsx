@@ -11,6 +11,7 @@ export const Route = createFileRoute("/crm")({
 });
 
 function CRMPage() {
+  const store = useInboxStore();
   const [q, setQ] = useState("");
   const [stage, setStage] = useState<string>("all");
   const filtered = useMemo(
