@@ -233,13 +233,122 @@ function BotFlowPage() {
         </div>
       </Card>
 
-      <div className="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-[280px_minmax(0,1fr)_360px]">
+      <Card className="mt-4 overflow-hidden !p-0">
+        <div className="flex items-center justify-between border-b border-white/5 bg-white/[0.02] px-4 py-3">
+          <div>
+            <div className="flex items-center gap-2 text-sm font-semibold">
+              <GitBranch className="h-4 w-4 text-[#25D366]" /> Visual Bot Flow Tree
+            </div>
+            <div className="mt-1 text-xs text-slate-400">Canvas كبير مع Nodes مربوطة بخطوط — اسحب أي Node لتحريكها.</div>
+          </div>
+          <Badge tone="green">{nodes.length} Nodes</Badge>
+        </div>
+
+        <div
+          ref={canvasRef}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerLeave={handlePointerUp}
+          dir="ltr"
+          className="relative overflow-auto bg-[#070a0e]"
+          style={{
+            height: "70vh",
+            backgroundImage: "radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+          }}
+        >
+          <div className="relative min-w-[1320px]" style={{ height: canvasHeight }}>
+            <svg className="absolute inset-0" width="1320" height={canvasHeight}>
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M0 0 L10 5 L0 10 Z" fill="#25D366" />
+                </marker>
+              </defs>
+              {edges.map((edge) => {
+                const from = nodeMap[edge.from];
+                const to = nodeMap[edge.to];
+                if (!from || !to) return null;
+                const startX = from.x + 140;
+                const startY = from.y + 92;
+                const endX = to.x + 140;
+                const endY = to.y;
+                const middleY = (startY + endY) / 2;
+                return (
+                  <g key={`${edge.from}-${edge.to}`}>
+                    <path
+                      d={`M ${startX} ${startY} C ${startX} ${middleY}, ${endX} ${middleY}, ${endX} ${endY}`}
+                      stroke="#25D366"
+                      strokeOpacity="0.55"
+                      strokeWidth="2"
+                      fill="none"
+                      markerEnd="url(#arrow)"
+                    />
+                    {edge.label ? (
+                      <text x={(startX + endX) / 2} y={middleY - 8} fill="#a3e635" fontSize="11" textAnchor="middle">
+                        {edge.label}
+                      </text>
+                    ) : null}
+                  </g>
+                );
+              })}
+            </svg>
+
+            {nodes.map((node) => {
+              const meta = NODE_META[node.kind];
+              const Icon = meta.icon;
+              const selected = selectedId === node.id;
+              return (
+                <div
+                  key={node.id}
+                  onPointerDown={(event) => handlePointerDown(event, node)}
+                  className="absolute w-[280px] cursor-grab select-none rounded-2xl border p-3 shadow-lg transition-transform active:cursor-grabbing"
+                  style={{
+                    left: node.x,
+                    top: node.y,
+                    borderColor: selected ? meta.tone : "rgba(255,255,255,0.08)",
+                    background: `linear-gradient(180deg, ${meta.bg}, rgba(15,20,27,0.96))`,
+                    boxShadow: selected ? `0 0 0 1px ${meta.tone}, 0 16px 40px -18px ${meta.tone}` : "0 16px 40px -24px rgba(0,0,0,0.8)",
+                  }}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl" style={{ backgroundColor: meta.bg }}>
+                      <Icon className="h-4 w-4" style={{ color: meta.tone }} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="truncate text-sm font-semibold">{node.title}</div>
+                        <Grip className="h-3.5 w-3.5 text-slate-500" />
+                      </div>
+                      <div className="mt-1 text-[10px] uppercase tracking-[0.18em]" style={{ color: meta.tone }}>
+                        {meta.label}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-3 text-xs leading-5 text-slate-300">{node.body}</div>
+                  {node.options?.length ? (
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {node.options.map((option) => (
+                        <span key={option} className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[10px] text-slate-300">
+                          {option}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                  {node.crmField ? <div className="mt-3 text-[11px] text-emerald-300">CRM → {node.crmField}</div> : null}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </Card>
+
+      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-[260px_minmax(0,1fr)_320px]">
         <div className="space-y-4">
           <Card>
             <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
               <Plus className="h-4 w-4 text-[#25D366]" /> Node Library
             </div>
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-1">
+            <div className="grid grid-cols-2 gap-2">
               {(Object.keys(NODE_META) as NodeKind[]).map((kind) => {
                 const meta = NODE_META[kind];
                 const Icon = meta.icon;
@@ -285,244 +394,131 @@ function BotFlowPage() {
           </Card>
         </div>
 
-        <Card className="overflow-hidden !p-0">
-          <div className="flex items-center justify-between border-b border-white/5 bg-white/[0.02] px-4 py-3">
-            <div>
-              <div className="flex items-center gap-2 text-sm font-semibold">
-                <GitBranch className="h-4 w-4 text-[#25D366]" /> Visual Bot Flow Tree
-              </div>
-              <div className="mt-1 text-xs text-slate-400">Canvas كبير مع Nodes مربوطة بخطوط ويمكن تحريكها بالسحب.</div>
-            </div>
-            <Badge tone="green">{nodes.length} Nodes</Badge>
+        <Card>
+          <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
+            <MessageSquare className="h-4 w-4 text-[#25D366]" /> Node Editor
           </div>
-
-          <div
-            ref={canvasRef}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            onPointerLeave={handlePointerUp}
-            dir="ltr"
-            className="relative overflow-auto bg-[#070a0e]"
-            style={{
-              height: "76vh",
-              backgroundImage: "radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px)",
-              backgroundSize: "22px 22px",
-            }}
-          >
-            <div className="relative min-w-[1320px]" style={{ height: canvasHeight }}>
-              <svg className="absolute inset-0" width="1320" height={canvasHeight}>
-                <defs>
-                  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                    <path d="M0 0 L10 5 L0 10 Z" fill="#25D366" />
-                  </marker>
-                </defs>
-                {edges.map((edge) => {
-                  const from = nodeMap[edge.from];
-                  const to = nodeMap[edge.to];
-                  if (!from || !to) return null;
-
-                  const startX = from.x + 140;
-                  const startY = from.y + 92;
-                  const endX = to.x + 140;
-                  const endY = to.y;
-                  const middleY = (startY + endY) / 2;
-
-                  return (
-                    <g key={`${edge.from}-${edge.to}`}>
-                      <path
-                        d={`M ${startX} ${startY} C ${startX} ${middleY}, ${endX} ${middleY}, ${endX} ${endY}`}
-                        stroke="#25D366"
-                        strokeOpacity="0.55"
-                        strokeWidth="2"
-                        fill="none"
-                        markerEnd="url(#arrow)"
-                      />
-                      {edge.label ? (
-                        <text x={(startX + endX) / 2} y={middleY - 8} fill="#a3e635" fontSize="11" textAnchor="middle">
-                          {edge.label}
-                        </text>
-                      ) : null}
-                    </g>
-                  );
-                })}
-              </svg>
-
-              {nodes.map((node) => {
-                const meta = NODE_META[node.kind];
-                const Icon = meta.icon;
-                const selected = selectedId === node.id;
-
-                return (
-                  <div
-                    key={node.id}
-                    onPointerDown={(event) => handlePointerDown(event, node)}
-                    className="absolute w-[280px] cursor-grab select-none rounded-2xl border p-3 shadow-lg transition-transform active:cursor-grabbing"
-                    style={{
-                      left: node.x,
-                      top: node.y,
-                      borderColor: selected ? meta.tone : "rgba(255,255,255,0.08)",
-                      background: `linear-gradient(180deg, ${meta.bg}, rgba(15,20,27,0.96))`,
-                      boxShadow: selected ? `0 0 0 1px ${meta.tone}, 0 16px 40px -18px ${meta.tone}` : "0 16px 40px -24px rgba(0,0,0,0.8)",
-                    }}
+          {selectedNode ? (
+            <div className="space-y-3">
+              <div>
+                <label className="mb-1 block text-[11px] text-slate-400">العنوان</label>
+                <input
+                  value={selectedNode.title}
+                  onChange={(event) => updateNode({ title: event.target.value })}
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-[11px] text-slate-400">المحتوى</label>
+                <textarea
+                  value={selectedNode.body}
+                  onChange={(event) => updateNode({ body: event.target.value })}
+                  rows={4}
+                  className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-[11px] text-slate-400">الخيارات</label>
+                <input
+                  value={(selectedNode.options ?? []).join("، ")}
+                  onChange={(event) =>
+                    updateNode({
+                      options: event.target.value.split(/[،,]/).map((item) => item.trim()).filter(Boolean),
+                    })
+                  }
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none"
+                />
+              </div>
+              <div>
+                <label className="mb-2 block text-[11px] text-slate-400">ربط CRM</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={() => updateNode({ crmField: undefined })}
+                    className={`rounded-xl border px-3 py-2 text-xs transition ${
+                      !selectedNode.crmField
+                        ? "border-[#25D366]/40 bg-[#25D366]/10 text-[#25D366]"
+                        : "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
+                    }`}
                   >
-                    <div className="flex items-start gap-3">
-                      <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl" style={{ backgroundColor: meta.bg }}>
-                        <Icon className="h-4 w-4" style={{ color: meta.tone }} />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center justify-between gap-2">
-                          <div className="truncate text-sm font-semibold">{node.title}</div>
-                          <Grip className="h-3.5 w-3.5 text-slate-500" />
-                        </div>
-                        <div className="mt-1 text-[10px] uppercase tracking-[0.18em]" style={{ color: meta.tone }}>
-                          {meta.label}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-3 text-xs leading-5 text-slate-300">{node.body}</div>
-                    {node.options?.length ? (
-                      <div className="mt-3 flex flex-wrap gap-1.5">
-                        {node.options.map((option) => (
-                          <span key={option} className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[10px] text-slate-300">
-                            {option}
-                          </span>
-                        ))}
-                      </div>
-                    ) : null}
-                    {node.crmField ? <div className="mt-3 text-[11px] text-emerald-300">CRM → {node.crmField}</div> : null}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </Card>
-
-        <div className="space-y-4">
-          <Card className="!p-0 overflow-hidden">
-            <div className="flex items-center justify-between bg-[#075E54] px-3 py-2 text-white">
-              <div className="flex items-center gap-2">
-                <div className="grid h-8 w-8 place-items-center rounded-full bg-white/15">
-                  <Bot className="h-4 w-4" />
-                </div>
-                <div>
-                  <div className="text-xs font-semibold">WhatsApp Preview</div>
-                  <div className="text-[10px] text-emerald-100">LeadFlow Bot</div>
-                </div>
-              </div>
-              <Phone className="h-4 w-4 opacity-75" />
-            </div>
-            <div className="space-y-2 bg-[#0b141a] p-3">
-              <div className="max-w-[88%] rounded-2xl rounded-tr-md bg-[#202c33] px-3 py-2 text-xs text-slate-100">
-                أهلاً بك 👋 اختر اللغة المناسبة
-              </div>
-              <div className="max-w-[88%] rounded-2xl rounded-tr-md bg-[#202c33] px-3 py-2 text-xs text-slate-100">
-                الخدمة المطلوبة؟
-                <div className="mt-2 flex flex-col gap-1 border-t border-white/10 pt-2">
-                  <button className="rounded-lg bg-[#2a3942] px-2 py-1 text-[11px] text-sky-300">شراء عقار</button>
-                  <button className="rounded-lg bg-[#2a3942] px-2 py-1 text-[11px] text-sky-300">إيجار</button>
-                  <button className="rounded-lg bg-[#2a3942] px-2 py-1 text-[11px] text-sky-300">تمويل</button>
-                </div>
-              </div>
-              <div className="mr-auto max-w-[80%] rounded-2xl rounded-tl-md bg-[#005c4b] px-3 py-2 text-xs text-white">
-                أريد شراء شقة في الرياض بميزانية 800 ألف
-              </div>
-              <div className="max-w-[88%] rounded-2xl rounded-tr-md bg-[#202c33] px-3 py-2 text-xs text-slate-100">
-                ممتاز، ما نوع العقار وعدد الغرف؟
-              </div>
-            </div>
-            <div className="flex items-center gap-2 border-t border-white/5 bg-[#1f2c33] p-2">
-              <input
-                disabled
-                value="Preview only"
-                className="flex-1 rounded-full bg-[#2a3942] px-3 py-2 text-xs text-slate-300 outline-none"
-                readOnly
-              />
-              <Send className="h-4 w-4 text-slate-400" />
-            </div>
-          </Card>
-
-          <Card>
-            <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
-              <MessageSquare className="h-4 w-4 text-[#25D366]" /> Node Editor
-            </div>
-            {selectedNode ? (
-              <div className="space-y-3">
-                <div>
-                  <label className="mb-1 block text-[11px] text-slate-400">العنوان</label>
-                  <input
-                    value={selectedNode.title}
-                    onChange={(event) => updateNode({ title: event.target.value })}
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block text-[11px] text-slate-400">المحتوى</label>
-                  <textarea
-                    value={selectedNode.body}
-                    onChange={(event) => updateNode({ body: event.target.value })}
-                    rows={4}
-                    className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block text-[11px] text-slate-400">الخيارات</label>
-                  <input
-                    value={(selectedNode.options ?? []).join("، ")}
-                    onChange={(event) =>
-                      updateNode({
-                        options: event.target.value.split(/[،,]/).map((item) => item.trim()).filter(Boolean),
-                      })
-                    }
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="mb-2 block text-[11px] text-slate-400">ربط CRM</label>
-                  <div className="grid grid-cols-2 gap-2">
+                    بدون ربط
+                  </button>
+                  {CRM_MAPPING.map(([, value]) => (
                     <button
-                      onClick={() => updateNode({ crmField: undefined })}
+                      key={value}
+                      onClick={() => updateNode({ crmField: value })}
                       className={`rounded-xl border px-3 py-2 text-xs transition ${
-                        !selectedNode.crmField
+                        selectedNode.crmField === value
                           ? "border-[#25D366]/40 bg-[#25D366]/10 text-[#25D366]"
                           : "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
                       }`}
                     >
-                      بدون ربط
+                      {value}
                     </button>
-                    {CRM_MAPPING.map(([, value]) => (
-                      <button
-                        key={value}
-                        onClick={() => updateNode({ crmField: value })}
-                        className={`rounded-xl border px-3 py-2 text-xs transition ${
-                          selectedNode.crmField === value
-                            ? "border-[#25D366]/40 bg-[#25D366]/10 text-[#25D366]"
-                            : "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
-                        }`}
-                      >
-                        {value}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  <div className="rounded-xl border border-cyan-500/20 bg-cyan-500/5 p-3">
-                    <div className="flex items-center gap-2 font-medium text-cyan-300">
-                      <Brain className="h-3.5 w-3.5" /> AI Takeover
-                    </div>
-                    <div className="mt-1 text-slate-400">يتدخل عند الخروج عن الفلو.</div>
-                  </div>
-                  <div className="rounded-xl border border-sky-500/20 bg-sky-500/5 p-3">
-                    <div className="flex items-center gap-2 font-medium text-sky-300">
-                      <ArrowLeftRight className="h-3.5 w-3.5" /> Handover
-                    </div>
-                    <div className="mt-1 text-slate-400">تحويل مباشر لموظف.</div>
-                  </div>
+                  ))}
                 </div>
               </div>
-            ) : null}
-          </Card>
-        </div>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="rounded-xl border border-cyan-500/20 bg-cyan-500/5 p-3">
+                  <div className="flex items-center gap-2 font-medium text-cyan-300">
+                    <Brain className="h-3.5 w-3.5" /> AI Takeover
+                  </div>
+                  <div className="mt-1 text-slate-400">يتدخل عند الخروج عن الفلو.</div>
+                </div>
+                <div className="rounded-xl border border-sky-500/20 bg-sky-500/5 p-3">
+                  <div className="flex items-center gap-2 font-medium text-sky-300">
+                    <ArrowLeftRight className="h-3.5 w-3.5" /> Handover
+                  </div>
+                  <div className="mt-1 text-slate-400">تحويل مباشر لموظف.</div>
+                </div>
+              </div>
+            </div>
+          ) : null}
+        </Card>
+
+        <Card className="!p-0 overflow-hidden">
+          <div className="flex items-center justify-between bg-[#075E54] px-3 py-2 text-white">
+            <div className="flex items-center gap-2">
+              <div className="grid h-8 w-8 place-items-center rounded-full bg-white/15">
+                <Bot className="h-4 w-4" />
+              </div>
+              <div>
+                <div className="text-xs font-semibold">WhatsApp Preview</div>
+                <div className="text-[10px] text-emerald-100">LeadFlow Bot</div>
+              </div>
+            </div>
+            <Phone className="h-4 w-4 opacity-75" />
+          </div>
+          <div className="space-y-2 bg-[#0b141a] p-3">
+            <div className="max-w-[88%] rounded-2xl rounded-tr-md bg-[#202c33] px-3 py-2 text-xs text-slate-100">
+              أهلاً بك 👋 اختر اللغة المناسبة
+            </div>
+            <div className="max-w-[88%] rounded-2xl rounded-tr-md bg-[#202c33] px-3 py-2 text-xs text-slate-100">
+              الخدمة المطلوبة؟
+              <div className="mt-2 flex flex-col gap-1 border-t border-white/10 pt-2">
+                <button className="rounded-lg bg-[#2a3942] px-2 py-1 text-[11px] text-sky-300">شراء عقار</button>
+                <button className="rounded-lg bg-[#2a3942] px-2 py-1 text-[11px] text-sky-300">إيجار</button>
+                <button className="rounded-lg bg-[#2a3942] px-2 py-1 text-[11px] text-sky-300">تمويل</button>
+              </div>
+            </div>
+            <div className="mr-auto max-w-[80%] rounded-2xl rounded-tl-md bg-[#005c4b] px-3 py-2 text-xs text-white">
+              أريد شراء شقة في الرياض بميزانية 800 ألف
+            </div>
+            <div className="max-w-[88%] rounded-2xl rounded-tr-md bg-[#202c33] px-3 py-2 text-xs text-slate-100">
+              ممتاز، ما نوع العقار وعدد الغرف؟
+            </div>
+          </div>
+          <div className="flex items-center gap-2 border-t border-white/5 bg-[#1f2c33] p-2">
+            <input
+              disabled
+              value="Preview only"
+              className="flex-1 rounded-full bg-[#2a3942] px-3 py-2 text-xs text-slate-300 outline-none"
+              readOnly
+            />
+            <Send className="h-4 w-4 text-slate-400" />
+          </div>
+        </Card>
       </div>
+
 
       <div className="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-[1.1fr_0.9fr]">
         <Card>
