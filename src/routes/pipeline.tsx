@@ -1,7 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import AppShell, { Card, Stat, Badge } from "@/components/app/AppShell";
-import { LEADS, PIPELINE_STAGES } from "@/lib/demo-data";
-import { TrendingUp } from "lucide-react";
+import { LEADS, PIPELINE_STAGES, CONVERSATIONS, PIPELINE } from "@/lib/demo-data";
+import { useInboxStore } from "@/lib/inbox-store";
+import { TrendingUp, MessageCircle } from "lucide-react";
 
 export const Route = createFileRoute("/pipeline")({
   head: () => ({ meta: [{ title: "Sales Pipeline — LeadFlow" }, { name: "description", content: "خط مبيعات كانبان مرئي." }] }),
@@ -15,15 +16,50 @@ const STAGE_COLORS: Record<string, string> = {
 
 function PipelinePage() {
   const total = LEADS.reduce((s, l) => s + l.value, 0);
+  const store = useInboxStore();
 
   return (
-    <AppShell title="Sales Pipeline" subtitle="خط المبيعات الذكي — Kanban">
+    <AppShell title="Sales Pipeline" subtitle="خط المبيعات الذكي — Kanban (مزامنة حيّة مع Inbox)">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <Stat label="إجمالي الـ Pipeline" value={`${(total / 1000).toFixed(0)}k`} delta="ر.س" />
         <Stat label="معدل التحويل" value="24.6%" delta="+3.1% MoM" accent="#34d399" />
         <Stat label="متوسط قيمة الصفقة" value="38.4k" delta="ر.س" accent="#60a5fa" />
         <Stat label="صفقات تحتاج متابعة" value="9" delta="عاجلة" accent="#f59e0b" />
       </div>
+
+      <Card className="mb-6 border-[#25D366]/20 bg-gradient-to-br from-[#25D366]/[0.04] to-transparent">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <MessageCircle className="h-4 w-4 text-[#25D366]" />
+            <div>
+              <h3 className="text-sm font-semibold">محادثات Inbox — مزامنة حيّة</h3>
+              <p className="text-[11px] text-slate-500">يتم تحديث المراحل تلقائياً عند تغييرها من Inbox</p>
+            </div>
+          </div>
+          <Link to="/inbox" className="text-xs text-[#25D366] hover:underline">فتح Inbox ←</Link>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-2">
+          {PIPELINE.map(stage => {
+            const items = CONVERSATIONS.filter(c => (store.stages[c.id] ?? c.stage) === stage);
+            return (
+              <div key={stage} className="rounded-xl bg-[#0a0d12] border border-white/5 p-2 min-h-[160px]">
+                <div className="text-[11px] font-medium mb-1">{stage}</div>
+                <div className="text-[10px] text-slate-500 mb-2">{items.length} عميل</div>
+                <div className="space-y-1.5">
+                  {items.map(c => (
+                    <Link to="/inbox" key={c.id} className="block rounded-lg bg-white/[0.04] border border-white/5 p-2 hover:border-[#25D366]/30">
+                      <div className="text-[11px] font-medium truncate">{c.name}</div>
+                      <div className="text-[10px] text-slate-500 mt-0.5">{c.value.toLocaleString()} ر.س</div>
+                    </Link>
+                  ))}
+                  {items.length === 0 && <div className="text-[10px] text-slate-600 text-center py-2">—</div>}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
 
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
         {PIPELINE_STAGES.map(stage => {
