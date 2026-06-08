@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  Users, GitBranch, Brain, Sparkles, Inbox, Megaphone, Home, Search, Bell,
+  Users, GitBranch, Brain, Sparkles, Inbox, Megaphone, Home, Search, Bell, Zap,
 } from "lucide-react";
 
 const NAV = [
@@ -11,6 +11,7 @@ const NAV = [
   { to: "/ai-intelligence", label: "AI Lead Intelligence", icon: Brain },
   { to: "/ai-summary", label: "AI Summary", icon: Sparkles },
   { to: "/inbox", label: "Team Inbox", icon: Inbox },
+  { to: "/automations", label: "AI Automations", icon: Zap },
   { to: "/campaigns", label: "AI Campaign Builder", icon: Megaphone },
 ];
 
