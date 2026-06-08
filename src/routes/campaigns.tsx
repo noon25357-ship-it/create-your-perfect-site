@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import AppShell, { Card, Stat, Badge } from "@/components/app/AppShell";
 import {
   Megaphone, Plus, FileText, Image as ImageIcon, Video, FileType2, Users, Send,
-  Calendar, BarChart3, CheckCircle2, Eye, MousePointerClick, MessageSquare, Trophy,
+  Calendar, BarChart3, Eye, MousePointerClick, Trophy,
   Library, Layers, Smartphone, ChevronLeft, Inbox, Ticket, Flame, GitBranch,
   Sparkles, Filter, Tag, Building2, Stethoscope, Utensils, MapPin,
 } from "lucide-react";
