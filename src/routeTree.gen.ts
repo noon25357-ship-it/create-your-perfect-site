@@ -82,7 +82,6 @@ export interface FileRoutesByFullPath {
   '/ai-intelligence': typeof AiIntelligenceRoute
   '/ai-summary': typeof AiSummaryRoute
   '/automations': typeof AutomationsRoute
-  '/bot-flow': typeof BotFlowRoute
   '/campaigns': typeof CampaignsRoute
   '/crm': typeof CrmRoute
   '/executive-dashboard': typeof ExecutiveDashboardRoute
@@ -96,7 +95,6 @@ export interface FileRoutesByTo {
   '/ai-intelligence': typeof AiIntelligenceRoute
   '/ai-summary': typeof AiSummaryRoute
   '/automations': typeof AutomationsRoute
-  '/bot-flow': typeof BotFlowRoute
   '/campaigns': typeof CampaignsRoute
   '/crm': typeof CrmRoute
   '/executive-dashboard': typeof ExecutiveDashboardRoute
@@ -111,6 +109,7 @@ export interface FileRoutesById {
   '/ai-intelligence': typeof AiIntelligenceRoute
   '/ai-summary': typeof AiSummaryRoute
   '/automations': typeof AutomationsRoute
+  '/bot-flow': typeof BotFlowRoute
   '/campaigns': typeof CampaignsRoute
   '/crm': typeof CrmRoute
   '/executive-dashboard': typeof ExecutiveDashboardRoute
