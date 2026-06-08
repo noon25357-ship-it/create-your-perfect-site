@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import AppShell, { Card, Stat, Badge } from "@/components/app/AppShell";
 import { LEADS, CONTACTS } from "@/lib/demo-data";
+import { useInboxStore } from "@/lib/inbox-store";
 import { useMemo, useState } from "react";
 import { Filter, Plus, Phone, MessageCircle, Sparkles, Target, Zap } from "lucide-react";
 
@@ -10,6 +11,7 @@ export const Route = createFileRoute("/crm")({
 });
 
 function CRMPage() {
+  const store = useInboxStore();
   const [q, setQ] = useState("");
   const [stage, setStage] = useState<string>("all");
   const filtered = useMemo(
@@ -61,9 +63,11 @@ function CRMPage() {
                 </div>
                 <div className="flex flex-col items-end gap-1 shrink-0">
                   <Badge tone="blue">{c.source}</Badge>
+                  <Badge tone="green">{store.stages[c.conversationId] ?? c.stage}</Badge>
                   <span className="text-[10px] text-slate-500">{c.id}</span>
                 </div>
               </div>
+
 
               <div className="grid grid-cols-2 gap-2 mb-3">
                 <div className="rounded-lg bg-white/[0.03] border border-white/5 p-2">
