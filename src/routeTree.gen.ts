@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as InboxRouteImport } from './routes/inbox'
+import { Route as ExecutiveDashboardRouteImport } from './routes/executive-dashboard'
 import { Route as CrmRouteImport } from './routes/crm'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as AutomationsRouteImport } from './routes/automations'
@@ -26,6 +27,11 @@ const PipelineRoute = PipelineRouteImport.update({
 const InboxRoute = InboxRouteImport.update({
   id: '/inbox',
   path: '/inbox',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExecutiveDashboardRoute = ExecutiveDashboardRouteImport.update({
+  id: '/executive-dashboard',
+  path: '/executive-dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CrmRoute = CrmRouteImport.update({
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/automations': typeof AutomationsRoute
   '/campaigns': typeof CampaignsRoute
   '/crm': typeof CrmRoute
+  '/executive-dashboard': typeof ExecutiveDashboardRoute
   '/inbox': typeof InboxRoute
   '/pipeline': typeof PipelineRoute
 }
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/automations': typeof AutomationsRoute
   '/campaigns': typeof CampaignsRoute
   '/crm': typeof CrmRoute
+  '/executive-dashboard': typeof ExecutiveDashboardRoute
   '/inbox': typeof InboxRoute
   '/pipeline': typeof PipelineRoute
 }
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/automations': typeof AutomationsRoute
   '/campaigns': typeof CampaignsRoute
   '/crm': typeof CrmRoute
+  '/executive-dashboard': typeof ExecutiveDashboardRoute
   '/inbox': typeof InboxRoute
   '/pipeline': typeof PipelineRoute
 }
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/automations'
     | '/campaigns'
     | '/crm'
+    | '/executive-dashboard'
     | '/inbox'
     | '/pipeline'
   fileRoutesByTo: FileRoutesByTo
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/automations'
     | '/campaigns'
     | '/crm'
+    | '/executive-dashboard'
     | '/inbox'
     | '/pipeline'
   id:
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/automations'
     | '/campaigns'
     | '/crm'
+    | '/executive-dashboard'
     | '/inbox'
     | '/pipeline'
   fileRoutesById: FileRoutesById
@@ -130,6 +142,7 @@ export interface RootRouteChildren {
   AutomationsRoute: typeof AutomationsRoute
   CampaignsRoute: typeof CampaignsRoute
   CrmRoute: typeof CrmRoute
+  ExecutiveDashboardRoute: typeof ExecutiveDashboardRoute
   InboxRoute: typeof InboxRoute
   PipelineRoute: typeof PipelineRoute
 }
@@ -148,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/inbox'
       fullPath: '/inbox'
       preLoaderRoute: typeof InboxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/executive-dashboard': {
+      id: '/executive-dashboard'
+      path: '/executive-dashboard'
+      fullPath: '/executive-dashboard'
+      preLoaderRoute: typeof ExecutiveDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/crm': {
@@ -202,9 +222,20 @@ const rootRouteChildren: RootRouteChildren = {
   AutomationsRoute: AutomationsRoute,
   CampaignsRoute: CampaignsRoute,
   CrmRoute: CrmRoute,
+  ExecutiveDashboardRoute: ExecutiveDashboardRoute,
   InboxRoute: InboxRoute,
   PipelineRoute: PipelineRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
