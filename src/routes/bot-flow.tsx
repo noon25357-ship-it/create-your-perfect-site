@@ -194,12 +194,15 @@ function BotFlowPage() {
       }
     >
       {/* Analytics */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-        <Stat label="Completion Rate" value="68.4%" delta="+5.2% هذا الأسبوع" />
-        <Stat label="Drop-off Rate" value="17.6%" delta="نقطة التسرب: الميزانية" accent="#f59e0b" />
-        <Stat label="Handover Rate" value="11.8%" delta="142 محادثة محولة" accent="#38bdf8" />
-        <Stat label="Hot Leads" value="198" delta="من 1,240 محادثة" accent="#fb7185" />
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+        <Stat label="Started"          value="1,240" delta="+128 اليوم" />
+        <Stat label="Completed"        value="848"   delta="68.4% إكمال" accent="#34d399" />
+        <Stat label="Drop-off Rate"    value="17.6%" delta="نقطة التسرب: الميزانية" accent="#f59e0b" />
+        <Stat label="Handover Rate"    value="11.8%" delta="142 محادثة" accent="#38bdf8" />
+        <Stat label="Hot Leads"        value="198"   delta="من 1,240 محادثة" accent="#fb7185" />
+        <Stat label="Tickets Created"  value="167"   delta="حجوزات معاينة" accent="#a78bfa" />
       </div>
+
 
       {/* AI Generator */}
       <Card className="mt-4 sm:mt-6 border-[#25D366]/20 bg-gradient-to-br from-[#25D366]/5 to-transparent">
