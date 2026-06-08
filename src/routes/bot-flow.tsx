@@ -46,27 +46,57 @@ const KIND_META: Record<NodeKind, { label: string; icon: any; color: string; bg:
   end:      { label: "نهاية",        icon: X,           color: "#94a3b8", bg: "rgba(148,163,184,0.12)" },
 };
 
-/* ---------------- Default flow ---------------- */
+/* ---------------- Default tree (branching) ---------------- */
+const COL = { c: 920, l1: 480, l2: 1360, l3: 60, l4: 1780 } as const;
+
 const DEFAULT_NODES: FlowNode[] = [
-  { id: "n1", kind: "start",     title: "بدء المحادثة", body: "أول رسالة من العميل على واتساب", x: 60,  y: 40 },
-  { id: "n2", kind: "message",   title: "ترحيب",        body: "أهلاً بك في عقارات اللؤلؤة 🏡 كيف أقدر أساعدك؟", x: 60,  y: 170 },
-  { id: "n3", kind: "question",  title: "اللغة",        body: "اختر اللغة المفضلة", options: ["العربية", "English"], x: 60, y: 300 },
-  { id: "n4", kind: "question",  title: "نوع العقار",   body: "ما نوع العقار الذي تبحث عنه؟", options: ["شقة", "فيلا", "أرض"], crmField: "Property Type", x: 60, y: 440 },
-  { id: "n5", kind: "collect",   title: "الميزانية",    body: "كم ميزانيتك التقريبية؟", crmField: "Budget", x: 60, y: 590 },
-  { id: "n6", kind: "collect",   title: "المدينة",      body: "في أي مدينة تبحث؟", crmField: "Location", x: 60, y: 730 },
-  { id: "n7", kind: "condition", title: "ميزانية > 1M؟", body: "If Budget > 1,000,000 SAR → Hot Lead", x: 60, y: 870 },
-  { id: "n8", kind: "ai",        title: "AI Takeover",  body: "إذا خرج العميل عن الفلو يتدخل الذكاء الاصطناعي", x: 60, y: 1010 },
-  { id: "n9", kind: "handover",  title: "تحويل لموظف",  body: "إرسال المحادثة لمستشار العقار", x: 60, y: 1150 },
-  { id: "n10", kind: "ticket",   title: "إنشاء تذكرة",  body: "تذكرة معاينة + إشعار الفريق", x: 60, y: 1290 },
-  { id: "n11", kind: "crm",      title: "تحديث CRM",    body: "حفظ بيانات العميل + Lead Score", x: 60, y: 1430 },
-  { id: "n12", kind: "end",      title: "نهاية المحادثة", body: "شكراً لتواصلك معنا 🌟", x: 60, y: 1570 },
+  // Spine
+  { id: "n1",  kind: "start",    title: "بدء المحادثة", body: "أول رسالة من العميل على واتساب", x: COL.c, y: 20 },
+  { id: "n2",  kind: "message",  title: "ترحيب",        body: "أهلاً بك في عقارات اللؤلؤة 🏡", x: COL.c, y: 150 },
+  { id: "n3",  kind: "question", title: "اختيار اللغة", body: "اختر اللغة المفضلة", options: ["العربية", "English"], x: COL.c, y: 280 },
+
+  // Arabic branch → Menu
+  { id: "n4",  kind: "message",  title: "اللغة: العربية", body: "تم اختيار العربية ✅", x: COL.l1, y: 430 },
+  { id: "n5",  kind: "question", title: "الخدمة المطلوبة", body: "كيف نقدر نخدمك؟",
+    options: ["شراء عقار", "استئجار عقار", "تمويل عقاري", "تواصل مع موظف"], x: COL.l1, y: 560 },
+
+  // English branch
+  { id: "n6",  kind: "message",  title: "Language: English", body: "Great! How can we help?", options: ["Buy", "Rent", "Finance", "Agent"], x: COL.l2, y: 430 },
+
+  // Buy flow (deep)
+  { id: "n7",  kind: "collect",  title: "المدينة",       body: "في أي مدينة تبحث؟",          crmField: "City",          x: COL.l3, y: 740 },
+  { id: "n8",  kind: "collect",  title: "الميزانية",     body: "كم ميزانيتك التقريبية؟",     crmField: "Budget",        x: COL.l3, y: 880 },
+  { id: "n9",  kind: "question", title: "نوع العقار",    body: "ما نوع العقار؟", options: ["شقة","فيلا","أرض"], crmField: "Property Type", x: COL.l3, y: 1020 },
+  { id: "n10", kind: "collect",  title: "عدد الغرف",     body: "كم عدد الغرف المطلوبة؟",     crmField: "Bedrooms",      x: COL.l3, y: 1160 },
+  { id: "n11", kind: "message",  title: "حجز معاينة",    body: "نرتب لك معاينة في أقرب وقت", x: COL.l3, y: 1300 },
+  { id: "n12", kind: "ticket",   title: "Create Ticket", body: "تذكرة معاينة + إشعار الفريق",x: COL.l3, y: 1440 },
+  { id: "n13", kind: "crm",      title: "Add to CRM",    body: "حفظ بيانات العميل + Lead Score", x: COL.l3, y: 1580 },
+  { id: "n14", kind: "end",      title: "End",           body: "شكراً لتواصلك معنا 🌟",      x: COL.l3, y: 1720 },
+
+  // Other arabic branches (short)
+  { id: "n15", kind: "message",  title: "استئجار عقار",  body: "تحويلك لقسم الإيجار",        x: COL.l1, y: 740 },
+  { id: "n16", kind: "message",  title: "تمويل عقاري",   body: "تحويلك لمستشار التمويل",     x: COL.l1, y: 880 },
+  { id: "n17", kind: "handover", title: "تواصل مع موظف", body: "إحالة فورية لمندوب",          x: COL.l1, y: 1020 },
+
+  // AI Takeover (rescue branch)
+  { id: "n18", kind: "ai",       title: "AI Takeover",   body: "إذا خرج العميل عن الخيارات يتدخل الذكاء ويفهم النية ويعيده للمسار الصحيح", x: COL.l4, y: 740 },
+  { id: "n19", kind: "handover", title: "Assign Agent",  body: "تعيين أفضل موظف بناءً على القسم", x: COL.l4, y: 880 },
 ];
 
 const DEFAULT_EDGES: Edge[] = [
-  { from: "n1", to: "n2" }, { from: "n2", to: "n3" }, { from: "n3", to: "n4" },
-  { from: "n4", to: "n5" }, { from: "n5", to: "n6" }, { from: "n6", to: "n7" },
-  { from: "n7", to: "n8" }, { from: "n8", to: "n9" }, { from: "n9", to: "n10" },
-  { from: "n10", to: "n11" }, { from: "n11", to: "n12" },
+  { from: "n1", to: "n2" }, { from: "n2", to: "n3" },
+  // language branches
+  { from: "n3", to: "n4" }, { from: "n3", to: "n6" },
+  // arabic menu
+  { from: "n4", to: "n5" },
+  // buy deep path
+  { from: "n5", to: "n7" }, { from: "n7", to: "n8" }, { from: "n8", to: "n9" },
+  { from: "n9", to: "n10" }, { from: "n10", to: "n11" }, { from: "n11", to: "n12" },
+  { from: "n12", to: "n13" }, { from: "n13", to: "n14" },
+  // other arabic branches
+  { from: "n5", to: "n15" }, { from: "n5", to: "n16" }, { from: "n5", to: "n17" },
+  // AI takeover
+  { from: "n3", to: "n18" }, { from: "n18", to: "n19" },
 ];
 
 /* ---------------- Templates ---------------- */
