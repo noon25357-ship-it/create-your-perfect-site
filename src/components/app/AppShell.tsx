@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  Users, GitBranch, Brain, Sparkles, Inbox, Megaphone, Home, Search, Bell, Zap, LayoutDashboard,
+  Users, GitBranch, Brain, Sparkles, Inbox, Megaphone, Home, Search, Bell, Zap, LayoutDashboard, Shield,
 } from "lucide-react";
 
 const NAV = [
@@ -14,6 +14,7 @@ const NAV = [
   { to: "/inbox", label: "Team Inbox", icon: Inbox },
   { to: "/automations", label: "AI Automations", icon: Zap },
   { to: "/campaigns", label: "AI Campaign Builder", icon: Megaphone },
+  { to: "/team", label: "Team & Settings", icon: Shield },
 ];
 
 export default function AppShell({
