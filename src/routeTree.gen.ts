@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PipelineRouteImport } from './routes/pipeline'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as ExecutiveDashboardRouteImport } from './routes/executive-dashboard'
 import { Route as CrmRouteImport } from './routes/crm'
@@ -22,6 +23,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const PipelineRoute = PipelineRouteImport.update({
   id: '/pipeline',
   path: '/pipeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InboxRoute = InboxRouteImport.update({
@@ -74,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/crm': typeof CrmRoute
   '/executive-dashboard': typeof ExecutiveDashboardRoute
   '/inbox': typeof InboxRoute
+  '/login': typeof LoginRoute
   '/pipeline': typeof PipelineRoute
 }
 export interface FileRoutesByTo {
@@ -85,6 +92,7 @@ export interface FileRoutesByTo {
   '/crm': typeof CrmRoute
   '/executive-dashboard': typeof ExecutiveDashboardRoute
   '/inbox': typeof InboxRoute
+  '/login': typeof LoginRoute
   '/pipeline': typeof PipelineRoute
 }
 export interface FileRoutesById {
@@ -97,6 +105,7 @@ export interface FileRoutesById {
   '/crm': typeof CrmRoute
   '/executive-dashboard': typeof ExecutiveDashboardRoute
   '/inbox': typeof InboxRoute
+  '/login': typeof LoginRoute
   '/pipeline': typeof PipelineRoute
 }
 export interface FileRouteTypes {
@@ -110,6 +119,7 @@ export interface FileRouteTypes {
     | '/crm'
     | '/executive-dashboard'
     | '/inbox'
+    | '/login'
     | '/pipeline'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
     | '/crm'
     | '/executive-dashboard'
     | '/inbox'
+    | '/login'
     | '/pipeline'
   id:
     | '__root__'
@@ -132,6 +143,7 @@ export interface FileRouteTypes {
     | '/crm'
     | '/executive-dashboard'
     | '/inbox'
+    | '/login'
     | '/pipeline'
   fileRoutesById: FileRoutesById
 }
@@ -144,6 +156,7 @@ export interface RootRouteChildren {
   CrmRoute: typeof CrmRoute
   ExecutiveDashboardRoute: typeof ExecutiveDashboardRoute
   InboxRoute: typeof InboxRoute
+  LoginRoute: typeof LoginRoute
   PipelineRoute: typeof PipelineRoute
 }
 
@@ -154,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/pipeline'
       fullPath: '/pipeline'
       preLoaderRoute: typeof PipelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/inbox': {
@@ -224,6 +244,7 @@ const rootRouteChildren: RootRouteChildren = {
   CrmRoute: CrmRoute,
   ExecutiveDashboardRoute: ExecutiveDashboardRoute,
   InboxRoute: InboxRoute,
+  LoginRoute: LoginRoute,
   PipelineRoute: PipelineRoute,
 }
 export const routeTree = rootRouteImport
