@@ -12,7 +12,7 @@ const NAV = [
   { to: "/ai-intelligence", label: "AI Lead Intelligence", icon: Brain },
   { to: "/ai-summary", label: "AI Summary", icon: Sparkles },
   { to: "/inbox", label: "Team Inbox", icon: Inbox },
-  { to: "/bot-flow", label: "Bot Flow", icon: Bot },
+  { to: "/bot-flow", label: "شجرة البوت", icon: Bot },
   { to: "/automations", label: "AI Automations", icon: Zap },
   { to: "/campaigns", label: "AI Campaign Builder", icon: Megaphone },
   { to: "/team", label: "Team & Settings", icon: Shield },

@@ -46,27 +46,57 @@ const KIND_META: Record<NodeKind, { label: string; icon: any; color: string; bg:
   end:      { label: "نهاية",        icon: X,           color: "#94a3b8", bg: "rgba(148,163,184,0.12)" },
 };
 
-/* ---------------- Default flow ---------------- */
+/* ---------------- Default tree (branching) ---------------- */
+const COL = { c: 920, l1: 480, l2: 1360, l3: 60, l4: 1780 } as const;
+
 const DEFAULT_NODES: FlowNode[] = [
-  { id: "n1", kind: "start",     title: "بدء المحادثة", body: "أول رسالة من العميل على واتساب", x: 60,  y: 40 },
-  { id: "n2", kind: "message",   title: "ترحيب",        body: "أهلاً بك في عقارات اللؤلؤة 🏡 كيف أقدر أساعدك؟", x: 60,  y: 170 },
-  { id: "n3", kind: "question",  title: "اللغة",        body: "اختر اللغة المفضلة", options: ["العربية", "English"], x: 60, y: 300 },
-  { id: "n4", kind: "question",  title: "نوع العقار",   body: "ما نوع العقار الذي تبحث عنه؟", options: ["شقة", "فيلا", "أرض"], crmField: "Property Type", x: 60, y: 440 },
-  { id: "n5", kind: "collect",   title: "الميزانية",    body: "كم ميزانيتك التقريبية؟", crmField: "Budget", x: 60, y: 590 },
-  { id: "n6", kind: "collect",   title: "المدينة",      body: "في أي مدينة تبحث؟", crmField: "Location", x: 60, y: 730 },
-  { id: "n7", kind: "condition", title: "ميزانية > 1M؟", body: "If Budget > 1,000,000 SAR → Hot Lead", x: 60, y: 870 },
-  { id: "n8", kind: "ai",        title: "AI Takeover",  body: "إذا خرج العميل عن الفلو يتدخل الذكاء الاصطناعي", x: 60, y: 1010 },
-  { id: "n9", kind: "handover",  title: "تحويل لموظف",  body: "إرسال المحادثة لمستشار العقار", x: 60, y: 1150 },
-  { id: "n10", kind: "ticket",   title: "إنشاء تذكرة",  body: "تذكرة معاينة + إشعار الفريق", x: 60, y: 1290 },
-  { id: "n11", kind: "crm",      title: "تحديث CRM",    body: "حفظ بيانات العميل + Lead Score", x: 60, y: 1430 },
-  { id: "n12", kind: "end",      title: "نهاية المحادثة", body: "شكراً لتواصلك معنا 🌟", x: 60, y: 1570 },
+  // Spine
+  { id: "n1",  kind: "start",    title: "بدء المحادثة", body: "أول رسالة من العميل على واتساب", x: COL.c, y: 20 },
+  { id: "n2",  kind: "message",  title: "ترحيب",        body: "أهلاً بك في عقارات اللؤلؤة 🏡", x: COL.c, y: 150 },
+  { id: "n3",  kind: "question", title: "اختيار اللغة", body: "اختر اللغة المفضلة", options: ["العربية", "English"], x: COL.c, y: 280 },
+
+  // Arabic branch → Menu
+  { id: "n4",  kind: "message",  title: "اللغة: العربية", body: "تم اختيار العربية ✅", x: COL.l1, y: 430 },
+  { id: "n5",  kind: "question", title: "الخدمة المطلوبة", body: "كيف نقدر نخدمك؟",
+    options: ["شراء عقار", "استئجار عقار", "تمويل عقاري", "تواصل مع موظف"], x: COL.l1, y: 560 },
+
+  // English branch
+  { id: "n6",  kind: "message",  title: "Language: English", body: "Great! How can we help?", options: ["Buy", "Rent", "Finance", "Agent"], x: COL.l2, y: 430 },
+
+  // Buy flow (deep)
+  { id: "n7",  kind: "collect",  title: "المدينة",       body: "في أي مدينة تبحث؟",          crmField: "City",          x: COL.l3, y: 740 },
+  { id: "n8",  kind: "collect",  title: "الميزانية",     body: "كم ميزانيتك التقريبية؟",     crmField: "Budget",        x: COL.l3, y: 880 },
+  { id: "n9",  kind: "question", title: "نوع العقار",    body: "ما نوع العقار؟", options: ["شقة","فيلا","أرض"], crmField: "Property Type", x: COL.l3, y: 1020 },
+  { id: "n10", kind: "collect",  title: "عدد الغرف",     body: "كم عدد الغرف المطلوبة؟",     crmField: "Bedrooms",      x: COL.l3, y: 1160 },
+  { id: "n11", kind: "message",  title: "حجز معاينة",    body: "نرتب لك معاينة في أقرب وقت", x: COL.l3, y: 1300 },
+  { id: "n12", kind: "ticket",   title: "Create Ticket", body: "تذكرة معاينة + إشعار الفريق",x: COL.l3, y: 1440 },
+  { id: "n13", kind: "crm",      title: "Add to CRM",    body: "حفظ بيانات العميل + Lead Score", x: COL.l3, y: 1580 },
+  { id: "n14", kind: "end",      title: "End",           body: "شكراً لتواصلك معنا 🌟",      x: COL.l3, y: 1720 },
+
+  // Other arabic branches (short)
+  { id: "n15", kind: "message",  title: "استئجار عقار",  body: "تحويلك لقسم الإيجار",        x: COL.l1, y: 740 },
+  { id: "n16", kind: "message",  title: "تمويل عقاري",   body: "تحويلك لمستشار التمويل",     x: COL.l1, y: 880 },
+  { id: "n17", kind: "handover", title: "تواصل مع موظف", body: "إحالة فورية لمندوب",          x: COL.l1, y: 1020 },
+
+  // AI Takeover (rescue branch)
+  { id: "n18", kind: "ai",       title: "AI Takeover",   body: "إذا خرج العميل عن الخيارات يتدخل الذكاء ويفهم النية ويعيده للمسار الصحيح", x: COL.l4, y: 740 },
+  { id: "n19", kind: "handover", title: "Assign Agent",  body: "تعيين أفضل موظف بناءً على القسم", x: COL.l4, y: 880 },
 ];
 
 const DEFAULT_EDGES: Edge[] = [
-  { from: "n1", to: "n2" }, { from: "n2", to: "n3" }, { from: "n3", to: "n4" },
-  { from: "n4", to: "n5" }, { from: "n5", to: "n6" }, { from: "n6", to: "n7" },
-  { from: "n7", to: "n8" }, { from: "n8", to: "n9" }, { from: "n9", to: "n10" },
-  { from: "n10", to: "n11" }, { from: "n11", to: "n12" },
+  { from: "n1", to: "n2" }, { from: "n2", to: "n3" },
+  // language branches
+  { from: "n3", to: "n4" }, { from: "n3", to: "n6" },
+  // arabic menu
+  { from: "n4", to: "n5" },
+  // buy deep path
+  { from: "n5", to: "n7" }, { from: "n7", to: "n8" }, { from: "n8", to: "n9" },
+  { from: "n9", to: "n10" }, { from: "n10", to: "n11" }, { from: "n11", to: "n12" },
+  { from: "n12", to: "n13" }, { from: "n13", to: "n14" },
+  // other arabic branches
+  { from: "n5", to: "n15" }, { from: "n5", to: "n16" }, { from: "n5", to: "n17" },
+  // AI takeover
+  { from: "n3", to: "n18" }, { from: "n18", to: "n19" },
 ];
 
 /* ---------------- Templates ---------------- */
@@ -80,7 +110,30 @@ const TEMPLATES = [
   { id: "mortgage",    name: "تمويل عقاري",   icon: Landmark,    tone: "green" as const,  desc: "دخل • التزامات • نوع التمويل" },
 ];
 
-const CRM_FIELDS = ["Budget", "Location", "Property Type", "Phone", "Name", "Email", "Lead Score", "Source"];
+const CRM_FIELDS = ["City", "Budget", "Property Type", "Bedrooms", "Payment Method", "Phone", "Name", "Email", "Lead Score", "Source"];
+
+const CONTACT_GROUPS = [
+  { name: "Hot Leads",        count: 198, updated: "قبل 5 د",  tone: "red" as const },
+  { name: "Warm Leads",       count: 412, updated: "قبل 12 د", tone: "yellow" as const },
+  { name: "Cold Leads",       count: 1180, updated: "اليوم",    tone: "blue" as const },
+  { name: "الرياض",            count: 624, updated: "اليوم",    tone: "green" as const },
+  { name: "جدة",               count: 318, updated: "اليوم",    tone: "green" as const },
+  { name: "الخبر",             count: 142, updated: "أمس",      tone: "green" as const },
+  { name: "مهتم بالشراء",      count: 488, updated: "قبل ساعة", tone: "purple" as const },
+  { name: "مهتم بالإيجار",     count: 256, updated: "قبل ساعة", tone: "purple" as const },
+  { name: "يحتاج تمويل",       count: 174, updated: "اليوم",    tone: "blue" as const },
+  { name: "حجز معاينة",        count: 96,  updated: "قبل 30 د", tone: "red" as const },
+  { name: "لم يرد",            count: 320, updated: "قبل ساعتين",tone: "default" as const },
+  { name: "يحتاج متابعة",      count: 215, updated: "اليوم",    tone: "yellow" as const },
+];
+
+const SMART_SEGMENTS = [
+  { name: "Lead Score > 80",        match: 198, rule: "score > 80" },
+  { name: "Budget > 800,000",       match: 142, rule: "budget > 800000" },
+  { name: "City = Riyadh",          match: 624, rule: "city == 'Riyadh'" },
+  { name: "Stage = Meeting Scheduled", match: 96, rule: "stage == 'meeting'" },
+  { name: "Source = Instagram",     match: 312, rule: "source == 'instagram'" },
+];
 
 /* ---------------- Page ---------------- */
 function BotFlowPage() {
@@ -164,12 +217,15 @@ function BotFlowPage() {
       }
     >
       {/* Analytics */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-        <Stat label="Completion Rate" value="68.4%" delta="+5.2% هذا الأسبوع" />
-        <Stat label="Drop-off Rate" value="17.6%" delta="نقطة التسرب: الميزانية" accent="#f59e0b" />
-        <Stat label="Handover Rate" value="11.8%" delta="142 محادثة محولة" accent="#38bdf8" />
-        <Stat label="Hot Leads" value="198" delta="من 1,240 محادثة" accent="#fb7185" />
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+        <Stat label="Started"          value="1,240" delta="+128 اليوم" />
+        <Stat label="Completed"        value="848"   delta="68.4% إكمال" accent="#34d399" />
+        <Stat label="Drop-off Rate"    value="17.6%" delta="نقطة التسرب: الميزانية" accent="#f59e0b" />
+        <Stat label="Handover Rate"    value="11.8%" delta="142 محادثة" accent="#38bdf8" />
+        <Stat label="Hot Leads"        value="198"   delta="من 1,240 محادثة" accent="#fb7185" />
+        <Stat label="Tickets Created"  value="167"   delta="حجوزات معاينة" accent="#a78bfa" />
       </div>
+
 
       {/* AI Generator */}
       <Card className="mt-4 sm:mt-6 border-[#25D366]/20 bg-gradient-to-br from-[#25D366]/5 to-transparent">
@@ -255,9 +311,9 @@ function BotFlowPage() {
               backgroundSize: "20px 20px",
             }}
           >
-            <div className="relative" style={{ width: 600, height: canvasH }}>
+            <div className="relative" style={{ width: 2100, height: canvasH }}>
               {/* Edges */}
-              <svg className="absolute inset-0 pointer-events-none" width="100%" height={canvasH}>
+              <svg className="absolute inset-0 pointer-events-none" width="2100" height={canvasH}>
                 <defs>
                   <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
                     <path d="M0,0 L10,5 L0,10 z" fill="#25D366" />
@@ -398,6 +454,21 @@ function BotFlowPage() {
                     {CRM_FIELDS.map(f => <option key={f} value={f}>{f}</option>)}
                   </select>
                 </div>
+                <div className="rounded-lg border border-white/5 bg-white/[0.02] p-2 space-y-1.5">
+                  <div className="text-[10px] text-slate-400 mb-1">إجراءات إضافية</div>
+                  {[
+                    { k: "tag",     label: "إضافة Tag للعميل" },
+                    { k: "ticket",  label: "فتح تذكرة" },
+                    { k: "crm",     label: "حفظ في CRM" },
+                    { k: "human",   label: "تحويل لموظف" },
+                    { k: "ai",      label: "تشغيل AI Takeover" },
+                  ].map(t => (
+                    <label key={t.k} className="flex items-center justify-between text-[11px] text-slate-300 cursor-pointer">
+                      <span>{t.label}</span>
+                      <input type="checkbox" defaultChecked={t.k === "crm"} className="accent-[#25D366]" />
+                    </label>
+                  ))}
+                </div>
                 <button onClick={() => toast.success("تم حفظ التعديلات")}
                   className="w-full rounded-lg bg-[#25D366] text-black py-1.5 text-xs font-medium hover:brightness-110 flex items-center justify-center gap-1.5">
                   <Save className="h-3.5 w-3.5" /> حفظ
@@ -405,6 +476,7 @@ function BotFlowPage() {
               </div>
             )}
           </Card>
+
         </div>
       </div>
 
@@ -424,6 +496,61 @@ function BotFlowPage() {
           ))}
         </div>
       </Card>
+
+      {/* Contact Groups */}
+      <Card className="mt-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-semibold flex items-center gap-2"><Users className="h-4 w-4 text-sky-400" /> Contact Groups</h3>
+          <button className="text-[11px] text-[#25D366] hover:underline">+ مجموعة جديدة</button>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+          {CONTACT_GROUPS.map(g => (
+            <div key={g.name} className="rounded-xl border border-white/5 bg-white/[0.02] p-3 hover:bg-white/[0.04] transition">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <Badge tone={g.tone}>{g.count.toLocaleString()}</Badge>
+                  <div className="text-sm font-medium">{g.name}</div>
+                </div>
+                <span className="text-[10px] text-slate-500">{g.updated}</span>
+              </div>
+              <div className="flex gap-1.5">
+                <button onClick={() => toast.success(`جاري إرسال حملة لـ ${g.name}`)}
+                  className="flex-1 rounded-lg bg-[#25D366]/10 text-[#25D366] border border-[#25D366]/20 py-1.5 text-[11px] hover:bg-[#25D366]/20 flex items-center justify-center gap-1">
+                  <Send className="h-3 w-3" /> إرسال حملة
+                </button>
+                <button onClick={() => toast(`عرض ${g.count} عميل في ${g.name}`)}
+                  className="flex-1 rounded-lg bg-white/5 border border-white/10 py-1.5 text-[11px] hover:bg-white/10">
+                  عرض العملاء
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      {/* Smart Segments */}
+      <Card className="mt-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-semibold flex items-center gap-2"><Sparkles className="h-4 w-4 text-violet-400" /> Smart Segments</h3>
+          <Badge tone="purple">قواعد ديناميكية</Badge>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+          {SMART_SEGMENTS.map(s => (
+            <div key={s.name} className="rounded-xl border border-violet-500/15 bg-violet-500/[0.04] p-3">
+              <div className="flex items-center justify-between mb-1">
+                <div className="text-sm font-medium">{s.name}</div>
+                <Badge tone="purple">{s.match}</Badge>
+              </div>
+              <code className="text-[10px] text-violet-300 font-mono">{s.rule}</code>
+              <button onClick={() => toast.success(`إنشاء حملة لـ ${s.name}`)}
+                className="mt-2 w-full rounded-lg bg-violet-500/10 text-violet-300 border border-violet-500/20 py-1.5 text-[11px] hover:bg-violet-500/20">
+                استخدم في حملة
+              </button>
+            </div>
+          ))}
+        </div>
+      </Card>
+
 
       {/* Advanced features grid */}
       <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
