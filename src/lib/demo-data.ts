@@ -64,10 +64,29 @@ export const REVENUE_TREND = [
   { m: "يوليو", v: 95 }, { m: "أغسطس", v: 102 },
 ];
 
+export type PipelineStage =
+  | "New Lead" | "Qualified" | "Interested" | "Meeting Scheduled"
+  | "Proposal Sent" | "Negotiation" | "Won" | "Lost";
+
+export const PIPELINE: PipelineStage[] = [
+  "New Lead", "Qualified", "Interested", "Meeting Scheduled",
+  "Proposal Sent", "Negotiation", "Won", "Lost",
+];
+
+export type TimelineItem = {
+  id: string;
+  type: "message" | "stage" | "note" | "ticket" | "followup" | "meeting" | "proposal";
+  title: string;
+  detail?: string;
+  time: string;
+  actor: string;
+};
+
 export type Conversation = {
   id: string;
   name: string;
   phone: string;
+  email: string;
   unread: number;
   last: string;
   time: string;
@@ -77,22 +96,33 @@ export type Conversation = {
   score: number;
   intent: "High" | "Medium" | "Low";
   summary: string;
+  lastRequest: string;
+  objections: string[];
+  customerStatus: string;
   nextAction: string;
   source: Lead["source"];
   city: string;
+  budget: string;
+  interest: string;
+  stage: PipelineStage;
   value: number;
   messages: { from: "lead" | "agent" | "ai"; text: string; time: string }[];
+  timeline: TimelineItem[];
 };
 
 export const CONVERSATIONS: Conversation[] = [
   {
-    id: "c1", name: "أحمد المالكي", phone: "+966550012233", unread: 3,
-    last: "تمام، أرسل لي العقد", time: "الآن", agent: "محمد العتيبي",
+    id: "c1", name: "أحمد المالكي", phone: "+966550012233", email: "ahmed.m@example.com",
+    unread: 3, last: "تمام، أرسل لي العقد", time: "الآن", agent: "محمد العتيبي",
     status: "open", priority: "high",
     score: 92, intent: "High",
     summary: "عميل مهتم بباقة Pro، استجاب إيجابياً لخصم 15% وطلب العقد. مؤشر إغلاق عالي خلال 24 ساعة.",
+    lastRequest: "إرسال نسخة العقد النهائية لباقة Pro السنوية",
+    objections: ["كان يفضّل دفع ربع سنوي بدل سنوي"],
+    customerStatus: "جاهز للإغلاق",
     nextAction: "إرسال العقد + متابعة هاتفية خلال ساعة",
-    source: "WhatsApp", city: "الرياض", value: 42000,
+    source: "WhatsApp", city: "الرياض", budget: "40k - 60k ر.س",
+    interest: "باقة Pro سنوي + تكامل CRM", stage: "Negotiation", value: 42000,
     messages: [
       { from: "lead", text: "السلام عليكم، أبي أعرف العرض", time: "10:02" },
       { from: "agent", text: "وعليكم السلام، أهلاً بك أحمد 👋", time: "10:03" },
@@ -100,44 +130,82 @@ export const CONVERSATIONS: Conversation[] = [
       { from: "agent", text: "نقدر نوفر لك Pro بخصم 15% هذا الشهر", time: "10:05" },
       { from: "lead", text: "تمام، أرسل لي العقد", time: "10:07" },
     ],
+    timeline: [
+      { id: "t1", type: "message", title: "بدأت محادثة جديدة من WhatsApp", time: "10:02", actor: "أحمد المالكي" },
+      { id: "t2", type: "stage", title: "تم نقله إلى Qualified", time: "10:04", actor: "AI" },
+      { id: "t3", type: "note", title: "ملاحظة: مهتم بـ Pro السنوي", time: "10:05", actor: "محمد العتيبي" },
+      { id: "t4", type: "stage", title: "تم نقله إلى Negotiation", time: "10:06", actor: "محمد العتيبي" },
+      { id: "t5", type: "followup", title: "متابعة مجدولة بعد ساعة", time: "10:07", actor: "محمد العتيبي" },
+    ],
   },
   {
-    id: "c2", name: "نوره الشمري", phone: "+966551122334", unread: 0,
-    last: "شكراً، راح أراجع وأرد عليك", time: "قبل 12د", agent: "سارة الحربي",
+    id: "c2", name: "نوره الشمري", phone: "+966551122334", email: "noura.s@example.com",
+    unread: 0, last: "شكراً، راح أراجع وأرد عليك", time: "قبل 12د", agent: "سارة الحربي",
     status: "open", priority: "medium",
     score: 64, intent: "Medium",
     summary: "العميلة طلبت تفاصيل الباقات الثلاث، أبدت اهتمام متوسط وتحتاج وقت للقرار.",
+    lastRequest: "مقارنة تفصيلية بين الباقات الثلاث",
+    objections: ["تحتاج وقت للمراجعة", "تقارن مع منافس آخر"],
+    customerStatus: "في مرحلة التقييم",
     nextAction: "متابعة بعد 48 ساعة بعرض مقارنة الباقات",
-    source: "Instagram", city: "جدة", value: 18000,
+    source: "Instagram", city: "جدة", budget: "15k - 25k ر.س",
+    interest: "باقة Starter أو Growth", stage: "Interested", value: 18000,
     messages: [
       { from: "lead", text: "ممكن تفاصيل الباقات؟", time: "09:40" },
       { from: "agent", text: "بكل تأكيد، عندنا 3 باقات...", time: "09:42" },
       { from: "lead", text: "شكراً، راح أراجع وأرد عليك", time: "09:50" },
     ],
+    timeline: [
+      { id: "t1", type: "message", title: "محادثة جديدة من Instagram DM", time: "09:40", actor: "نوره الشمري" },
+      { id: "t2", type: "stage", title: "New Lead → Qualified", time: "09:41", actor: "AI" },
+      { id: "t3", type: "stage", title: "Qualified → Interested", time: "09:43", actor: "سارة الحربي" },
+      { id: "t4", type: "followup", title: "متابعة بعد 48 ساعة", time: "09:51", actor: "سارة الحربي" },
+    ],
   },
   {
-    id: "c3", name: "فهد العنزي", phone: "+966552233445", unread: 1,
-    last: "السعر مرتفع شوي", time: "قبل ساعة", agent: "خالد الزهراني",
+    id: "c3", name: "فهد العنزي", phone: "+966552233445", email: "fahad.a@example.com",
+    unread: 1, last: "السعر مرتفع شوي", time: "قبل ساعة", agent: "خالد الزهراني",
     status: "open", priority: "high",
     score: 38, intent: "Low",
     summary: "اعتراض سعري واضح. مؤشر فقدان 62% — يحتاج تدخل فوري بعرض مخصص.",
+    lastRequest: "خصم إضافي أو خطة تقسيط",
+    objections: ["السعر أعلى من ميزانيته", "يقارن مع منافس أرخص"],
+    customerStatus: "مخاطرة فقدان",
     nextAction: "اتصال شخصي + تقديم خصم 10% مع تقسيط",
-    source: "Ads", city: "الدمام", value: 24000,
+    source: "Ads", city: "الدمام", budget: "10k - 18k ر.س",
+    interest: "باقة Starter مع تقسيط", stage: "Qualified", value: 24000,
     messages: [
       { from: "lead", text: "السعر مرتفع شوي", time: "08:30" },
       { from: "ai", text: "تنبيه: مؤشر فقدان مرتفع (62%). اقترح خصم 10%", time: "08:30" },
     ],
+    timeline: [
+      { id: "t1", type: "message", title: "محادثة جديدة من إعلان Meta", time: "08:25", actor: "فهد العنزي" },
+      { id: "t2", type: "stage", title: "New Lead → Qualified", time: "08:28", actor: "AI" },
+      { id: "t3", type: "ticket", title: "تذكرة: اعتراض سعري", detail: "TKT-1042", time: "08:31", actor: "AI" },
+      { id: "t4", type: "note", title: "تنبيه AI: مؤشر فقدان 62%", time: "08:31", actor: "AI" },
+    ],
   },
   {
-    id: "c4", name: "ريم الدوسري", phone: "+966553344556", unread: 0,
-    last: "تم الدفع ✅", time: "قبل 3س", agent: "ليان القحطاني",
+    id: "c4", name: "ريم الدوسري", phone: "+966553344556", email: "reem.d@example.com",
+    unread: 0, last: "تم الدفع ✅", time: "قبل 3س", agent: "ليان القحطاني",
     status: "closed", priority: "low",
     score: 100, intent: "High",
     summary: "صفقة مغلقة بنجاح. تم الدفع وتفعيل الاشتراك السنوي.",
+    lastRequest: "تأكيد تفعيل الحساب وبدء Onboarding",
+    objections: [],
+    customerStatus: "عميل مفعّل ✅",
     nextAction: "Onboarding خلال 24 ساعة + طلب تقييم",
-    source: "Website", city: "مكة", value: 36000,
+    source: "Website", city: "مكة", budget: "30k - 40k ر.س",
+    interest: "باقة Pro سنوي", stage: "Won", value: 36000,
     messages: [
       { from: "lead", text: "تم الدفع ✅", time: "أمس" },
+    ],
+    timeline: [
+      { id: "t1", type: "message", title: "محادثة من نموذج الموقع", time: "قبل يومين", actor: "ريم الدوسري" },
+      { id: "t2", type: "meeting", title: "اجتماع تعريفي عبر Zoom", time: "أمس 11:00", actor: "ليان القحطاني" },
+      { id: "t3", type: "proposal", title: "إرسال عرض سعر #PRP-2031", time: "أمس 14:20", actor: "ليان القحطاني" },
+      { id: "t4", type: "stage", title: "Negotiation → Won", time: "أمس 18:45", actor: "ليان القحطاني" },
+      { id: "t5", type: "note", title: "تم استلام الدفع وتفعيل الحساب", time: "أمس 19:02", actor: "النظام" },
     ],
   },
 ];
@@ -158,7 +226,7 @@ export type Contact = {
   lastMessage: string;
   lastActivity: string;
   conversationId: string;
-  stage: Lead["stage"];
+  stage: PipelineStage;
 };
 
 export const CONTACTS: Contact[] = CONVERSATIONS.map((c) => ({
@@ -176,7 +244,7 @@ export const CONTACTS: Contact[] = CONVERSATIONS.map((c) => ({
   lastMessage: c.last,
   lastActivity: c.time,
   conversationId: c.id,
-  stage: c.status === "closed" ? "Won" : c.score >= 80 ? "Negotiation" : c.score >= 55 ? "Qualified" : "Contacted",
+  stage: c.stage,
 }));
 
 export function getContactByConversation(convId: string) {
