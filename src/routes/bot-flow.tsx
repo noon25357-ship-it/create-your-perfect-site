@@ -110,7 +110,30 @@ const TEMPLATES = [
   { id: "mortgage",    name: "تمويل عقاري",   icon: Landmark,    tone: "green" as const,  desc: "دخل • التزامات • نوع التمويل" },
 ];
 
-const CRM_FIELDS = ["Budget", "Location", "Property Type", "Phone", "Name", "Email", "Lead Score", "Source"];
+const CRM_FIELDS = ["City", "Budget", "Property Type", "Bedrooms", "Payment Method", "Phone", "Name", "Email", "Lead Score", "Source"];
+
+const CONTACT_GROUPS = [
+  { name: "Hot Leads",        count: 198, updated: "قبل 5 د",  tone: "red" as const },
+  { name: "Warm Leads",       count: 412, updated: "قبل 12 د", tone: "yellow" as const },
+  { name: "Cold Leads",       count: 1180, updated: "اليوم",    tone: "blue" as const },
+  { name: "الرياض",            count: 624, updated: "اليوم",    tone: "green" as const },
+  { name: "جدة",               count: 318, updated: "اليوم",    tone: "green" as const },
+  { name: "الخبر",             count: 142, updated: "أمس",      tone: "green" as const },
+  { name: "مهتم بالشراء",      count: 488, updated: "قبل ساعة", tone: "purple" as const },
+  { name: "مهتم بالإيجار",     count: 256, updated: "قبل ساعة", tone: "purple" as const },
+  { name: "يحتاج تمويل",       count: 174, updated: "اليوم",    tone: "blue" as const },
+  { name: "حجز معاينة",        count: 96,  updated: "قبل 30 د", tone: "red" as const },
+  { name: "لم يرد",            count: 320, updated: "قبل ساعتين",tone: "default" as const },
+  { name: "يحتاج متابعة",      count: 215, updated: "اليوم",    tone: "yellow" as const },
+];
+
+const SMART_SEGMENTS = [
+  { name: "Lead Score > 80",        match: 198, rule: "score > 80" },
+  { name: "Budget > 800,000",       match: 142, rule: "budget > 800000" },
+  { name: "City = Riyadh",          match: 624, rule: "city == 'Riyadh'" },
+  { name: "Stage = Meeting Scheduled", match: 96, rule: "stage == 'meeting'" },
+  { name: "Source = Instagram",     match: 312, rule: "source == 'instagram'" },
+];
 
 /* ---------------- Page ---------------- */
 function BotFlowPage() {
