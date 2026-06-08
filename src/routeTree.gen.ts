@@ -13,6 +13,7 @@ import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as CrmRouteImport } from './routes/crm'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
+import { Route as AutomationsRouteImport } from './routes/automations'
 import { Route as AiSummaryRouteImport } from './routes/ai-summary'
 import { Route as AiIntelligenceRouteImport } from './routes/ai-intelligence'
 import { Route as IndexRouteImport } from './routes/index'
@@ -37,6 +38,11 @@ const CampaignsRoute = CampaignsRouteImport.update({
   path: '/campaigns',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AutomationsRoute = AutomationsRouteImport.update({
+  id: '/automations',
+  path: '/automations',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AiSummaryRoute = AiSummaryRouteImport.update({
   id: '/ai-summary',
   path: '/ai-summary',
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ai-intelligence': typeof AiIntelligenceRoute
   '/ai-summary': typeof AiSummaryRoute
+  '/automations': typeof AutomationsRoute
   '/campaigns': typeof CampaignsRoute
   '/crm': typeof CrmRoute
   '/inbox': typeof InboxRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ai-intelligence': typeof AiIntelligenceRoute
   '/ai-summary': typeof AiSummaryRoute
+  '/automations': typeof AutomationsRoute
   '/campaigns': typeof CampaignsRoute
   '/crm': typeof CrmRoute
   '/inbox': typeof InboxRoute
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/ai-intelligence': typeof AiIntelligenceRoute
   '/ai-summary': typeof AiSummaryRoute
+  '/automations': typeof AutomationsRoute
   '/campaigns': typeof CampaignsRoute
   '/crm': typeof CrmRoute
   '/inbox': typeof InboxRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-intelligence'
     | '/ai-summary'
+    | '/automations'
     | '/campaigns'
     | '/crm'
     | '/inbox'
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-intelligence'
     | '/ai-summary'
+    | '/automations'
     | '/campaigns'
     | '/crm'
     | '/inbox'
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-intelligence'
     | '/ai-summary'
+    | '/automations'
     | '/campaigns'
     | '/crm'
     | '/inbox'
@@ -115,6 +127,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AiIntelligenceRoute: typeof AiIntelligenceRoute
   AiSummaryRoute: typeof AiSummaryRoute
+  AutomationsRoute: typeof AutomationsRoute
   CampaignsRoute: typeof CampaignsRoute
   CrmRoute: typeof CrmRoute
   InboxRoute: typeof InboxRoute
@@ -151,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/automations': {
+      id: '/automations'
+      path: '/automations'
+      fullPath: '/automations'
+      preLoaderRoute: typeof AutomationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ai-summary': {
       id: '/ai-summary'
       path: '/ai-summary'
@@ -179,6 +199,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AiIntelligenceRoute: AiIntelligenceRoute,
   AiSummaryRoute: AiSummaryRoute,
+  AutomationsRoute: AutomationsRoute,
   CampaignsRoute: CampaignsRoute,
   CrmRoute: CrmRoute,
   InboxRoute: InboxRoute,
