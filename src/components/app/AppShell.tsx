@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  Users, GitBranch, Brain, Sparkles, Inbox, Megaphone, Home, Search, Bell, Zap, LayoutDashboard, Shield,
+  Users, GitBranch, Brain, Sparkles, Inbox, Megaphone, Home, Search, Bell, Zap, LayoutDashboard, Shield, Bot,
 } from "lucide-react";
 
 const NAV = [
