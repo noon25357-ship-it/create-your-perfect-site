@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import AppShell, { Badge } from "@/components/app/AppShell";
 import { CONVERSATIONS } from "@/lib/demo-data";
 import { useState } from "react";
