@@ -102,13 +102,33 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="ar" dir="rtl" style={{ background: "#0b0f14", colorScheme: "dark" }}>
       <head>
         <HeadContent />
+        <style>{`
+          html, body { background: #0b0f14; color: #e2e8f0; }
+          #lf-boot { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; background: #0b0f14; z-index: 9999; transition: opacity .25s ease; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif; }
+          #lf-boot .lf-logo { font-size: 28px; font-weight: 700; letter-spacing: -.02em; color: #f1f5f9; }
+          #lf-boot .lf-logo span { color: #25D366; }
+          #lf-boot .lf-sub { font-size: 12px; color: #64748b; }
+          #lf-boot .lf-spin { width: 28px; height: 28px; border: 2px solid rgba(37,211,102,.2); border-top-color: #25D366; border-radius: 50%; animation: lf-rot .8s linear infinite; }
+          @keyframes lf-rot { to { transform: rotate(360deg); } }
+          .lf-hidden { opacity: 0; pointer-events: none; }
+        `}</style>
       </head>
-      <body>
+      <body style={{ background: "#0b0f14", margin: 0 }}>
+        <div id="lf-boot" aria-hidden="true">
+          <div className="lf-logo">Lead<span>Flow</span></div>
+          <div className="lf-spin" />
+          <div className="lf-sub">جاري تجهيز النظام...</div>
+        </div>
         {children}
         <Scripts />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `requestAnimationFrame(function(){setTimeout(function(){var b=document.getElementById('lf-boot');if(b){b.classList.add('lf-hidden');setTimeout(function(){b&&b.remove();},300);}},120);});`,
+          }}
+        />
       </body>
     </html>
   );
