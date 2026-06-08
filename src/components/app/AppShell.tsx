@@ -1,11 +1,12 @@
 import { ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  Users, GitBranch, Brain, Sparkles, Inbox, Megaphone, Home, Search, Bell, Zap,
+  Users, GitBranch, Brain, Sparkles, Inbox, Megaphone, Home, Search, Bell, Zap, LayoutDashboard,
 } from "lucide-react";
 
 const NAV = [
   { to: "/", label: "الرئيسية", icon: Home },
+  { to: "/executive-dashboard", label: "Executive Dashboard", icon: LayoutDashboard },
   { to: "/crm", label: "CRM", icon: Users },
   { to: "/pipeline", label: "Sales Pipeline", icon: GitBranch },
   { to: "/ai-intelligence", label: "AI Lead Intelligence", icon: Brain },
