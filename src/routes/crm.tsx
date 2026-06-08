@@ -33,6 +33,91 @@ function CRMPage() {
         <Stat label="متوسط زمن الإغلاق" value="6.4 يوم" delta="-1.2 يوم" accent="#f59e0b" />
       </div>
 
+      <Card className="mb-6 border-[#25D366]/20 bg-gradient-to-br from-[#25D366]/[0.04] to-transparent">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <div className="rounded-lg bg-[#25D366]/15 p-1.5">
+              <MessageCircle className="h-4 w-4 text-[#25D366]" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-sm">جهات اتصال من Inbox</h3>
+              <p className="text-[11px] text-slate-500">تُنشأ تلقائياً عند بدء أي محادثة WhatsApp</p>
+            </div>
+          </div>
+          <Link to="/inbox" className="text-xs text-[#25D366] hover:underline">فتح Inbox ←</Link>
+        </div>
+        <div className="grid md:grid-cols-2 gap-3">
+          {CONTACTS.map(c => (
+            <div key={c.id} className="rounded-xl border border-white/5 bg-[#0a0d12] p-4">
+              <div className="flex items-start justify-between gap-3 mb-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-[#25D366] to-emerald-700 flex items-center justify-center text-xs font-bold text-black shrink-0">
+                    {c.name.slice(0, 2)}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="font-medium text-sm truncate">{c.name}</div>
+                    <div className="text-[11px] text-slate-500">{c.phone} · {c.city}</div>
+                  </div>
+                </div>
+                <div className="flex flex-col items-end gap-1 shrink-0">
+                  <Badge tone="blue">{c.source}</Badge>
+                  <span className="text-[10px] text-slate-500">{c.id}</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 mb-3">
+                <div className="rounded-lg bg-white/[0.03] border border-white/5 p-2">
+                  <div className="flex items-center gap-1 text-[10px] text-slate-500"><Zap className="h-3 w-3" /> Lead Score</div>
+                  <div className="flex items-center gap-2 mt-1">
+                    <div className="h-1.5 flex-1 rounded-full bg-white/10 overflow-hidden">
+                      <div className="h-full bg-[#25D366]" style={{ width: `${c.score}%` }} />
+                    </div>
+                    <span className="text-xs font-bold text-[#25D366]">{c.score}</span>
+                  </div>
+                </div>
+                <div className="rounded-lg bg-white/[0.03] border border-white/5 p-2">
+                  <div className="flex items-center gap-1 text-[10px] text-slate-500"><Target className="h-3 w-3" /> Intent</div>
+                  <div className="mt-1.5">
+                    <Badge tone={c.intent === "High" ? "green" : c.intent === "Medium" ? "yellow" : "red"}>
+                      {c.intent === "High" ? "عالي" : c.intent === "Medium" ? "متوسط" : "منخفض"}
+                    </Badge>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-lg bg-violet-500/[0.05] border border-violet-500/15 p-2.5 mb-2">
+                <div className="flex items-center gap-1 text-[10px] text-violet-300 mb-1">
+                  <Sparkles className="h-3 w-3" /> AI Summary
+                </div>
+                <p className="text-xs text-slate-200 leading-relaxed">{c.summary}</p>
+              </div>
+
+              <div className="rounded-lg bg-[#25D366]/[0.06] border border-[#25D366]/20 p-2.5 mb-3">
+                <div className="text-[10px] text-[#25D366] mb-1">Next Action</div>
+                <p className="text-xs text-slate-100">{c.nextAction}</p>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] text-slate-500">قيمة الصفقة: <b className="text-slate-300">{c.value.toLocaleString()} ر.س</b></span>
+                <div className="flex gap-1.5">
+                  <Link
+                    to="/inbox"
+                    search={{ c: c.conversationId } as never}
+                    className="rounded-lg bg-[#25D366]/15 px-2.5 py-1 text-[11px] text-[#25D366] hover:bg-[#25D366]/25 flex items-center gap-1"
+                  >
+                    <MessageCircle className="h-3 w-3" /> فتح المحادثة
+                  </Link>
+                  <button className="rounded-lg bg-white/5 px-2.5 py-1 text-[11px] text-slate-300 hover:bg-white/10 flex items-center gap-1">
+                    <Phone className="h-3 w-3" /> اتصال
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+
       <Card className="mb-4">
         <div className="flex flex-wrap items-center gap-3">
           <input
