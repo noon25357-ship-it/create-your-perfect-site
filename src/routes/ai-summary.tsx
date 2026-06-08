@@ -1,13 +1,33 @@
 import { createFileRoute } from "@tanstack/react-router";
-import AppShell, { Card, Stat } from "@/components/app/AppShell";
+import AppShell, { Card, Stat, Badge } from "@/components/app/AppShell";
 import { REVENUE_TREND } from "@/lib/demo-data";
-import { Sparkles, ArrowUpRight, ArrowDownRight, Lightbulb } from "lucide-react";
-import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
+import {
+  Sparkles, ArrowUpRight, ArrowDownRight, Lightbulb, TrendingUp, DollarSign,
+  Target, Trophy, AlertTriangle, Flame, GitBranch, Brain,
+} from "lucide-react";
+import {
+  ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid,
+  BarChart, Bar, LineChart, Line,
+} from "recharts";
 
 export const Route = createFileRoute("/ai-summary")({
   head: () => ({ meta: [{ title: "AI Summary — LeadFlow" }, { name: "description", content: "ملخص ذكي يومي لأداء فريق المبيعات." }] }),
   component: AISummaryPage,
 });
+
+const FORECAST_30D = [
+  { d: "W1", actual: 284, forecast: 280 },
+  { d: "W2", actual: 312, forecast: 305 },
+  { d: "W3", actual: 348, forecast: 340 },
+  { d: "W4", actual: 0, forecast: 395 },
+];
+const LOST_REASONS = [
+  { r: "السعر مرتفع", v: 38 },
+  { r: "تأخر الرد", v: 24 },
+  { r: "اختار منافس", v: 18 },
+  { r: "لم يكن جاهزاً", v: 12 },
+  { r: "أسباب أخرى", v: 8 },
+];
 
 function AISummaryPage() {
   return (
@@ -96,6 +116,127 @@ function AISummaryPage() {
             <div key={i} className="rounded-xl bg-white/[0.03] border border-white/5 p-4">
               <div className="text-sm font-medium mb-1">{r.t}</div>
               <div className="text-xs text-slate-400 leading-relaxed">{r.d}</div>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      {/* Revenue Intelligence */}
+      <div className="mt-8 mb-4 flex items-center gap-2">
+        <div className="rounded-lg bg-[#25D366]/15 p-2"><TrendingUp className="h-4 w-4 text-[#25D366]" /></div>
+        <div>
+          <h2 className="text-lg font-bold">Revenue Intelligence</h2>
+          <p className="text-xs text-slate-400">تحليل الإيرادات والتنبؤ بالأداء — مدعوم بـ AI</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 lg:grid-cols-6 gap-4 mb-4">
+        <Stat label="Expected Revenue" value="1.84M" delta="ر.س — هذا الشهر" />
+        <Stat label="Pipeline Value" value="4.62M" delta="ر.س مفتوحة" accent="#60a5fa" />
+        <Stat label="Forecast 30D" value="2.31M" delta="+22% توقع AI" accent="#a78bfa" />
+        <Stat label="Avg Deal Size" value="48.7k" delta="+5.2% vs السابق" accent="#fbbf24" />
+        <Stat label="Win Rate" value="34%" delta="+3% هذا الربع" accent="#34d399" />
+        <Stat label="Lost Deals" value="19" delta="-4 vs السابق" accent="#fb7185" />
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-4 mb-4">
+        <Card className="lg:col-span-2">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-semibold">Revenue Forecast — 30 يوم</h3>
+            <Badge tone="purple">AI Forecast</Badge>
+          </div>
+          <div className="h-64">
+            <ResponsiveContainer>
+              <LineChart data={FORECAST_30D}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
+                <XAxis dataKey="d" stroke="#64748b" fontSize={11} />
+                <YAxis stroke="#64748b" fontSize={11} />
+                <Tooltip contentStyle={{ background: "#0f141b", border: "1px solid #1f2937", borderRadius: 8 }} />
+                <Line type="monotone" dataKey="actual" stroke="#25D366" strokeWidth={2} name="فعلي" dot />
+                <Line type="monotone" dataKey="forecast" stroke="#a78bfa" strokeWidth={2} strokeDasharray="5 5" name="توقع AI" dot />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </Card>
+        <Card>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-semibold">Lost Deals Analysis</h3>
+            <Badge tone="red">19 صفقة</Badge>
+          </div>
+          <div className="h-64">
+            <ResponsiveContainer>
+              <BarChart data={LOST_REASONS} layout="vertical" margin={{ left: 60 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
+                <XAxis type="number" stroke="#64748b" fontSize={11} />
+                <YAxis type="category" dataKey="r" stroke="#94a3b8" fontSize={11} width={80} />
+                <Tooltip contentStyle={{ background: "#0f141b", border: "1px solid #1f2937", borderRadius: 8 }} />
+                <Bar dataKey="v" fill="#fb7185" radius={[0, 6, 6, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </Card>
+      </div>
+
+      <Card className="mb-4 bg-gradient-to-br from-violet-500/10 via-[#0f141b] to-[#0f141b] border-violet-500/20">
+        <div className="flex items-center gap-2 mb-4">
+          <Brain className="h-5 w-5 text-violet-400" />
+          <h3 className="font-semibold">AI Insights — قرارات تنفيذية</h3>
+          <Badge tone="purple">مولّد ذكاءً</Badge>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {[
+            { i: AlertTriangle, t: "أكثر سبب لخسارة الصفقات", v: "السعر مرتفع (38%)", d: "اقترح خطة سنوية بـ 15% خصم لاسترجاع ~6 صفقات شهرياً." },
+            { i: GitBranch, t: "أكثر مرحلة يحدث عندها التعثر", v: "Proposal Sent", d: "62% من الصفقات تتوقف هنا — أرسل متابعة خلال 48 ساعة." },
+            { i: Target, t: "أفضل مصدر للعملاء", v: "WhatsApp Ads", d: "ROI ×4.2 — زِد الميزانية بـ 30% الشهر القادم." },
+            { i: Trophy, t: "أفضل موظف تحويلًا", v: "محمد العتيبي", d: "معدل إغلاق 47% — كرّر أسلوبه عبر تدريب الفريق." },
+            { i: DollarSign, t: "أعلى صفقة متوقعة", v: "شركة الرواد — 312k", d: "احتمال إغلاق 78% خلال 7 أيام." },
+            { i: Flame, t: "ساخنون يحتاجون تدخل اليوم", v: "9 عملاء", d: "Lead Score > 85 ولم يُرد عليهم منذ +24 ساعة." },
+          ].map((x, i) => {
+            const Icon = x.i;
+            return (
+              <div key={i} className="rounded-xl bg-white/[0.03] border border-white/5 p-4 hover:border-violet-500/30 transition-colors">
+                <div className="flex items-start gap-3">
+                  <div className="rounded-lg bg-white/5 p-2"><Icon className="h-4 w-4" /></div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[11px] text-slate-400">{x.t}</div>
+                    <div className="text-sm font-bold mt-0.5 truncate">{x.v}</div>
+                    <p className="text-xs text-slate-400 leading-relaxed mt-1.5">{x.d}</p>
+                    <button className="mt-2 text-[11px] text-[#25D366] hover:underline">اتخذ إجراء ←</button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      <Card>
+        <div className="flex items-center gap-2 mb-3">
+          <Flame className="h-4 w-4 text-rose-400" />
+          <h3 className="font-semibold">عملاء ساخنون — تدخل اليوم</h3>
+          <Badge tone="red">9 عملاء</Badge>
+        </div>
+        <div className="grid md:grid-cols-3 gap-3">
+          {[
+            { n: "خالد الحربي", c: "شركة الرواد", s: 92, last: "قبل 28 ساعة", v: "312k" },
+            { n: "سارة المطيري", c: "مجموعة نخبة", s: 89, last: "قبل 30 ساعة", v: "184k" },
+            { n: "عبدالله القحطاني", c: "ميديا برو", s: 87, last: "قبل 26 ساعة", v: "96k" },
+          ].map((h, i) => (
+            <div key={i} className="rounded-xl bg-white/[0.03] border border-white/5 p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-sm font-semibold">{h.n}</div>
+                  <div className="text-xs text-slate-400">{h.c}</div>
+                </div>
+                <Badge tone="red">{h.s}</Badge>
+              </div>
+              <div className="mt-3 flex items-center justify-between text-xs">
+                <span className="text-slate-400">آخر رد: {h.last}</span>
+                <span className="text-emerald-300 font-semibold">{h.v} ر.س</span>
+              </div>
+              <button className="mt-3 w-full rounded-lg bg-[#25D366] text-black text-xs font-semibold py-2 hover:brightness-110">
+                تواصل الآن
+              </button>
             </div>
           ))}
         </div>
