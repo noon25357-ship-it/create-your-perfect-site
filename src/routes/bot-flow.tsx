@@ -301,6 +301,7 @@ function BotFlowPage() {
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerLeave={handlePointerUp}
+            dir="ltr"
             className="relative overflow-auto bg-[#070a0e]"
             style={{
               height: "76vh",
@@ -308,8 +309,8 @@ function BotFlowPage() {
               backgroundSize: "22px 22px",
             }}
           >
-            <div className="relative min-w-[1750px]" style={{ height: canvasHeight }}>
-              <svg className="absolute inset-0" width="1750" height={canvasHeight}>
+            <div className="relative min-w-[1320px]" style={{ height: canvasHeight }}>
+              <svg className="absolute inset-0" width="1320" height={canvasHeight}>
                 <defs>
                   <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                     <path d="M0 0 L10 5 L0 10 Z" fill="#25D366" />
