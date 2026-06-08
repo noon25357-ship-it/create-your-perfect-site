@@ -7,7 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -106,11 +106,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="ar" dir="rtl" style={{ background: "#0b0f14" }}>
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body style={{ background: "#0b0f14", minHeight: "100vh" }}>
         {children}
         <Scripts />
       </body>
@@ -120,9 +120,50 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const [bootVisible, setBootVisible] = useState(true);
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      window.setTimeout(() => setBootVisible(false), 120);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
+      {bootVisible && (
+        <div
+          aria-hidden="true"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 9999,
+            background: "#0b0f14",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            gap: 16,
+            pointerEvents: "none",
+          }}
+        >
+          <div style={{ fontSize: 28, fontWeight: 700, color: "#f1f5f9" }}>
+            Lead<span style={{ color: "#25D366" }}>Flow</span>
+          </div>
+          <div
+            style={{
+              width: 28,
+              height: 28,
+              border: "2px solid rgba(37,211,102,.2)",
+              borderTopColor: "#25D366",
+              borderRadius: "50%",
+              animation: "lf-rot .8s linear infinite",
+            }}
+          />
+          <div style={{ fontSize: 12, color: "#64748b" }}>جاري تجهيز النظام...</div>
+        </div>
+      )}
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       <Toaster richColors position="top-center" theme="dark" />
