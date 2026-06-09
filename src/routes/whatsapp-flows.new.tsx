@@ -15,7 +15,7 @@ function NewFlowRoute() {
     if (created.current) return;
     created.current = true;
     const f = createFlow("شجرة جديدة");
-    navigate({ to: "/flow-builder/$id", params: { id: f.id }, replace: true });
+    navigate({ to: "/whatsapp-flows/$id", params: { id: f.id }, replace: true });
   }, [navigate]);
   return (
     <AppShell title="إنشاء Flow">
