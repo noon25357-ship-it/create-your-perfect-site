@@ -206,6 +206,72 @@ function CampaignsPage() {
         </>
       )}
 
+      {/* HISTORY */}
+      {tab === "history" && (
+        <Card>
+          <h3 className="font-semibold mb-4 flex items-center gap-2"><Megaphone className="h-4 w-4 text-[#25D366]" /> سجل الحملات</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead className="text-slate-400 border-b border-white/5">
+                <tr><th className="text-right py-2 px-3">الحملة</th><th className="text-right py-2 px-3">الحالة</th><th className="text-right py-2 px-3">التاريخ</th><th className="text-center py-2 px-2">Sent</th><th className="text-center py-2 px-2">Delivered</th><th className="text-center py-2 px-2">Converted</th></tr>
+              </thead>
+              <tbody>
+                {CAMPAIGNS.map((c) => (
+                  <tr key={c.id} className="border-b border-white/5 hover:bg-white/5">
+                    <td className="py-2.5 px-3">{c.name}</td><td className="py-2.5 px-3"><Badge tone={statusTone[c.status]}>{c.status}</Badge></td><td className="py-2.5 px-3 text-slate-400">{c.date}</td><td className="py-2.5 px-2 text-center">{c.sent}</td><td className="py-2.5 px-2 text-center text-sky-300">{c.delivered}</td><td className="py-2.5 px-2 text-center text-[#25D366] font-semibold">{c.converted}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Card>
+      )}
+
+      {/* AUDIENCE TREE */}
+      {tab === "tree" && (
+        <Card>
+          <h3 className="font-semibold mb-2 flex items-center gap-2"><GitBranch className="h-4 w-4 text-[#25D366]" /> شجرة الجمهور</h3>
+          <p className="text-xs text-slate-400 mb-4">شرائح الجمهور المتفرّعة حسب المصدر والاهتمام والمدينة.</p>
+          <div className="space-y-2 text-sm">
+            <div className="rounded-xl bg-white/5 p-3 ring-1 ring-white/10">
+              <div className="font-semibold">كل العملاء — 5,470</div>
+              <div className="mr-4 mt-2 space-y-2">
+                <div className="rounded-lg bg-[#0a0d12] p-2 ring-1 ring-white/5">🔥 Hot Leads — 412</div>
+                <div className="rounded-lg bg-[#0a0d12] p-2 ring-1 ring-white/5">❄️ Cold Leads — 1,830
+                  <div className="mr-4 mt-2 space-y-1 text-xs text-slate-300">
+                    <div className="rounded-md bg-white/5 p-1.5">🏢 عقار — 920</div>
+                    <div className="rounded-md bg-white/5 p-1.5">🩺 عيادات — 540</div>
+                    <div className="rounded-md bg-white/5 p-1.5">🍽️ مطاعم — 388</div>
+                  </div>
+                </div>
+                <div className="rounded-lg bg-[#0a0d12] p-2 ring-1 ring-white/5">📍 الرياض — 2,140 | جدة — 1,260</div>
+              </div>
+            </div>
+          </div>
+        </Card>
+      )}
+
+      {/* EXCLUDE LIST */}
+      {tab === "exclude" && (
+        <Card>
+          <h3 className="font-semibold mb-2 flex items-center gap-2"><Filter className="h-4 w-4 text-[#25D366]" /> قائمة الاستبعاد</h3>
+          <p className="text-xs text-slate-400 mb-4">أرقام لن تستلم أي حملات (Opt-out / DND).</p>
+          <table className="w-full text-xs">
+            <thead className="text-slate-400 border-b border-white/5"><tr><th className="text-right py-2 px-3">الجوال</th><th className="text-right py-2 px-3">السبب</th><th className="text-right py-2 px-3">التاريخ</th></tr></thead>
+            <tbody>
+              {[
+                { p: "+966 50 111 2233", r: "Opt-out", d: "قبل يومين" },
+                { p: "+966 55 444 5566", r: "Bounce", d: "قبل 3 أيام" },
+                { p: "+966 56 777 8899", r: "Spam Report", d: "الأسبوع الماضي" },
+              ].map((x, i) => (
+                <tr key={i} className="border-b border-white/5"><td className="py-2.5 px-3">{x.p}</td><td className="py-2.5 px-3"><Badge tone="red">{x.r}</Badge></td><td className="py-2.5 px-3 text-slate-400">{x.d}</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </Card>
+      )}
+
+
       {/* TEMPLATES */}
       {tab === "templates" && (
         <div className="grid grid-cols-12 gap-4">
