@@ -16,6 +16,7 @@ import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as ExecutiveDashboardRouteImport } from './routes/executive-dashboard'
 import { Route as CrmRouteImport } from './routes/crm'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
+import { Route as BotTreeRouteImport } from './routes/bot-tree'
 import { Route as BotFlowRouteImport } from './routes/bot-flow'
 import { Route as AutomationsRouteImport } from './routes/automations'
 import { Route as AiSummaryRouteImport } from './routes/ai-summary'
@@ -57,6 +58,11 @@ const CampaignsRoute = CampaignsRouteImport.update({
   path: '/campaigns',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BotTreeRoute = BotTreeRouteImport.update({
+  id: '/bot-tree',
+  path: '/bot-tree',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BotFlowRoute = BotFlowRouteImport.update({
   id: '/bot-flow',
   path: '/bot-flow',
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/ai-summary': typeof AiSummaryRoute
   '/automations': typeof AutomationsRoute
   '/bot-flow': typeof BotFlowRoute
+  '/bot-tree': typeof BotTreeRoute
   '/campaigns': typeof CampaignsRoute
   '/crm': typeof CrmRoute
   '/executive-dashboard': typeof ExecutiveDashboardRoute
@@ -103,6 +110,7 @@ export interface FileRoutesByTo {
   '/ai-summary': typeof AiSummaryRoute
   '/automations': typeof AutomationsRoute
   '/bot-flow': typeof BotFlowRoute
+  '/bot-tree': typeof BotTreeRoute
   '/campaigns': typeof CampaignsRoute
   '/crm': typeof CrmRoute
   '/executive-dashboard': typeof ExecutiveDashboardRoute
@@ -118,6 +126,7 @@ export interface FileRoutesById {
   '/ai-summary': typeof AiSummaryRoute
   '/automations': typeof AutomationsRoute
   '/bot-flow': typeof BotFlowRoute
+  '/bot-tree': typeof BotTreeRoute
   '/campaigns': typeof CampaignsRoute
   '/crm': typeof CrmRoute
   '/executive-dashboard': typeof ExecutiveDashboardRoute
@@ -134,6 +143,7 @@ export interface FileRouteTypes {
     | '/ai-summary'
     | '/automations'
     | '/bot-flow'
+    | '/bot-tree'
     | '/campaigns'
     | '/crm'
     | '/executive-dashboard'
@@ -148,6 +158,7 @@ export interface FileRouteTypes {
     | '/ai-summary'
     | '/automations'
     | '/bot-flow'
+    | '/bot-tree'
     | '/campaigns'
     | '/crm'
     | '/executive-dashboard'
@@ -162,6 +173,7 @@ export interface FileRouteTypes {
     | '/ai-summary'
     | '/automations'
     | '/bot-flow'
+    | '/bot-tree'
     | '/campaigns'
     | '/crm'
     | '/executive-dashboard'
@@ -177,6 +189,7 @@ export interface RootRouteChildren {
   AiSummaryRoute: typeof AiSummaryRoute
   AutomationsRoute: typeof AutomationsRoute
   BotFlowRoute: typeof BotFlowRoute
+  BotTreeRoute: typeof BotTreeRoute
   CampaignsRoute: typeof CampaignsRoute
   CrmRoute: typeof CrmRoute
   ExecutiveDashboardRoute: typeof ExecutiveDashboardRoute
@@ -237,6 +250,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bot-tree': {
+      id: '/bot-tree'
+      path: '/bot-tree'
+      fullPath: '/bot-tree'
+      preLoaderRoute: typeof BotTreeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/bot-flow': {
       id: '/bot-flow'
       path: '/bot-flow'
@@ -281,6 +301,7 @@ const rootRouteChildren: RootRouteChildren = {
   AiSummaryRoute: AiSummaryRoute,
   AutomationsRoute: AutomationsRoute,
   BotFlowRoute: BotFlowRoute,
+  BotTreeRoute: BotTreeRoute,
   CampaignsRoute: CampaignsRoute,
   CrmRoute: CrmRoute,
   ExecutiveDashboardRoute: ExecutiveDashboardRoute,
@@ -292,3 +313,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
