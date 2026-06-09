@@ -102,7 +102,7 @@ export default function AppShell({
           </div>
         )}
 
-        <main className="flex-1 min-w-0">
+        <main className="flex-1 min-w-0 overflow-x-hidden max-w-full">
           <header className="sticky top-0 z-20 backdrop-blur bg-[#0b0f14]/80 border-b border-white/5">
             <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 lg:px-8 py-3 sm:py-4">
               <button
