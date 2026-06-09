@@ -1580,7 +1580,7 @@ function SrcChip({ k, lang }){
 }
 
 /* ============================== LIVE FLOW ============================== */
-function LiveFlow({ lang }){
+export function LiveFlow({ lang }){
   const t = useT(lang);
   const lf = t.lf;
   const script = lf.script;
