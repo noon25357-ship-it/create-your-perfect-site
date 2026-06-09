@@ -1864,7 +1864,7 @@ function WhatsAISalesHub(){
       <style id="wa-style" dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="wa-root" dir={lang==="ar"?"rtl":"ltr"} style={{minHeight:"100vh"}}>
       {screen==="landing" ? (
-        <Landing lang={lang} onEnter={()=>{setScreen("app");setView("liveflow");}} onToggleLang={()=>setLang(l=>l==="ar"?"en":"ar")}/>
+        <Landing lang={lang} onEnter={()=>navigate({to:"/executive-dashboard"})} onWatchDemo={()=>navigate({to:"/live-demo"})} onToggleLang={()=>setLang(l=>l==="ar"?"en":"ar")}/>
       ) : (
         <div className="app-grid">
           <div className={`backdrop ${open?"show":""}`} onClick={()=>setOpen(false)}/>
