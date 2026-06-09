@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React, { useState, useEffect, useMemo, useRef } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import {
   LayoutDashboard, MessageSquare, Bot, Ticket, Send, Users, Share2, Tag,
   Sparkles, Search, Bell, ChevronLeft, ChevronRight, Menu, X, Globe,
