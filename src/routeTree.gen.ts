@@ -23,6 +23,7 @@ import { Route as AutomationsRouteImport } from './routes/automations'
 import { Route as AiSummaryRouteImport } from './routes/ai-summary'
 import { Route as AiIntelligenceRouteImport } from './routes/ai-intelligence'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WhatsappFlowsNewRouteImport } from './routes/whatsapp-flows.new'
 import { Route as BotTreeIdRouteImport } from './routes/bot-tree.$id'
 
 const WhatsappFlowsRoute = WhatsappFlowsRouteImport.update({
@@ -95,6 +96,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WhatsappFlowsNewRoute = WhatsappFlowsNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => WhatsappFlowsRoute,
+} as any)
 const BotTreeIdRoute = BotTreeIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -115,8 +121,9 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/pipeline': typeof PipelineRoute
   '/team': typeof TeamRoute
-  '/whatsapp-flows': typeof WhatsappFlowsRoute
+  '/whatsapp-flows': typeof WhatsappFlowsRouteWithChildren
   '/bot-tree/$id': typeof BotTreeIdRoute
+  '/whatsapp-flows/new': typeof WhatsappFlowsNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -132,8 +139,9 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/pipeline': typeof PipelineRoute
   '/team': typeof TeamRoute
-  '/whatsapp-flows': typeof WhatsappFlowsRoute
+  '/whatsapp-flows': typeof WhatsappFlowsRouteWithChildren
   '/bot-tree/$id': typeof BotTreeIdRoute
+  '/whatsapp-flows/new': typeof WhatsappFlowsNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -150,8 +158,9 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/pipeline': typeof PipelineRoute
   '/team': typeof TeamRoute
-  '/whatsapp-flows': typeof WhatsappFlowsRoute
+  '/whatsapp-flows': typeof WhatsappFlowsRouteWithChildren
   '/bot-tree/$id': typeof BotTreeIdRoute
+  '/whatsapp-flows/new': typeof WhatsappFlowsNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -171,6 +180,7 @@ export interface FileRouteTypes {
     | '/team'
     | '/whatsapp-flows'
     | '/bot-tree/$id'
+    | '/whatsapp-flows/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -188,6 +198,7 @@ export interface FileRouteTypes {
     | '/team'
     | '/whatsapp-flows'
     | '/bot-tree/$id'
+    | '/whatsapp-flows/new'
   id:
     | '__root__'
     | '/'
@@ -205,6 +216,7 @@ export interface FileRouteTypes {
     | '/team'
     | '/whatsapp-flows'
     | '/bot-tree/$id'
+    | '/whatsapp-flows/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -221,7 +233,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   PipelineRoute: typeof PipelineRoute
   TeamRoute: typeof TeamRoute
-  WhatsappFlowsRoute: typeof WhatsappFlowsRoute
+  WhatsappFlowsRoute: typeof WhatsappFlowsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -324,6 +336,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/whatsapp-flows/new': {
+      id: '/whatsapp-flows/new'
+      path: '/new'
+      fullPath: '/whatsapp-flows/new'
+      preLoaderRoute: typeof WhatsappFlowsNewRouteImport
+      parentRoute: typeof WhatsappFlowsRoute
+    }
     '/bot-tree/$id': {
       id: '/bot-tree/$id'
       path: '/$id'
@@ -345,6 +364,18 @@ const BotTreeRouteChildren: BotTreeRouteChildren = {
 const BotTreeRouteWithChildren =
   BotTreeRoute._addFileChildren(BotTreeRouteChildren)
 
+interface WhatsappFlowsRouteChildren {
+  WhatsappFlowsNewRoute: typeof WhatsappFlowsNewRoute
+}
+
+const WhatsappFlowsRouteChildren: WhatsappFlowsRouteChildren = {
+  WhatsappFlowsNewRoute: WhatsappFlowsNewRoute,
+}
+
+const WhatsappFlowsRouteWithChildren = WhatsappFlowsRoute._addFileChildren(
+  WhatsappFlowsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AiIntelligenceRoute: AiIntelligenceRoute,
@@ -359,7 +390,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   PipelineRoute: PipelineRoute,
   TeamRoute: TeamRoute,
-  WhatsappFlowsRoute: WhatsappFlowsRoute,
+  WhatsappFlowsRoute: WhatsappFlowsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
