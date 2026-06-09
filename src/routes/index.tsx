@@ -1,4 +1,5 @@
-import { Navigate, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import LeadFlow from "@/components/LeadFlow";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -9,5 +10,5 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "WhatsApp AI sales and lead management hub." },
     ],
   }),
-  component: () => <Navigate to="/executive-dashboard" replace />,
+  component: LeadFlow,
 });
