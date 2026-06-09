@@ -106,9 +106,10 @@ function InboxPage() {
               return (
                 <button
                   key={c.id}
-                  onClick={() => setActiveId(c.id)}
+                  onClick={() => { setActiveId(c.id); setMobileView("chat"); }}
                   className={`w-full text-right p-3 border-b border-white/5 hover:bg-white/[0.03] transition ${activeId === c.id ? "bg-[#25D366]/[0.06]" : ""}`}
                 >
+
                   <div className="flex items-start gap-2.5">
                     <div className="h-9 w-9 shrink-0 rounded-full bg-gradient-to-br from-slate-600 to-slate-800 flex items-center justify-center text-xs font-bold">{c.name.slice(0, 2)}</div>
                     <div className="flex-1 min-w-0">
