@@ -103,11 +103,14 @@ function CampaignsPage() {
       {/* Tabs */}
       <div className="flex flex-wrap gap-2 mb-6 border-b border-white/5 pb-3">
         {[
-          { id: "overview", label: "نظرة عامة", icon: BarChart3 },
-          { id: "templates", label: "Templates", icon: FileText },
-          { id: "groups", label: "Contact Groups", icon: Users },
-          { id: "sender", label: "Campaign Sender", icon: Send },
-          { id: "media", label: "Media Library", icon: Library },
+          { id: "sender", label: "إنشاء حملة", icon: Send },
+          { id: "groups", label: "المجموعات", icon: Users },
+          { id: "tree", label: "شجرة الجمهور", icon: GitBranch },
+          { id: "templates", label: "القوالب", icon: FileText },
+          { id: "exclude", label: "قائمة الاستبعاد", icon: Filter },
+          { id: "history", label: "سجل الحملات", icon: Megaphone },
+          { id: "analytics", label: "تحليلات الحملة", icon: BarChart3 },
+          { id: "media", label: "مكتبة الوسائط", icon: Library },
         ].map((t) => {
           const Icon = t.icon;
           const active = tab === t.id;
@@ -123,8 +126,8 @@ function CampaignsPage() {
         })}
       </div>
 
-      {/* OVERVIEW */}
-      {tab === "overview" && (
+      {/* ANALYTICS */}
+      {tab === "analytics" && (
         <>
           <div className="grid grid-cols-2 md:grid-cols-6 gap-3 mb-6">
             <Stat label="Sent" value={`${totals.sent.toLocaleString()}`} delta="آخر 30 يوم" />
