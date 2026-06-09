@@ -1,20 +1,22 @@
 import { ReactNode, useState, useEffect } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  Users, GitBranch, Brain, Sparkles, Inbox, Megaphone, Home, Search, Bell, Zap, LayoutDashboard, Shield, Bot, Menu, X,
+  Users, Inbox, Megaphone, Home, Search, Bell, LayoutDashboard, Bot, Menu, X, Share2, Tag, GitBranch, Brain, Sparkles, Zap, Shield,
 } from "lucide-react";
 
 const NAV = [
-  { to: "/executive-dashboard", label: "الرئيسية", icon: Home, matches: ["/", "/executive-dashboard"] },
-  { to: "/crm", label: "CRM", icon: Users, matches: ["/crm"] },
+  { to: "/executive-dashboard", label: "لوحة التحكم", icon: Home, matches: ["/", "/executive-dashboard"] },
+  { to: "/inbox", label: "المحادثات", icon: Inbox, matches: ["/inbox"] },
+  { to: "/crm", label: "العملاء المحتملون", icon: Users, matches: ["/crm"] },
   { to: "/pipeline", label: "Sales Pipeline", icon: GitBranch, matches: ["/pipeline"] },
   { to: "/ai-intelligence", label: "AI Lead Intelligence", icon: Brain, matches: ["/ai-intelligence"] },
   { to: "/ai-summary", label: "AI Summary", icon: Sparkles, matches: ["/ai-summary"] },
-  { to: "/inbox", label: "Team Inbox", icon: Inbox, matches: ["/inbox"] },
   { to: "/bot-tree", label: "شجرة البوت", icon: Bot, matches: ["/bot-tree", "/flow-builder"] },
   { to: "/whatsapp-flows", label: "WhatsApp Flows", icon: LayoutDashboard, matches: ["/whatsapp-flows"] },
   { to: "/automations", label: "AI Automations", icon: Zap, matches: ["/automations"] },
-  { to: "/campaigns", label: "AI Campaign Builder", icon: Megaphone, matches: ["/campaigns"] },
+  { to: "/campaigns", label: "الحملات", icon: Megaphone, matches: ["/campaigns"] },
+  { to: "/social-leads", label: "فرص السوشال", icon: Share2, matches: ["/social-leads"] },
+  { to: "/pricing", label: "الباقات", icon: Tag, matches: ["/pricing"] },
   { to: "/team", label: "Team & Settings", icon: Shield, matches: ["/team"] },
 ];
 

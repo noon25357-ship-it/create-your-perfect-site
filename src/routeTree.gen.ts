@@ -10,8 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeamRouteImport } from './routes/team'
+import { Route as SocialLeadsRouteImport } from './routes/social-leads'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as LiveDemoRouteImport } from './routes/live-demo'
 import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as ExecutiveDashboardRouteImport } from './routes/executive-dashboard'
 import { Route as CrmRouteImport } from './routes/crm'
@@ -33,6 +36,16 @@ const TeamRoute = TeamRouteImport.update({
   path: '/team',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SocialLeadsRoute = SocialLeadsRouteImport.update({
+  id: '/social-leads',
+  path: '/social-leads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PipelineRoute = PipelineRouteImport.update({
   id: '/pipeline',
   path: '/pipeline',
@@ -41,6 +54,11 @@ const PipelineRoute = PipelineRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LiveDemoRoute = LiveDemoRouteImport.update({
+  id: '/live-demo',
+  path: '/live-demo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InboxRoute = InboxRouteImport.update({
@@ -129,8 +147,11 @@ export interface FileRoutesByFullPath {
   '/crm': typeof CrmRoute
   '/executive-dashboard': typeof ExecutiveDashboardRoute
   '/inbox': typeof InboxRoute
+  '/live-demo': typeof LiveDemoRoute
   '/login': typeof LoginRoute
   '/pipeline': typeof PipelineRoute
+  '/pricing': typeof PricingRoute
+  '/social-leads': typeof SocialLeadsRoute
   '/team': typeof TeamRoute
   '/bot-tree/$id': typeof BotTreeIdRoute
   '/flow-builder/$id': typeof FlowBuilderIdRoute
@@ -149,8 +170,11 @@ export interface FileRoutesByTo {
   '/crm': typeof CrmRoute
   '/executive-dashboard': typeof ExecutiveDashboardRoute
   '/inbox': typeof InboxRoute
+  '/live-demo': typeof LiveDemoRoute
   '/login': typeof LoginRoute
   '/pipeline': typeof PipelineRoute
+  '/pricing': typeof PricingRoute
+  '/social-leads': typeof SocialLeadsRoute
   '/team': typeof TeamRoute
   '/bot-tree/$id': typeof BotTreeIdRoute
   '/flow-builder/$id': typeof FlowBuilderIdRoute
@@ -170,8 +194,11 @@ export interface FileRoutesById {
   '/crm': typeof CrmRoute
   '/executive-dashboard': typeof ExecutiveDashboardRoute
   '/inbox': typeof InboxRoute
+  '/live-demo': typeof LiveDemoRoute
   '/login': typeof LoginRoute
   '/pipeline': typeof PipelineRoute
+  '/pricing': typeof PricingRoute
+  '/social-leads': typeof SocialLeadsRoute
   '/team': typeof TeamRoute
   '/bot-tree/$id': typeof BotTreeIdRoute
   '/flow-builder/$id': typeof FlowBuilderIdRoute
@@ -192,8 +219,11 @@ export interface FileRouteTypes {
     | '/crm'
     | '/executive-dashboard'
     | '/inbox'
+    | '/live-demo'
     | '/login'
     | '/pipeline'
+    | '/pricing'
+    | '/social-leads'
     | '/team'
     | '/bot-tree/$id'
     | '/flow-builder/$id'
@@ -212,8 +242,11 @@ export interface FileRouteTypes {
     | '/crm'
     | '/executive-dashboard'
     | '/inbox'
+    | '/live-demo'
     | '/login'
     | '/pipeline'
+    | '/pricing'
+    | '/social-leads'
     | '/team'
     | '/bot-tree/$id'
     | '/flow-builder/$id'
@@ -232,8 +265,11 @@ export interface FileRouteTypes {
     | '/crm'
     | '/executive-dashboard'
     | '/inbox'
+    | '/live-demo'
     | '/login'
     | '/pipeline'
+    | '/pricing'
+    | '/social-leads'
     | '/team'
     | '/bot-tree/$id'
     | '/flow-builder/$id'
@@ -253,8 +289,11 @@ export interface RootRouteChildren {
   CrmRoute: typeof CrmRoute
   ExecutiveDashboardRoute: typeof ExecutiveDashboardRoute
   InboxRoute: typeof InboxRoute
+  LiveDemoRoute: typeof LiveDemoRoute
   LoginRoute: typeof LoginRoute
   PipelineRoute: typeof PipelineRoute
+  PricingRoute: typeof PricingRoute
+  SocialLeadsRoute: typeof SocialLeadsRoute
   TeamRoute: typeof TeamRoute
   BotTreeIdRoute: typeof BotTreeIdRoute
   FlowBuilderIdRoute: typeof FlowBuilderIdRoute
@@ -273,6 +312,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/social-leads': {
+      id: '/social-leads'
+      path: '/social-leads'
+      fullPath: '/social-leads'
+      preLoaderRoute: typeof SocialLeadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pipeline': {
       id: '/pipeline'
       path: '/pipeline'
@@ -285,6 +338,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/live-demo': {
+      id: '/live-demo'
+      path: '/live-demo'
+      fullPath: '/live-demo'
+      preLoaderRoute: typeof LiveDemoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/inbox': {
@@ -405,8 +465,11 @@ const rootRouteChildren: RootRouteChildren = {
   CrmRoute: CrmRoute,
   ExecutiveDashboardRoute: ExecutiveDashboardRoute,
   InboxRoute: InboxRoute,
+  LiveDemoRoute: LiveDemoRoute,
   LoginRoute: LoginRoute,
   PipelineRoute: PipelineRoute,
+  PricingRoute: PricingRoute,
+  SocialLeadsRoute: SocialLeadsRoute,
   TeamRoute: TeamRoute,
   BotTreeIdRoute: BotTreeIdRoute,
   FlowBuilderIdRoute: FlowBuilderIdRoute,

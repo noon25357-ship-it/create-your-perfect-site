@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React, { useState, useEffect, useMemo, useRef } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import {
   LayoutDashboard, MessageSquare, Bot, Ticket, Send, Users, Share2, Tag,
   Sparkles, Search, Bell, ChevronLeft, ChevronRight, Menu, X, Globe,
@@ -703,7 +704,7 @@ function PageHead({ title, sub, right }){
 
 
 /* ============================== LANDING PAGE ============================== */
-function Landing({ lang, onEnter, onToggleLang }){
+function Landing({ lang, onEnter, onWatchDemo, onToggleLang }){
   const t = useT(lang);
   return (
     <div className="scroll" style={{height:"100vh",overflowY:"auto",position:"relative",zIndex:1}}>
@@ -720,7 +721,7 @@ function Landing({ lang, onEnter, onToggleLang }){
           <div style={{display:"flex",alignItems:"center",gap:10}}>
             <button className="btn-icon" onClick={onToggleLang} title="Language"><Globe size={18}/></button>
             <button className="btn btn-ghost btn-sm hide-mob" onClick={onEnter}>{t.enterApp}</button>
-            <button className="btn btn-primary btn-sm" onClick={onEnter}><Play size={15}/>{t.bookDemo}</button>
+            <button className="btn btn-primary btn-sm" onClick={onWatchDemo}><Play size={15}/>{t.bookDemo}</button>
           </div>
         </div>
       </header>
@@ -738,7 +739,7 @@ function Landing({ lang, onEnter, onToggleLang }){
           </h1>
           <p className="muted hero-in-3" style={{maxWidth:680,margin:"22px auto 0",fontSize:"clamp(15px,2vw,19px)",lineHeight:1.65}}>{t.heroSub}</p>
           <div className="hero-in-3" style={{display:"flex",gap:13,justifyContent:"center",marginTop:34,flexWrap:"wrap"}}>
-            <button className="btn btn-primary" style={{padding:"14px 26px",fontSize:15.5}} onClick={onEnter}><Play size={18}/>{t.lf.watchLive}</button>
+            <button className="btn btn-primary" style={{padding:"14px 26px",fontSize:15.5}} onClick={onWatchDemo}><Play size={18}/>{t.lf.watchLive}</button>
             <button className="btn btn-ghost" style={{padding:"14px 24px",fontSize:15.5}} onClick={onEnter}><Sparkles size={17}/>{t.enterApp}</button>
           </div>
           {/* hero preview */}
@@ -1580,7 +1581,7 @@ function SrcChip({ k, lang }){
 }
 
 /* ============================== LIVE FLOW ============================== */
-function LiveFlow({ lang }){
+export function LiveFlow({ lang }){
   const t = useT(lang);
   const lf = t.lf;
   const script = lf.script;
@@ -1807,6 +1808,7 @@ function Toast({ msg }){
 
 /* ============================== ROOT ============================== */
 function WhatsAISalesHub(){
+  const navigate = useNavigate();
   const [lang, setLang] = useState("ar");
   const [screen, setScreen] = useState("landing"); // landing | app
   const [view, setView] = useState("liveflow");
@@ -1863,7 +1865,7 @@ function WhatsAISalesHub(){
       <style id="wa-style" dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="wa-root" dir={lang==="ar"?"rtl":"ltr"} style={{minHeight:"100vh"}}>
       {screen==="landing" ? (
-        <Landing lang={lang} onEnter={()=>{setScreen("app");setView("liveflow");}} onToggleLang={()=>setLang(l=>l==="ar"?"en":"ar")}/>
+        <Landing lang={lang} onEnter={()=>navigate({to:"/executive-dashboard"})} onWatchDemo={()=>navigate({to:"/live-demo"})} onToggleLang={()=>setLang(l=>l==="ar"?"en":"ar")}/>
       ) : (
         <div className="app-grid">
           <div className={`backdrop ${open?"show":""}`} onClick={()=>setOpen(false)}/>
