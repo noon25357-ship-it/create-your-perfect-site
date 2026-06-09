@@ -5,18 +5,17 @@ import {
 } from "lucide-react";
 
 const NAV = [
-  { to: "/", label: "الرئيسية", icon: Home },
-  { to: "/executive-dashboard", label: "Executive Dashboard", icon: LayoutDashboard },
-  { to: "/crm", label: "CRM", icon: Users },
-  { to: "/pipeline", label: "Sales Pipeline", icon: GitBranch },
-  { to: "/ai-intelligence", label: "AI Lead Intelligence", icon: Brain },
-  { to: "/ai-summary", label: "AI Summary", icon: Sparkles },
-  { to: "/inbox", label: "Team Inbox", icon: Inbox },
-  { to: "/bot-tree", label: "شجرة البوت", icon: Bot },
-  { to: "/whatsapp-flows", label: "WhatsApp Flows", icon: GitBranch },
-  { to: "/automations", label: "AI Automations", icon: Zap },
-  { to: "/campaigns", label: "AI Campaign Builder", icon: Megaphone },
-  { to: "/team", label: "Team & Settings", icon: Shield },
+  { to: "/executive-dashboard", label: "الرئيسية", icon: Home, matches: ["/", "/executive-dashboard"] },
+  { to: "/crm", label: "CRM", icon: Users, matches: ["/crm"] },
+  { to: "/pipeline", label: "Sales Pipeline", icon: GitBranch, matches: ["/pipeline"] },
+  { to: "/ai-intelligence", label: "AI Lead Intelligence", icon: Brain, matches: ["/ai-intelligence"] },
+  { to: "/ai-summary", label: "AI Summary", icon: Sparkles, matches: ["/ai-summary"] },
+  { to: "/inbox", label: "Team Inbox", icon: Inbox, matches: ["/inbox"] },
+  { to: "/bot-tree", label: "شجرة البوت", icon: Bot, matches: ["/bot-tree", "/flow-builder"] },
+  { to: "/whatsapp-flows", label: "WhatsApp Flows", icon: LayoutDashboard, matches: ["/whatsapp-flows"] },
+  { to: "/automations", label: "AI Automations", icon: Zap, matches: ["/automations"] },
+  { to: "/campaigns", label: "AI Campaign Builder", icon: Megaphone, matches: ["/campaigns"] },
+  { to: "/team", label: "Team & Settings", icon: Shield, matches: ["/team"] },
 ];
 
 export default function AppShell({
@@ -34,10 +33,12 @@ export default function AppShell({
   const [mobileOpen, setMobileOpen] = useState(false);
   useEffect(() => { setMobileOpen(false); }, [pathname]);
 
+  const isActiveRoute = (matches: string[]) => matches.some((match) => pathname === match || pathname.startsWith(`${match}/`));
+
   const NavList = ({ onClick }: { onClick?: () => void }) => (
     <nav className="mt-2 flex flex-col gap-1">
       {NAV.map((n) => {
-        const active = pathname === n.to;
+        const active = isActiveRoute(n.matches);
         const Icon = n.icon;
         return (
           <Link
