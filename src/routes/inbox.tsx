@@ -86,12 +86,15 @@ function InboxPage() {
     return { label: "Mark as low priority — أولوية منخفضة", desc: "تركيز الجهد على عملاء أعلى احتمالاً للإغلاق.", icon: AlertTriangle, tone: "red" as const };
   })();
 
+  const [mobileView, setMobileView] = useState<"list" | "chat">("list");
+
   return (
     <AppShell title="Team Inbox" subtitle="إدارة كاملة للعميل من شاشة واحدة">
-      <div className="grid grid-cols-12 gap-3 h-[calc(100vh-180px)]">
+      <div className="grid grid-cols-12 gap-3 md:h-[calc(100vh-180px)]">
 
         {/* ============ LEFT ============ */}
-        <aside className="col-span-12 md:col-span-3 lg:col-span-3 rounded-2xl border border-white/5 bg-[#0f141b] overflow-hidden flex flex-col">
+        <aside className={`${mobileView === "list" ? "flex" : "hidden"} md:flex col-span-12 md:col-span-3 lg:col-span-3 rounded-2xl border border-white/5 bg-[#0f141b] overflow-hidden flex-col h-[calc(100vh-180px)] md:h-auto min-w-0`}>
+
           <div className="p-3 border-b border-white/5 flex gap-1 overflow-x-auto">
             {["الكل", "مفتوحة", "موكلة لي", "مغلقة"].map((t, i) => (
               <button key={t} className={`shrink-0 rounded-lg px-3 py-1.5 text-xs ${i === 0 ? "bg-[#25D366] text-black" : "bg-white/5 text-slate-300"}`}>{t}</button>
