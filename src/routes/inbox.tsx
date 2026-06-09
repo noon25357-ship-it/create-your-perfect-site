@@ -86,12 +86,15 @@ function InboxPage() {
     return { label: "Mark as low priority — أولوية منخفضة", desc: "تركيز الجهد على عملاء أعلى احتمالاً للإغلاق.", icon: AlertTriangle, tone: "red" as const };
   })();
 
+  const [mobileView, setMobileView] = useState<"list" | "chat">("list");
+
   return (
     <AppShell title="Team Inbox" subtitle="إدارة كاملة للعميل من شاشة واحدة">
-      <div className="grid grid-cols-12 gap-3 h-[calc(100vh-180px)]">
+      <div className="grid grid-cols-12 gap-3 md:h-[calc(100vh-180px)]">
 
         {/* ============ LEFT ============ */}
-        <aside className="col-span-12 md:col-span-3 lg:col-span-3 rounded-2xl border border-white/5 bg-[#0f141b] overflow-hidden flex flex-col">
+        <aside className={`${mobileView === "list" ? "flex" : "hidden"} md:flex col-span-12 md:col-span-3 lg:col-span-3 rounded-2xl border border-white/5 bg-[#0f141b] overflow-hidden flex-col h-[calc(100vh-180px)] md:h-auto min-w-0`}>
+
           <div className="p-3 border-b border-white/5 flex gap-1 overflow-x-auto">
             {["الكل", "مفتوحة", "موكلة لي", "مغلقة"].map((t, i) => (
               <button key={t} className={`shrink-0 rounded-lg px-3 py-1.5 text-xs ${i === 0 ? "bg-[#25D366] text-black" : "bg-white/5 text-slate-300"}`}>{t}</button>
@@ -103,9 +106,10 @@ function InboxPage() {
               return (
                 <button
                   key={c.id}
-                  onClick={() => setActiveId(c.id)}
+                  onClick={() => { setActiveId(c.id); setMobileView("chat"); }}
                   className={`w-full text-right p-3 border-b border-white/5 hover:bg-white/[0.03] transition ${activeId === c.id ? "bg-[#25D366]/[0.06]" : ""}`}
                 >
+
                   <div className="flex items-start gap-2.5">
                     <div className="h-9 w-9 shrink-0 rounded-full bg-gradient-to-br from-slate-600 to-slate-800 flex items-center justify-center text-xs font-bold">{c.name.slice(0, 2)}</div>
                     <div className="flex-1 min-w-0">
@@ -128,17 +132,20 @@ function InboxPage() {
         </aside>
 
         {/* ============ CENTER ============ */}
-        <section className="col-span-12 md:col-span-9 lg:col-span-5 rounded-2xl border border-white/5 bg-[#0f141b] overflow-hidden flex flex-col">
-          <header className="p-3 border-b border-white/5 flex items-center gap-2">
-            <div className="h-9 w-9 rounded-full bg-gradient-to-br from-[#25D366] to-emerald-700 flex items-center justify-center text-xs font-bold text-black">{conv.name.slice(0, 2)}</div>
+        <section className={`${mobileView === "chat" ? "flex" : "hidden"} md:flex col-span-12 md:col-span-9 lg:col-span-5 rounded-2xl border border-white/5 bg-[#0f141b] overflow-hidden flex-col h-[calc(100vh-180px)] md:h-auto min-w-0`}>
+          <header className="p-2 sm:p-3 border-b border-white/5 flex items-center gap-1.5 sm:gap-2 min-w-0">
+            <button onClick={() => setMobileView("list")} className="md:hidden p-1.5 rounded-lg hover:bg-white/5 shrink-0" aria-label="رجوع">
+              <ArrowRight className="h-4 w-4 text-slate-400 rotate-180" />
+            </button>
+            <div className="h-9 w-9 shrink-0 rounded-full bg-gradient-to-br from-[#25D366] to-emerald-700 flex items-center justify-center text-xs font-bold text-black">{conv.name.slice(0, 2)}</div>
             <div className="flex-1 min-w-0">
               <div className="text-sm font-medium truncate">{conv.name}</div>
               <div className="text-[11px] text-slate-500 truncate">{conv.phone} · {agent}</div>
             </div>
 
-            <div className="relative">
-              <button onClick={() => setStageMenu(v => !v)} className="flex items-center gap-1.5 rounded-lg bg-white/5 hover:bg-white/10 px-2.5 py-1.5 text-xs">
-                <span className="text-slate-400">Move to:</span>
+            <div className="relative shrink-0">
+              <button onClick={() => setStageMenu(v => !v)} className="flex items-center gap-1.5 rounded-lg bg-white/5 hover:bg-white/10 px-2 py-1.5 text-xs">
+                <span className="text-slate-400 hidden sm:inline">Move:</span>
                 <Badge tone={STAGE_TONE[stage]}>{stage}</Badge>
                 <ChevronDown className="h-3 w-3 text-slate-400" />
               </button>
@@ -154,9 +161,10 @@ function InboxPage() {
                 </div>
               )}
             </div>
-            <button className="p-2 rounded-lg hover:bg-white/5"><Phone className="h-4 w-4 text-slate-400" /></button>
-            <button className="p-2 rounded-lg hover:bg-white/5"><MoreVertical className="h-4 w-4 text-slate-400" /></button>
+            <button className="hidden sm:block p-2 rounded-lg hover:bg-white/5 shrink-0"><Phone className="h-4 w-4 text-slate-400" /></button>
+            <button className="p-2 rounded-lg hover:bg-white/5 shrink-0"><MoreVertical className="h-4 w-4 text-slate-400" /></button>
           </header>
+
 
           <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#0a0d12]">
             {conv.messages.map((m, i) => (
