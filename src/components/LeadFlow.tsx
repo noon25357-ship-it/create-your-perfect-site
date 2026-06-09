@@ -738,7 +738,7 @@ function Landing({ lang, onEnter, onWatchDemo, onToggleLang }){
           </h1>
           <p className="muted hero-in-3" style={{maxWidth:680,margin:"22px auto 0",fontSize:"clamp(15px,2vw,19px)",lineHeight:1.65}}>{t.heroSub}</p>
           <div className="hero-in-3" style={{display:"flex",gap:13,justifyContent:"center",marginTop:34,flexWrap:"wrap"}}>
-            <button className="btn btn-primary" style={{padding:"14px 26px",fontSize:15.5}} onClick={onEnter}><Play size={18}/>{t.lf.watchLive}</button>
+            <button className="btn btn-primary" style={{padding:"14px 26px",fontSize:15.5}} onClick={onWatchDemo}><Play size={18}/>{t.lf.watchLive}</button>
             <button className="btn btn-ghost" style={{padding:"14px 24px",fontSize:15.5}} onClick={onEnter}><Sparkles size={17}/>{t.enterApp}</button>
           </div>
           {/* hero preview */}
