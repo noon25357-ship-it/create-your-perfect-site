@@ -703,7 +703,7 @@ function PageHead({ title, sub, right }){
 
 
 /* ============================== LANDING PAGE ============================== */
-function Landing({ lang, onEnter, onToggleLang }){
+function Landing({ lang, onEnter, onWatchDemo, onToggleLang }){
   const t = useT(lang);
   return (
     <div className="scroll" style={{height:"100vh",overflowY:"auto",position:"relative",zIndex:1}}>
