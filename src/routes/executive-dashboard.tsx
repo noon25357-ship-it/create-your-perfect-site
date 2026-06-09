@@ -58,6 +58,8 @@ function ExecutivePage() {
         </button>
       }
     >
+      <BotTreeSummaryCard />
+
       {/* AI Executive Summary */}
       <Card className="mb-6 bg-gradient-to-br from-[#25D366]/10 via-[#0f141b] to-[#0f141b] border-[#25D366]/20">
         <div className="flex items-start gap-3">
