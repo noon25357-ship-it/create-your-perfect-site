@@ -720,7 +720,7 @@ function Landing({ lang, onEnter, onToggleLang }){
           <div style={{display:"flex",alignItems:"center",gap:10}}>
             <button className="btn-icon" onClick={onToggleLang} title="Language"><Globe size={18}/></button>
             <button className="btn btn-ghost btn-sm hide-mob" onClick={onEnter}>{t.enterApp}</button>
-            <button className="btn btn-primary btn-sm" onClick={onEnter}><Play size={15}/>{t.bookDemo}</button>
+            <button className="btn btn-primary btn-sm" onClick={onWatchDemo}><Play size={15}/>{t.bookDemo}</button>
           </div>
         </div>
       </header>
