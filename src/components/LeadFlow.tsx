@@ -1807,6 +1807,7 @@ function Toast({ msg }){
 
 /* ============================== ROOT ============================== */
 function WhatsAISalesHub(){
+  const navigate = useNavigate();
   const [lang, setLang] = useState("ar");
   const [screen, setScreen] = useState("landing"); // landing | app
   const [view, setView] = useState("liveflow");
