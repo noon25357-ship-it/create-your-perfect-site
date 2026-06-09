@@ -141,7 +141,7 @@ export default function FlowsListView({
                   <td className="px-4 py-3 text-slate-400">{f.modifiedAt}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center justify-end gap-1">
-                      <Link to={`${basePath}/$id` as any} params={{ id: f.id }}
+                      <Link to={`${basePath}/$id` as any} params={{ id: f.id } as any}
                         className="grid h-8 w-8 place-items-center rounded-lg bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366]/20" title="فتح">
                         <MessageCircle className="h-4 w-4" />
                       </Link>
