@@ -1,5 +1,33 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import AppShell, { Card, Stat, Badge } from "@/components/app/AppShell";
+import { useFlows } from "@/lib/flows-store";
+import { Bot, ArrowUpRight as ArrowUpRightIcon } from "lucide-react";
+
+function BotTreeSummaryCard() {
+  const flows = useFlows();
+  const published = flows.filter((f) => f.status === "Published").length;
+  const drafts = flows.filter((f) => f.status === "Draft").length;
+  const last = [...flows].sort((a, b) => b.modifiedAt.localeCompare(a.modifiedAt))[0];
+  return (
+    <Card className="mb-6 flex flex-col gap-4 border-[#5b46f5]/20 bg-gradient-to-br from-[#5b46f5]/10 via-[#0f141b] to-[#0f141b] md:flex-row md:items-center md:justify-between">
+      <div className="flex items-start gap-3">
+        <div className="rounded-xl bg-[#5b46f5]/15 p-2.5"><Bot className="h-5 w-5 text-[#a89bff]" /></div>
+        <div>
+          <div className="text-xs font-medium text-[#a89bff]">WhatsApp Flows — شجرة البوت</div>
+          <div className="mt-1 text-sm text-slate-200">
+            <b className="text-emerald-400">{published}</b> منشور · <b className="text-slate-300">{drafts}</b> مسودة
+            {last && <> · آخر تعديل: <b className="text-slate-100">{last.name}</b> ({last.modifiedAt})</>}
+          </div>
+        </div>
+      </div>
+      <Link to="/bot-tree" className="inline-flex items-center gap-2 self-start rounded-xl bg-[#25D366] px-4 py-2 text-sm font-semibold text-black hover:brightness-110 md:self-auto">
+        فتح شجرة البوت <ArrowUpRightIcon className="h-4 w-4" />
+      </Link>
+    </Card>
+  );
+}
+
+
 import {
   Sparkles, TrendingUp, DollarSign, Target, Trophy, AlertTriangle, Flame,
   GitBranch, Brain, Calendar, CheckCircle2, Clock, Users, Activity, ArrowUpRight,
@@ -58,6 +86,8 @@ function ExecutivePage() {
         </button>
       }
     >
+      <BotTreeSummaryCard />
+
       {/* AI Executive Summary */}
       <Card className="mb-6 bg-gradient-to-br from-[#25D366]/10 via-[#0f141b] to-[#0f141b] border-[#25D366]/20">
         <div className="flex items-start gap-3">
