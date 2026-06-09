@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WhatsappFlowsRouteImport } from './routes/whatsapp-flows'
 import { Route as TeamRouteImport } from './routes/team'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as LoginRouteImport } from './routes/login'
@@ -24,6 +25,11 @@ import { Route as AiIntelligenceRouteImport } from './routes/ai-intelligence'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BotTreeIdRouteImport } from './routes/bot-tree.$id'
 
+const WhatsappFlowsRoute = WhatsappFlowsRouteImport.update({
+  id: '/whatsapp-flows',
+  path: '/whatsapp-flows',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TeamRoute = TeamRouteImport.update({
   id: '/team',
   path: '/team',
@@ -109,6 +115,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/pipeline': typeof PipelineRoute
   '/team': typeof TeamRoute
+  '/whatsapp-flows': typeof WhatsappFlowsRoute
   '/bot-tree/$id': typeof BotTreeIdRoute
 }
 export interface FileRoutesByTo {
@@ -125,6 +132,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/pipeline': typeof PipelineRoute
   '/team': typeof TeamRoute
+  '/whatsapp-flows': typeof WhatsappFlowsRoute
   '/bot-tree/$id': typeof BotTreeIdRoute
 }
 export interface FileRoutesById {
@@ -142,6 +150,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/pipeline': typeof PipelineRoute
   '/team': typeof TeamRoute
+  '/whatsapp-flows': typeof WhatsappFlowsRoute
   '/bot-tree/$id': typeof BotTreeIdRoute
 }
 export interface FileRouteTypes {
@@ -160,6 +169,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/pipeline'
     | '/team'
+    | '/whatsapp-flows'
     | '/bot-tree/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -176,6 +186,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/pipeline'
     | '/team'
+    | '/whatsapp-flows'
     | '/bot-tree/$id'
   id:
     | '__root__'
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/pipeline'
     | '/team'
+    | '/whatsapp-flows'
     | '/bot-tree/$id'
   fileRoutesById: FileRoutesById
 }
@@ -209,10 +221,18 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   PipelineRoute: typeof PipelineRoute
   TeamRoute: typeof TeamRoute
+  WhatsappFlowsRoute: typeof WhatsappFlowsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/whatsapp-flows': {
+      id: '/whatsapp-flows'
+      path: '/whatsapp-flows'
+      fullPath: '/whatsapp-flows'
+      preLoaderRoute: typeof WhatsappFlowsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/team': {
       id: '/team'
       path: '/team'
@@ -339,6 +359,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   PipelineRoute: PipelineRoute,
   TeamRoute: TeamRoute,
+  WhatsappFlowsRoute: WhatsappFlowsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
