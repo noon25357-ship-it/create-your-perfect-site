@@ -124,7 +124,7 @@ export default function FlowsListView({
               {filtered.map((f: Flow) => (
                 <tr key={f.id} className="border-t border-white/5 hover:bg-white/[0.02]">
                   <td className="px-4 py-3">
-                    <Link to={`${basePath}/$id` as any} params={{ id: f.id }} className="font-medium text-slate-100 hover:text-[#25D366]">
+                    <Link to={`${basePath}/$id` as any} params={{ id: f.id } as any} className="font-medium text-slate-100 hover:text-[#25D366]">
                       {f.name}
                     </Link>
                   </td>
