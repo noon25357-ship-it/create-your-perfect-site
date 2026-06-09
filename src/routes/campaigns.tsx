@@ -74,7 +74,7 @@ const mediaIcon: Record<MediaKind, any> = { Text: FileText, Image: ImageIcon, Vi
 /* ---------- Page ---------- */
 
 function CampaignsPage() {
-  const [tab, setTab] = useState<"overview" | "templates" | "groups" | "sender" | "media">("overview");
+  const [tab, setTab] = useState<"sender" | "groups" | "tree" | "templates" | "exclude" | "history" | "analytics" | "media">("sender");
   const [selectedTplId, setSelectedTplId] = useState(TEMPLATES[0].id);
   const [selectedGroupId, setSelectedGroupId] = useState(GROUPS[0].id);
   const [schedule, setSchedule] = useState("now");
