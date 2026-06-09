@@ -99,14 +99,14 @@ const BotTreeIndexRoute = BotTreeIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const WhatsappFlowsNewRoute = WhatsappFlowsNewRouteImport.update({
-  id: '/new',
-  path: '/new',
-  getParentRoute: () => WhatsappFlowsRoute,
+  id: '/whatsapp-flows/new',
+  path: '/whatsapp-flows/new',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const WhatsappFlowsIdRoute = WhatsappFlowsIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => WhatsappFlowsRoute,
+  id: '/whatsapp-flows/$id',
+  path: '/whatsapp-flows/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const FlowBuilderIdRoute = FlowBuilderIdRouteImport.update({
   id: '/flow-builder/$id',
@@ -114,9 +114,9 @@ const FlowBuilderIdRoute = FlowBuilderIdRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const BotTreeIdRoute = BotTreeIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => BotTreeRoute,
+  id: '/bot-tree/$id',
+  path: '/bot-tree/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -256,7 +256,10 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   PipelineRoute: typeof PipelineRoute
   TeamRoute: typeof TeamRoute
+  BotTreeIdRoute: typeof BotTreeIdRoute
   FlowBuilderIdRoute: typeof FlowBuilderIdRoute
+  WhatsappFlowsIdRoute: typeof WhatsappFlowsIdRoute
+  WhatsappFlowsNewRoute: typeof WhatsappFlowsNewRoute
   BotTreeIndexRoute: typeof BotTreeIndexRoute
   WhatsappFlowsIndexRoute: typeof WhatsappFlowsIndexRoute
 }
@@ -363,17 +366,17 @@ declare module '@tanstack/react-router' {
     }
     '/whatsapp-flows/new': {
       id: '/whatsapp-flows/new'
-      path: '/new'
+      path: '/whatsapp-flows/new'
       fullPath: '/whatsapp-flows/new'
       preLoaderRoute: typeof WhatsappFlowsNewRouteImport
-      parentRoute: typeof WhatsappFlowsRoute
+      parentRoute: typeof rootRouteImport
     }
     '/whatsapp-flows/$id': {
       id: '/whatsapp-flows/$id'
-      path: '/$id'
+      path: '/whatsapp-flows/$id'
       fullPath: '/whatsapp-flows/$id'
       preLoaderRoute: typeof WhatsappFlowsIdRouteImport
-      parentRoute: typeof WhatsappFlowsRoute
+      parentRoute: typeof rootRouteImport
     }
     '/flow-builder/$id': {
       id: '/flow-builder/$id'
@@ -384,10 +387,10 @@ declare module '@tanstack/react-router' {
     }
     '/bot-tree/$id': {
       id: '/bot-tree/$id'
-      path: '/$id'
+      path: '/bot-tree/$id'
       fullPath: '/bot-tree/$id'
       preLoaderRoute: typeof BotTreeIdRouteImport
-      parentRoute: typeof BotTreeRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -405,20 +408,13 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   PipelineRoute: PipelineRoute,
   TeamRoute: TeamRoute,
+  BotTreeIdRoute: BotTreeIdRoute,
   FlowBuilderIdRoute: FlowBuilderIdRoute,
+  WhatsappFlowsIdRoute: WhatsappFlowsIdRoute,
+  WhatsappFlowsNewRoute: WhatsappFlowsNewRoute,
   BotTreeIndexRoute: BotTreeIndexRoute,
   WhatsappFlowsIndexRoute: WhatsappFlowsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

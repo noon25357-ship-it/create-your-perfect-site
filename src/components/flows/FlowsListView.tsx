@@ -43,7 +43,7 @@ export default function FlowsListView({
   function handleCreate() {
     const f = createFlow("شجرة جديدة");
     toast.success("تم إنشاء الشجرة");
-    navigate({ to: "/flow-builder/$id", params: { id: f.id } });
+    navigate({ to: `${basePath}/$id` as any, params: { id: f.id } as any });
   }
 
   if (flows.length === 0) {
