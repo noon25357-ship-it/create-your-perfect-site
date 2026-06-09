@@ -22,6 +22,7 @@ import { Route as AutomationsRouteImport } from './routes/automations'
 import { Route as AiSummaryRouteImport } from './routes/ai-summary'
 import { Route as AiIntelligenceRouteImport } from './routes/ai-intelligence'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BotTreeIdRouteImport } from './routes/bot-tree.$id'
 
 const TeamRoute = TeamRouteImport.update({
   id: '/team',
@@ -88,6 +89,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BotTreeIdRoute = BotTreeIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => BotTreeRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -95,7 +101,7 @@ export interface FileRoutesByFullPath {
   '/ai-summary': typeof AiSummaryRoute
   '/automations': typeof AutomationsRoute
   '/bot-flow': typeof BotFlowRoute
-  '/bot-tree': typeof BotTreeRoute
+  '/bot-tree': typeof BotTreeRouteWithChildren
   '/campaigns': typeof CampaignsRoute
   '/crm': typeof CrmRoute
   '/executive-dashboard': typeof ExecutiveDashboardRoute
@@ -103,6 +109,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/pipeline': typeof PipelineRoute
   '/team': typeof TeamRoute
+  '/bot-tree/$id': typeof BotTreeIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -110,7 +117,7 @@ export interface FileRoutesByTo {
   '/ai-summary': typeof AiSummaryRoute
   '/automations': typeof AutomationsRoute
   '/bot-flow': typeof BotFlowRoute
-  '/bot-tree': typeof BotTreeRoute
+  '/bot-tree': typeof BotTreeRouteWithChildren
   '/campaigns': typeof CampaignsRoute
   '/crm': typeof CrmRoute
   '/executive-dashboard': typeof ExecutiveDashboardRoute
@@ -118,6 +125,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/pipeline': typeof PipelineRoute
   '/team': typeof TeamRoute
+  '/bot-tree/$id': typeof BotTreeIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -126,7 +134,7 @@ export interface FileRoutesById {
   '/ai-summary': typeof AiSummaryRoute
   '/automations': typeof AutomationsRoute
   '/bot-flow': typeof BotFlowRoute
-  '/bot-tree': typeof BotTreeRoute
+  '/bot-tree': typeof BotTreeRouteWithChildren
   '/campaigns': typeof CampaignsRoute
   '/crm': typeof CrmRoute
   '/executive-dashboard': typeof ExecutiveDashboardRoute
@@ -134,6 +142,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/pipeline': typeof PipelineRoute
   '/team': typeof TeamRoute
+  '/bot-tree/$id': typeof BotTreeIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -151,6 +160,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/pipeline'
     | '/team'
+    | '/bot-tree/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/pipeline'
     | '/team'
+    | '/bot-tree/$id'
   id:
     | '__root__'
     | '/'
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/pipeline'
     | '/team'
+    | '/bot-tree/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -189,7 +201,7 @@ export interface RootRouteChildren {
   AiSummaryRoute: typeof AiSummaryRoute
   AutomationsRoute: typeof AutomationsRoute
   BotFlowRoute: typeof BotFlowRoute
-  BotTreeRoute: typeof BotTreeRoute
+  BotTreeRoute: typeof BotTreeRouteWithChildren
   CampaignsRoute: typeof CampaignsRoute
   CrmRoute: typeof CrmRoute
   ExecutiveDashboardRoute: typeof ExecutiveDashboardRoute
@@ -292,8 +304,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bot-tree/$id': {
+      id: '/bot-tree/$id'
+      path: '/$id'
+      fullPath: '/bot-tree/$id'
+      preLoaderRoute: typeof BotTreeIdRouteImport
+      parentRoute: typeof BotTreeRoute
+    }
   }
 }
+
+interface BotTreeRouteChildren {
+  BotTreeIdRoute: typeof BotTreeIdRoute
+}
+
+const BotTreeRouteChildren: BotTreeRouteChildren = {
+  BotTreeIdRoute: BotTreeIdRoute,
+}
+
+const BotTreeRouteWithChildren =
+  BotTreeRoute._addFileChildren(BotTreeRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -301,7 +331,7 @@ const rootRouteChildren: RootRouteChildren = {
   AiSummaryRoute: AiSummaryRoute,
   AutomationsRoute: AutomationsRoute,
   BotFlowRoute: BotFlowRoute,
-  BotTreeRoute: BotTreeRoute,
+  BotTreeRoute: BotTreeRouteWithChildren,
   CampaignsRoute: CampaignsRoute,
   CrmRoute: CrmRoute,
   ExecutiveDashboardRoute: ExecutiveDashboardRoute,
