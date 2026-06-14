@@ -126,22 +126,6 @@ function RootComponent() {
     const frame = window.requestAnimationFrame(() => {
       window.setTimeout(() => setBootVisible(false), 120);
     });
-
-    // Seed partner account + one-time success toast
-    import("@/lib/auth-store").then(({ getUsers }) => {
-      getUsers();
-      try {
-        if (!localStorage.getItem("lf_partner_seeded_v1")) {
-          localStorage.setItem("lf_partner_seeded_v1", "1");
-          import("sonner").then(({ toast }) =>
-            toast.success("تم إنشاء حساب الشريك بنجاح", {
-              description: "braah45aleissa@gmail.com — صلاحية Super Admin",
-            }),
-          );
-        }
-      } catch {}
-    });
-
     return () => window.cancelAnimationFrame(frame);
   }, []);
 
