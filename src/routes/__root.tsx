@@ -106,11 +106,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="ar" dir="rtl" style={{ background: "#0b0f14" }}>
+    <html lang="ar" dir="rtl" style={{ background: "#05070a" }}>
       <head>
         <HeadContent />
       </head>
-      <body style={{ background: "#0b0f14", minHeight: "100vh" }}>
+      <body style={{ background: "#05070a", minHeight: "100vh" }}>
         {children}
         <Scripts />
       </body>
@@ -127,21 +127,6 @@ function RootComponent() {
       window.setTimeout(() => setBootVisible(false), 120);
     });
 
-    // Seed partner account + one-time success toast
-    import("@/lib/auth-store").then(({ getUsers }) => {
-      getUsers();
-      try {
-        if (!localStorage.getItem("lf_partner_seeded_v1")) {
-          localStorage.setItem("lf_partner_seeded_v1", "1");
-          import("sonner").then(({ toast }) =>
-            toast.success("تم إنشاء حساب الشريك بنجاح", {
-              description: "braah45aleissa@gmail.com — صلاحية Super Admin",
-            }),
-          );
-        }
-      } catch {}
-    });
-
     return () => window.cancelAnimationFrame(frame);
   }, []);
 
@@ -154,7 +139,7 @@ function RootComponent() {
             position: "fixed",
             inset: 0,
             zIndex: 9999,
-            background: "#0b0f14",
+            background: "#05070a",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -163,20 +148,20 @@ function RootComponent() {
             pointerEvents: "none",
           }}
         >
-          <div style={{ fontSize: 28, fontWeight: 700, color: "#f1f5f9" }}>
-            Lead<span style={{ color: "#25D366" }}>Flow</span>
+          <div style={{ fontSize: 30, fontWeight: 700, color: "#f2f4f8", letterSpacing: 1 }}>
+            تأمّل
           </div>
           <div
             style={{
               width: 28,
               height: 28,
-              border: "2px solid rgba(37,211,102,.2)",
-              borderTopColor: "#25D366",
+              border: "2px solid rgba(139,92,246,.2)",
+              borderTopColor: "#8b5cf6",
               borderRadius: "50%",
               animation: "lf-rot .8s linear infinite",
             }}
           />
-          <div style={{ fontSize: 12, color: "#64748b" }}>جاري تجهيز النظام...</div>
+          <div style={{ fontSize: 12, color: "#64748b" }}>لحظة صفاء تبدأ الآن…</div>
         </div>
       )}
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}

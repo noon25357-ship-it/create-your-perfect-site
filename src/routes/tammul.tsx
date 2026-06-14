@@ -161,7 +161,7 @@ function CinematicPlayer() {
 
 /* ---------- Page ---------- */
 
-function TammulPage() {
+export function TammulPage() {
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
