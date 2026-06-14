@@ -40,7 +40,7 @@ import {
 export const Route = createFileRoute("/executive-dashboard")({
   head: () => ({
     meta: [
-      { title: "Executive Dashboard — LeadFlow" },
+      { title: "Executive Dashboard — مسار" },
       { name: "description", content: "لوحة تنفيذية شاملة لأداء المبيعات والإيرادات." },
     ],
   }),

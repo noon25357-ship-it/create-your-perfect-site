@@ -5,7 +5,7 @@ import { login, getSession } from "@/lib/auth-store";
 import { LogIn, Shield } from "lucide-react";
 
 export const Route = createFileRoute("/login")({
-  head: () => ({ meta: [{ title: "تسجيل الدخول — LeadFlow" }] }),
+  head: () => ({ meta: [{ title: "تسجيل الدخول — مسار" }] }),
   component: LoginPage,
 });
 
@@ -39,7 +39,7 @@ function LoginPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
           <div className="text-3xl font-bold">
-            Lead<span className="text-[#25D366]">Flow</span>
+            <span className="text-[#25D366]">مسار</span>
           </div>
           <p className="text-xs text-slate-400 mt-1">WhatsApp AI Sales Hub</p>
         </div>

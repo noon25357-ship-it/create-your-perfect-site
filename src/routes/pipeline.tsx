@@ -5,7 +5,7 @@ import { useInboxStore } from "@/lib/inbox-store";
 import { TrendingUp, MessageCircle } from "lucide-react";
 
 export const Route = createFileRoute("/pipeline")({
-  head: () => ({ meta: [{ title: "Sales Pipeline — LeadFlow" }, { name: "description", content: "خط مبيعات كانبان مرئي." }] }),
+  head: () => ({ meta: [{ title: "Sales Pipeline — مسار" }, { name: "description", content: "خط مبيعات كانبان مرئي." }] }),
   component: PipelinePage,
 });
 

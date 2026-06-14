@@ -6,7 +6,7 @@ function PendingComponent() {
   return (
     <div dir="rtl" style={{ minHeight: "100vh", background: "#0b0f14", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 16 }}>
       <div style={{ fontSize: 28, fontWeight: 700, color: "#f1f5f9" }}>
-        Lead<span style={{ color: "#25D366" }}>Flow</span>
+        <span style={{ color: "#25D366" }}>مسار</span>
       </div>
       <div style={{ width: 28, height: 28, border: "2px solid rgba(37,211,102,.2)", borderTopColor: "#25D366", borderRadius: "50%", animation: "lf-rot .8s linear infinite" }} />
       <div style={{ fontSize: 12, color: "#64748b" }}>جاري تجهيز النظام...</div>

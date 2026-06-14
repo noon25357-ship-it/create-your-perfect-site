@@ -235,7 +235,7 @@ textarea.inp{resize:vertical;min-height:90px;line-height:1.6}
 /* ============================== i18n ============================== */
 const T = {
   ar: {
-    brand: "LeadFlow", tagline: "وكيل مبيعات ذكي على واتساب",
+    brand: "مسار", tagline: "وكيل مبيعات ذكي على واتساب",
     nav: { liveflow:"العرض الحي", dashboard:"لوحة التحكم", inbox:"المحادثات", agent:"إعداد البوت", tickets:"التذاكر", campaigns:"الحملات", leads:"العملاء المحتملون", social:"فرص السوشال", pricing:"الباقات" },
     enterApp:"ادخل للنظام", bookDemo:"احجز ديمو", demoBadge:"وضع تجريبي", search:"بحث...",
     // landing
@@ -377,7 +377,7 @@ const T = {
     },
   },
   en: {
-    brand:"LeadFlow", tagline:"AI WhatsApp Sales Agent",
+    brand:"Masar", tagline:"AI WhatsApp Sales Agent",
     nav:{ liveflow:"Live Flow", dashboard:"Dashboard", inbox:"Conversations", agent:"AI Agent", tickets:"Tickets", campaigns:"Campaigns", leads:"Leads CRM", social:"Social Leads", pricing:"Pricing" },
     enterApp:"Enter App", bookDemo:"Book a Demo", demoBadge:"Demo Mode", search:"Search...",
     heroTitle:"Turn WhatsApp from an inbox into a smart sales team",

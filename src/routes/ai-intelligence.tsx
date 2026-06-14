@@ -5,7 +5,7 @@ import { Brain, TrendingUp, AlertTriangle, Zap } from "lucide-react";
 import { ResponsiveContainer, RadialBarChart, RadialBar, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 
 export const Route = createFileRoute("/ai-intelligence")({
-  head: () => ({ meta: [{ title: "AI Lead Intelligence — LeadFlow" }, { name: "description", content: "تقييم وتوقع نوايا العملاء بالذكاء الاصطناعي." }] }),
+  head: () => ({ meta: [{ title: "AI Lead Intelligence — مسار" }, { name: "description", content: "تقييم وتوقع نوايا العملاء بالذكاء الاصطناعي." }] }),
   component: AIPage,
 });
 

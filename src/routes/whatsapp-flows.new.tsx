@@ -4,7 +4,7 @@ import { createFlow } from "@/lib/flows-store";
 import AppShell, { Card } from "@/components/app/AppShell";
 
 export const Route = createFileRoute("/whatsapp-flows/new")({
-  head: () => ({ meta: [{ title: "إنشاء Flow — LeadFlow" }] }),
+  head: () => ({ meta: [{ title: "إنشاء Flow — مسار" }] }),
   component: NewFlowRoute,
 });
 

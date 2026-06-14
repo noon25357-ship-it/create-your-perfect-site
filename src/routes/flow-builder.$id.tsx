@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import FlowBuilderView from "@/components/flows/FlowBuilderView";
 
 export const Route = createFileRoute("/flow-builder/$id")({
-  head: () => ({ meta: [{ title: "Flow Builder — LeadFlow" }] }),
+  head: () => ({ meta: [{ title: "Flow Builder — مسار" }] }),
   component: FlowBuilderRoute,
 });
 

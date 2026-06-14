@@ -11,7 +11,7 @@ import {
 } from "recharts";
 
 export const Route = createFileRoute("/ai-summary")({
-  head: () => ({ meta: [{ title: "AI Summary — LeadFlow" }, { name: "description", content: "ملخص ذكي يومي لأداء فريق المبيعات." }] }),
+  head: () => ({ meta: [{ title: "AI Summary — مسار" }, { name: "description", content: "ملخص ذكي يومي لأداء فريق المبيعات." }] }),
   component: AISummaryPage,
 });
 

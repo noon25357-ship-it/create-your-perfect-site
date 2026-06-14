@@ -16,7 +16,7 @@ export const STATUS_STYLE: Record<FlowStatus, string> = {
 
 export default function FlowsListView({
   title = "WhatsApp Flows",
-  subtitle = "إدارة شجرة البوت والـ Flows من داخل لوحة LeadFlow",
+  subtitle = "إدارة شجرة البوت والـ Flows من داخل لوحة مسار",
   basePath = "/bot-tree",
 }: { title?: string; subtitle?: string; basePath?: string }) {
   const flows = useFlows();
@@ -69,7 +69,7 @@ export default function FlowsListView({
         <div className="flex flex-col gap-4 p-5 md:flex-row md:items-center md:justify-between">
           <div>
             <h2 className="text-2xl font-bold">{title}</h2>
-            <p className="mt-1 text-sm text-slate-400">شجرة البوت + WhatsApp Flows داخل لوحة LeadFlow الرئيسية.</p>
+            <p className="mt-1 text-sm text-slate-400">شجرة البوت + WhatsApp Flows داخل لوحة مسار الرئيسية.</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <button onClick={handleCreate}
