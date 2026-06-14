@@ -67,7 +67,7 @@ export default function AppShell({
         <aside className="hidden lg:flex w-64 shrink-0 flex-col gap-2 border-l border-white/5 bg-[#0a0d12] p-4 min-h-screen sticky top-0">
           <div className="px-2 py-3">
             <div className="text-lg font-bold tracking-tight">
-              Lead<span className="text-[#25D366]">Flow</span>
+              <span className="text-[#25D366]">مسار</span>
             </div>
             <div className="text-[11px] text-slate-400">WhatsApp AI Sales Hub</div>
           </div>
@@ -89,7 +89,7 @@ export default function AppShell({
               <div className="flex items-center justify-between px-2 py-1">
                 <div>
                   <div className="text-lg font-bold tracking-tight">
-                    Lead<span className="text-[#25D366]">Flow</span>
+                    <span className="text-[#25D366]">مسار</span>
                   </div>
                   <div className="text-[11px] text-slate-400">WhatsApp AI Sales Hub</div>
                 </div>

@@ -164,7 +164,7 @@ function RootComponent() {
           }}
         >
           <div style={{ fontSize: 28, fontWeight: 700, color: "#f1f5f9" }}>
-            Lead<span style={{ color: "#25D366" }}>Flow</span>
+            <span style={{ color: "#25D366" }}>مسار</span>
           </div>
           <div
             style={{
