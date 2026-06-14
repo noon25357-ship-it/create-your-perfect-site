@@ -157,8 +157,15 @@ export default function AppShell({
                 <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-[#25D366]" />
               </button>
               {actions}
-              <div className="h-9 w-9 shrink-0 rounded-full bg-gradient-to-br from-[#25D366] to-emerald-600 flex items-center justify-center text-xs font-bold">
-                MA
+              <button
+                onClick={handleLogout}
+                title="تسجيل الخروج"
+                className="rounded-xl border border-white/10 bg-white/5 p-2 hover:bg-white/10"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+              <div className="h-9 w-9 shrink-0 rounded-full bg-gradient-to-br from-[#25D366] to-emerald-600 flex items-center justify-center text-xs font-bold uppercase">
+                {(userEmail?.[0] ?? "U")}
               </div>
             </div>
           </header>
