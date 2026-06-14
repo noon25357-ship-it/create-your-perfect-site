@@ -5,7 +5,7 @@ import { login, getSession } from "@/lib/auth-store";
 import { LogIn, Shield } from "lucide-react";
 
 export const Route = createFileRoute("/login")({
-  head: () => ({ meta: [{ title: "تسجيل الدخول — LeadFlow" }] }),
+  head: () => ({ meta: [{ title: "تسجيل الدخول — مسار" }] }),
   component: LoginPage,
 });
 

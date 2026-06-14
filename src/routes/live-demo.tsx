@@ -3,7 +3,7 @@ import AppShell from "@/components/app/AppShell";
 import { LiveFlow } from "@/components/LeadFlow";
 
 export const Route = createFileRoute("/live-demo")({
-  head: () => ({ meta: [{ title: "العرض الحي — LeadFlow" }, { name: "description", content: "رحلة عميل WhatsApp كاملة — مباشرة." }] }),
+  head: () => ({ meta: [{ title: "العرض الحي — مسار" }, { name: "description", content: "رحلة عميل WhatsApp كاملة — مباشرة." }] }),
   component: LiveDemoPage,
 });
 

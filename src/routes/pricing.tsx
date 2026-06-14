@@ -3,7 +3,7 @@ import AppShell, { Card } from "@/components/app/AppShell";
 import { Check } from "lucide-react";
 
 export const Route = createFileRoute("/pricing")({
-  head: () => ({ meta: [{ title: "الباقات — LeadFlow" }, { name: "description", content: "خطط اشتراك LeadFlow." }] }),
+  head: () => ({ meta: [{ title: "الباقات — مسار" }, { name: "description", content: "خطط اشتراك LeadFlow." }] }),
   component: PricingPage,
 });
 

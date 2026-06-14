@@ -7,7 +7,7 @@ import { UserPlus, Shield, LogOut, Mail, Crown } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/team")({
-  head: () => ({ meta: [{ title: "Team & Settings — LeadFlow" }] }),
+  head: () => ({ meta: [{ title: "Team & Settings — مسار" }] }),
   component: TeamPage,
 });
 

@@ -12,7 +12,7 @@ import {
 export const Route = createFileRoute("/campaigns")({
   head: () => ({
     meta: [
-      { title: "Campaign Manager — LeadFlow" },
+      { title: "Campaign Manager — مسار" },
       { name: "description", content: "WhatsApp Business API campaign manager with templates, groups, scheduler and analytics." },
     ],
   }),
@@ -26,15 +26,15 @@ type MediaKind = "Text" | "Image" | "Video" | "PDF";
 
 const TEMPLATES = [
   { id: "t1", name: "عرض الربيع — عقار", kind: "Marketing" as TemplateKind, media: "Image" as MediaKind, status: "Approved", lang: "ar", updated: "قبل ساعة",
-    header: "🌸 عرض الربيع من اللؤلؤة", body: "أهلاً {{1}}، خصم 12% على فلل الرياض حتى نهاية الشهر — احجز معاينتك مجاناً.", footer: "LeadFlow Realty", buttons: ["احجز الآن", "تواصل معنا"] },
+    header: "🌸 عرض الربيع من اللؤلؤة", body: "أهلاً {{1}}، خصم 12% على فلل الرياض حتى نهاية الشهر — احجز معاينتك مجاناً.", footer: "مسار العقارية", buttons: ["احجز الآن", "تواصل معنا"] },
   { id: "t2", name: "تأكيد موعد العيادة", kind: "Utility" as TemplateKind, media: "Text" as MediaKind, status: "Approved", lang: "ar", updated: "اليوم",
-    header: "تأكيد موعدك", body: "مرحباً {{1}}، موعدك مع د. {{2}} يوم {{3}} الساعة {{4}}.", footer: "LeadFlow Clinics", buttons: ["تأكيد", "إعادة جدولة"] },
+    header: "تأكيد موعدك", body: "مرحباً {{1}}، موعدك مع د. {{2}} يوم {{3}} الساعة {{4}}.", footer: "عيادات مسار", buttons: ["تأكيد", "إعادة جدولة"] },
   { id: "t3", name: "رمز التحقق", kind: "Authentication" as TemplateKind, media: "Text" as MediaKind, status: "Approved", lang: "ar", updated: "أمس",
     header: "رمز التحقق", body: "رمزك هو {{1}}. لا تشاركه مع أي شخص.", footer: "", buttons: ["نسخ الرمز"] },
   { id: "t4", name: "كتيب المشروع — PDF", kind: "Marketing" as TemplateKind, media: "PDF" as MediaKind, status: "Pending", lang: "ar", updated: "قبل 3 ساعات",
     header: "كتيب مشروع اللؤلؤة", body: "أرفقنا لك كتيب المشروع. تواصل معنا لحجز جلسة استشارية مع مستشار المبيعات.", footer: "", buttons: ["حجز جلسة"] },
   { id: "t5", name: "فيديو ترويجي — مطعم", kind: "Marketing" as TemplateKind, media: "Video" as MediaKind, status: "Approved", lang: "ar", updated: "قبل يومين",
-    header: "🎬 افتتاح فرع جديد", body: "زرنا في فرع الرياض الجديد واستمتع بخصم 20% عند ذكر هذه الرسالة.", footer: "LeadFlow Restaurants", buttons: ["اطلب الآن", "العنوان"] },
+    header: "🎬 افتتاح فرع جديد", body: "زرنا في فرع الرياض الجديد واستمتع بخصم 20% عند ذكر هذه الرسالة.", footer: "مطاعم مسار", buttons: ["اطلب الآن", "العنوان"] },
 ];
 
 const GROUPS = [
@@ -598,7 +598,7 @@ function WhatsAppPreview({ tpl }: { tpl: (typeof TEMPLATES)[number] }) {
           <ChevronLeft className="h-4 w-4 text-white" />
           <div className="h-8 w-8 rounded-full bg-[#25D366] flex items-center justify-center text-[10px] font-bold">LF</div>
           <div className="text-white text-xs">
-            <div className="font-semibold">LeadFlow Business</div>
+            <div className="font-semibold">مسار للأعمال</div>
             <div className="text-[10px] opacity-80">متصل الآن</div>
           </div>
         </div>

@@ -3,7 +3,7 @@ import AppShell, { Card, Stat, Badge } from "@/components/app/AppShell";
 import { Instagram, MessageCircle, AtSign, Music2 } from "lucide-react";
 
 export const Route = createFileRoute("/social-leads")({
-  head: () => ({ meta: [{ title: "فرص السوشال — LeadFlow" }, { name: "description", content: "عملاء محتملون من قنوات التواصل الاجتماعي." }] }),
+  head: () => ({ meta: [{ title: "فرص السوشال — مسار" }, { name: "description", content: "عملاء محتملون من قنوات التواصل الاجتماعي." }] }),
   component: SocialLeadsPage,
 });
 

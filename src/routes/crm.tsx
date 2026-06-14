@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 import { Filter, Plus, Phone, MessageCircle, Sparkles, Target, Zap } from "lucide-react";
 
 export const Route = createFileRoute("/crm")({
-  head: () => ({ meta: [{ title: "CRM — LeadFlow" }, { name: "description", content: "إدارة علاقات العملاء بذكاء WhatsApp." }] }),
+  head: () => ({ meta: [{ title: "CRM — مسار" }, { name: "description", content: "إدارة علاقات العملاء بذكاء WhatsApp." }] }),
   component: CRMPage,
 });
 
