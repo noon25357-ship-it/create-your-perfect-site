@@ -90,6 +90,14 @@ export default function AppShell({
     </nav>
   );
 
+  if (checking) {
+    return (
+      <div dir="rtl" className="min-h-screen bg-[#0b0f14] text-slate-100 flex items-center justify-center">
+        <div className="text-sm text-slate-400">جاري التحقق من الجلسة...</div>
+      </div>
+    );
+  }
+
   return (
     <div dir="rtl" className="min-h-screen bg-[#0b0f14] text-slate-100">
       <div className="flex">
