@@ -1,8 +1,10 @@
 import { ReactNode, useState, useEffect } from "react";
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import {
-  Users, Inbox, Megaphone, Home, Search, Bell, LayoutDashboard, Bot, Menu, X, Share2, Tag, GitBranch, Brain, Sparkles, Zap, Shield,
+  Users, Inbox, Megaphone, Home, Search, Bell, LayoutDashboard, Bot, Menu, X, Share2, Tag, GitBranch, Brain, Sparkles, Zap, Shield, LogOut,
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const NAV = [
   { to: "/executive-dashboard", label: "لوحة التحكم", icon: Home, matches: ["/", "/executive-dashboard"] },
