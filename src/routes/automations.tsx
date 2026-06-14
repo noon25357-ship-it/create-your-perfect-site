@@ -12,7 +12,7 @@ import {
 export const Route = createFileRoute("/automations")({
   head: () => ({
     meta: [
-      { title: "AI Automations — LeadFlow" },
+      { title: "AI Automations — مسار" },
       { name: "description", content: "Sales automation workflows builder powered by AI." },
     ],
   }),

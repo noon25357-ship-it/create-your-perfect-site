@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 
 export const Route = createFileRoute("/inbox")({
-  head: () => ({ meta: [{ title: "Team Inbox — LeadFlow" }, { name: "description", content: "صندوق وارد فريقي موحد مع CRM ذكي." }] }),
+  head: () => ({ meta: [{ title: "Team Inbox — مسار" }, { name: "description", content: "صندوق وارد فريقي موحد مع CRM ذكي." }] }),
   component: InboxPage,
 });
 
