@@ -52,30 +52,39 @@ const HERO_IMG =
 
 /* ---------- Small building blocks ---------- */
 
+type Drop = { left: number; delay: number; dur: number; h: number; o: number };
+
 function RainLayer() {
-  // CSS-only rain: a handful of layered animated streaks.
-  const drops = Array.from({ length: 60 });
+  // CSS-only rain. Generated on the client after mount so server and client
+  // markup match (no hydration mismatch from Math.random during SSR).
+  const [drops, setDrops] = useState<Drop[]>([]);
+
+  useEffect(() => {
+    setDrops(
+      Array.from({ length: 60 }, () => ({
+        left: Math.random() * 100,
+        delay: Math.random() * 4,
+        dur: 0.6 + Math.random() * 0.7,
+        h: 60 + Math.random() * 80,
+        o: 0.06 + Math.random() * 0.16,
+      })),
+    );
+  }, []);
+
   return (
     <div className="tm-rain" aria-hidden="true">
-      {drops.map((_, i) => {
-        const left = Math.random() * 100;
-        const delay = Math.random() * 4;
-        const dur = 0.6 + Math.random() * 0.7;
-        const h = 60 + Math.random() * 80;
-        const o = 0.06 + Math.random() * 0.16;
-        return (
-          <span
-            key={i}
-            style={{
-              left: `${left}%`,
-              animationDelay: `${delay}s`,
-              animationDuration: `${dur}s`,
-              height: `${h}px`,
-              opacity: o,
-            }}
-          />
-        );
-      })}
+      {drops.map((d, i) => (
+        <span
+          key={i}
+          style={{
+            left: `${d.left}%`,
+            animationDelay: `${d.delay}s`,
+            animationDuration: `${d.dur}s`,
+            height: `${d.h}px`,
+            opacity: d.o,
+          }}
+        />
+      ))}
     </div>
   );
 }
@@ -163,11 +172,20 @@ function CinematicPlayer() {
 
 export function TammulPage() {
   const [scrollY, setScrollY] = useState(0);
+  // Higgsfield CDN is optional: only apply the photo once it actually loads.
+  // If it's blocked/slow/unavailable, the CSS gradient fallback stays visible.
+  const [heroLoaded, setHeroLoaded] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => setHeroLoaded(true);
+    img.src = HERO_IMG;
   }, []);
 
   const problems = [
@@ -251,7 +269,8 @@ export function TammulPage() {
         <div
           className="tm-hero-bg"
           style={{
-            backgroundImage: `url(${HERO_IMG})`,
+            backgroundImage: heroLoaded ? `url(${HERO_IMG})` : "none",
+            opacity: heroLoaded ? 1 : 0,
             transform: `translateY(${scrollY * 0.18}px) scale(1.08)`,
           }}
           aria-hidden="true"
@@ -492,7 +511,7 @@ const TM_CSS = `
 .tm-hero-bg{
   position:absolute; inset:-6%; z-index:1;
   background-size:cover; background-position:center 60%;
-  will-change:transform;
+  will-change:transform,opacity; transition:opacity 1.2s ease;
 }
 .tm-hero-fallback{
   position:absolute; inset:0; z-index:0;

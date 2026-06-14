@@ -30,7 +30,13 @@ import { Route as WhatsappFlowsNewRouteImport } from './routes/whatsapp-flows.ne
 import { Route as WhatsappFlowsIdRouteImport } from './routes/whatsapp-flows.$id'
 import { Route as FlowBuilderIdRouteImport } from './routes/flow-builder.$id'
 import { Route as BotTreeIdRouteImport } from './routes/bot-tree.$id'
+import { Route as TammulRouteImport } from './routes/tammul'
 
+const TammulRoute = TammulRouteImport.update({
+  id: '/tammul',
+  path: '/tammul',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TeamRoute = TeamRouteImport.update({
   id: '/team',
   path: '/team',
@@ -153,6 +159,7 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof PricingRoute
   '/social-leads': typeof SocialLeadsRoute
   '/team': typeof TeamRoute
+  '/tammul': typeof TammulRoute
   '/bot-tree/$id': typeof BotTreeIdRoute
   '/flow-builder/$id': typeof FlowBuilderIdRoute
   '/whatsapp-flows/$id': typeof WhatsappFlowsIdRoute
@@ -176,6 +183,7 @@ export interface FileRoutesByTo {
   '/pricing': typeof PricingRoute
   '/social-leads': typeof SocialLeadsRoute
   '/team': typeof TeamRoute
+  '/tammul': typeof TammulRoute
   '/bot-tree/$id': typeof BotTreeIdRoute
   '/flow-builder/$id': typeof FlowBuilderIdRoute
   '/whatsapp-flows/$id': typeof WhatsappFlowsIdRoute
@@ -200,6 +208,7 @@ export interface FileRoutesById {
   '/pricing': typeof PricingRoute
   '/social-leads': typeof SocialLeadsRoute
   '/team': typeof TeamRoute
+  '/tammul': typeof TammulRoute
   '/bot-tree/$id': typeof BotTreeIdRoute
   '/flow-builder/$id': typeof FlowBuilderIdRoute
   '/whatsapp-flows/$id': typeof WhatsappFlowsIdRoute
@@ -225,6 +234,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/social-leads'
     | '/team'
+    | '/tammul'
     | '/bot-tree/$id'
     | '/flow-builder/$id'
     | '/whatsapp-flows/$id'
@@ -248,6 +258,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/social-leads'
     | '/team'
+    | '/tammul'
     | '/bot-tree/$id'
     | '/flow-builder/$id'
     | '/whatsapp-flows/$id'
@@ -271,6 +282,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/social-leads'
     | '/team'
+    | '/tammul'
     | '/bot-tree/$id'
     | '/flow-builder/$id'
     | '/whatsapp-flows/$id'
@@ -295,6 +307,7 @@ export interface RootRouteChildren {
   PricingRoute: typeof PricingRoute
   SocialLeadsRoute: typeof SocialLeadsRoute
   TeamRoute: typeof TeamRoute
+  TammulRoute: typeof TammulRoute
   BotTreeIdRoute: typeof BotTreeIdRoute
   FlowBuilderIdRoute: typeof FlowBuilderIdRoute
   WhatsappFlowsIdRoute: typeof WhatsappFlowsIdRoute
@@ -310,6 +323,13 @@ declare module '@tanstack/react-router' {
       path: '/team'
       fullPath: '/team'
       preLoaderRoute: typeof TeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tammul': {
+      id: '/tammul'
+      path: '/tammul'
+      fullPath: '/tammul'
+      preLoaderRoute: typeof TammulRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/social-leads': {
@@ -471,6 +491,7 @@ const rootRouteChildren: RootRouteChildren = {
   PricingRoute: PricingRoute,
   SocialLeadsRoute: SocialLeadsRoute,
   TeamRoute: TeamRoute,
+  TammulRoute: TammulRoute,
   BotTreeIdRoute: BotTreeIdRoute,
   FlowBuilderIdRoute: FlowBuilderIdRoute,
   WhatsappFlowsIdRoute: WhatsappFlowsIdRoute,
