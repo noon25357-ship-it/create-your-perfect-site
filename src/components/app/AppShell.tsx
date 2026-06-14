@@ -1,8 +1,10 @@
 import { ReactNode, useState, useEffect } from "react";
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import {
-  Users, Inbox, Megaphone, Home, Search, Bell, LayoutDashboard, Bot, Menu, X, Share2, Tag, GitBranch, Brain, Sparkles, Zap, Shield,
+  Users, Inbox, Megaphone, Home, Search, Bell, LayoutDashboard, Bot, Menu, X, Share2, Tag, GitBranch, Brain, Sparkles, Zap, Shield, LogOut,
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const NAV = [
   { to: "/executive-dashboard", label: "لوحة التحكم", icon: Home, matches: ["/", "/executive-dashboard"] },
@@ -32,8 +34,35 @@ export default function AppShell({
   actions?: ReactNode;
 }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [checking, setChecking] = useState(true);
   useEffect(() => { setMobileOpen(false); }, [pathname]);
+
+  useEffect(() => {
+    let mounted = true;
+    supabase.auth.getSession().then(({ data }) => {
+      if (!mounted) return;
+      if (!data.session) {
+        navigate({ to: "/login" });
+      } else {
+        setUserEmail(data.session.user.email ?? null);
+        setChecking(false);
+      }
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) navigate({ to: "/login" });
+      else setUserEmail(session.user.email ?? null);
+    });
+    return () => { mounted = false; sub.subscription.unsubscribe(); };
+  }, [navigate]);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    toast.success("تم تسجيل الخروج");
+    navigate({ to: "/login" });
+  };
 
   const isActiveRoute = (matches: string[]) => matches.some((match) => pathname === match || pathname.startsWith(`${match}/`));
 
@@ -60,6 +89,14 @@ export default function AppShell({
       })}
     </nav>
   );
+
+  if (checking) {
+    return (
+      <div dir="rtl" className="min-h-screen bg-[#0b0f14] text-slate-100 flex items-center justify-center">
+        <div className="text-sm text-slate-400">جاري التحقق من الجلسة...</div>
+      </div>
+    );
+  }
 
   return (
     <div dir="rtl" className="min-h-screen bg-[#0b0f14] text-slate-100">
@@ -128,8 +165,15 @@ export default function AppShell({
                 <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-[#25D366]" />
               </button>
               {actions}
-              <div className="h-9 w-9 shrink-0 rounded-full bg-gradient-to-br from-[#25D366] to-emerald-600 flex items-center justify-center text-xs font-bold">
-                MA
+              <button
+                onClick={handleLogout}
+                title="تسجيل الخروج"
+                className="rounded-xl border border-white/10 bg-white/5 p-2 hover:bg-white/10"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+              <div className="h-9 w-9 shrink-0 rounded-full bg-gradient-to-br from-[#25D366] to-emerald-600 flex items-center justify-center text-xs font-bold uppercase">
+                {(userEmail?.[0] ?? "U")}
               </div>
             </div>
           </header>
