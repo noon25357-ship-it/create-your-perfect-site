@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeamRouteImport } from './routes/team'
+import { Route as TammulRouteImport } from './routes/tammul'
 import { Route as SocialLeadsRouteImport } from './routes/social-leads'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PipelineRouteImport } from './routes/pipeline'
@@ -30,16 +31,15 @@ import { Route as WhatsappFlowsNewRouteImport } from './routes/whatsapp-flows.ne
 import { Route as WhatsappFlowsIdRouteImport } from './routes/whatsapp-flows.$id'
 import { Route as FlowBuilderIdRouteImport } from './routes/flow-builder.$id'
 import { Route as BotTreeIdRouteImport } from './routes/bot-tree.$id'
-import { Route as TammulRouteImport } from './routes/tammul'
 
-const TammulRoute = TammulRouteImport.update({
-  id: '/tammul',
-  path: '/tammul',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const TeamRoute = TeamRouteImport.update({
   id: '/team',
   path: '/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TammulRoute = TammulRouteImport.update({
+  id: '/tammul',
+  path: '/tammul',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SocialLeadsRoute = SocialLeadsRouteImport.update({
@@ -158,8 +158,8 @@ export interface FileRoutesByFullPath {
   '/pipeline': typeof PipelineRoute
   '/pricing': typeof PricingRoute
   '/social-leads': typeof SocialLeadsRoute
-  '/team': typeof TeamRoute
   '/tammul': typeof TammulRoute
+  '/team': typeof TeamRoute
   '/bot-tree/$id': typeof BotTreeIdRoute
   '/flow-builder/$id': typeof FlowBuilderIdRoute
   '/whatsapp-flows/$id': typeof WhatsappFlowsIdRoute
@@ -182,8 +182,8 @@ export interface FileRoutesByTo {
   '/pipeline': typeof PipelineRoute
   '/pricing': typeof PricingRoute
   '/social-leads': typeof SocialLeadsRoute
-  '/team': typeof TeamRoute
   '/tammul': typeof TammulRoute
+  '/team': typeof TeamRoute
   '/bot-tree/$id': typeof BotTreeIdRoute
   '/flow-builder/$id': typeof FlowBuilderIdRoute
   '/whatsapp-flows/$id': typeof WhatsappFlowsIdRoute
@@ -207,8 +207,8 @@ export interface FileRoutesById {
   '/pipeline': typeof PipelineRoute
   '/pricing': typeof PricingRoute
   '/social-leads': typeof SocialLeadsRoute
-  '/team': typeof TeamRoute
   '/tammul': typeof TammulRoute
+  '/team': typeof TeamRoute
   '/bot-tree/$id': typeof BotTreeIdRoute
   '/flow-builder/$id': typeof FlowBuilderIdRoute
   '/whatsapp-flows/$id': typeof WhatsappFlowsIdRoute
@@ -233,8 +233,8 @@ export interface FileRouteTypes {
     | '/pipeline'
     | '/pricing'
     | '/social-leads'
-    | '/team'
     | '/tammul'
+    | '/team'
     | '/bot-tree/$id'
     | '/flow-builder/$id'
     | '/whatsapp-flows/$id'
@@ -257,8 +257,8 @@ export interface FileRouteTypes {
     | '/pipeline'
     | '/pricing'
     | '/social-leads'
-    | '/team'
     | '/tammul'
+    | '/team'
     | '/bot-tree/$id'
     | '/flow-builder/$id'
     | '/whatsapp-flows/$id'
@@ -281,8 +281,8 @@ export interface FileRouteTypes {
     | '/pipeline'
     | '/pricing'
     | '/social-leads'
-    | '/team'
     | '/tammul'
+    | '/team'
     | '/bot-tree/$id'
     | '/flow-builder/$id'
     | '/whatsapp-flows/$id'
@@ -306,8 +306,8 @@ export interface RootRouteChildren {
   PipelineRoute: typeof PipelineRoute
   PricingRoute: typeof PricingRoute
   SocialLeadsRoute: typeof SocialLeadsRoute
-  TeamRoute: typeof TeamRoute
   TammulRoute: typeof TammulRoute
+  TeamRoute: typeof TeamRoute
   BotTreeIdRoute: typeof BotTreeIdRoute
   FlowBuilderIdRoute: typeof FlowBuilderIdRoute
   WhatsappFlowsIdRoute: typeof WhatsappFlowsIdRoute
@@ -490,8 +490,8 @@ const rootRouteChildren: RootRouteChildren = {
   PipelineRoute: PipelineRoute,
   PricingRoute: PricingRoute,
   SocialLeadsRoute: SocialLeadsRoute,
-  TeamRoute: TeamRoute,
   TammulRoute: TammulRoute,
+  TeamRoute: TeamRoute,
   BotTreeIdRoute: BotTreeIdRoute,
   FlowBuilderIdRoute: FlowBuilderIdRoute,
   WhatsappFlowsIdRoute: WhatsappFlowsIdRoute,
@@ -502,3 +502,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
