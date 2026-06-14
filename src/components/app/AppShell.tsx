@@ -34,8 +34,35 @@ export default function AppShell({
   actions?: ReactNode;
 }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [checking, setChecking] = useState(true);
   useEffect(() => { setMobileOpen(false); }, [pathname]);
+
+  useEffect(() => {
+    let mounted = true;
+    supabase.auth.getSession().then(({ data }) => {
+      if (!mounted) return;
+      if (!data.session) {
+        navigate({ to: "/login" });
+      } else {
+        setUserEmail(data.session.user.email ?? null);
+        setChecking(false);
+      }
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) navigate({ to: "/login" });
+      else setUserEmail(session.user.email ?? null);
+    });
+    return () => { mounted = false; sub.subscription.unsubscribe(); };
+  }, [navigate]);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    toast.success("تم تسجيل الخروج");
+    navigate({ to: "/login" });
+  };
 
   const isActiveRoute = (matches: string[]) => matches.some((match) => pathname === match || pathname.startsWith(`${match}/`));
 
